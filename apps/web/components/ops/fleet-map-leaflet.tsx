@@ -26,15 +26,17 @@ const siteIcon = (label: string) =>
 const reportIcon = (status: string) =>
   L.divIcon({
     className: '',
-    iconSize: [22, 22],
-    iconAnchor: [11, 11],
-    html: `<div class="riq-report ${status === 'new' ? 'riq-pulse' : ''}" style="width:22px;height:22px;border-radius:50%;background:${status === 'new' ? '#DC2626' : '#D97706'};border:3px solid #fff;box-shadow:0 0 0 2px ${status === 'new' ? '#DC2626' : '#D97706'}"></div>`,
+    iconSize: [14, 14],
+    iconAnchor: [7, 7],
+    html: `<div class="riq-report ${status === 'new' ? 'riq-pulse' : ''}" style="width:14px;height:14px;border-radius:50%;background:${status === 'new' ? '#DC2626' : '#D97706'};border:2px solid #fff"></div>`,
   });
 
 function Layers({ sim, version, selected, onSelect, lang }: { sim: FleetSim; version: number; selected: string | null; onSelect: (id: string) => void; lang: 'el' | 'en' }) {
   const map = useMap();
   const truckMarkers = useRef(new Map<string, L.Marker>());
   const reportMarkers = useRef(new Map<string, L.Marker>());
+  // Last status drawn per report: the icon is replaced only when it changes, so the pulse is not restarted every tick.
+  const reportStatus = useRef(new Map<string, string>());
   const routeLine = useRef<L.Polyline | null>(null);
   const truckColor = useMemo(() => new Map(sim.trucks.map((t) => [t.id, t.color])), [sim]);
 
@@ -74,12 +76,17 @@ function Layers({ sim, version, selected, onSelect, lang }: { sim: FleetSim; ver
       if (r.status === 'collected') {
         m?.remove();
         reportMarkers.current.delete(r.id);
+        reportStatus.current.delete(r.id);
         continue;
       }
       if (!m) {
         m = L.marker([r.lat, r.lon], { icon: reportIcon(r.status), zIndexOffset: 900 }).bindTooltip(r.name).addTo(map);
         reportMarkers.current.set(r.id, m);
-      } else m.setIcon(reportIcon(r.status));
+        reportStatus.current.set(r.id, r.status);
+      } else if (reportStatus.current.get(r.id) !== r.status) {
+        m.setIcon(reportIcon(r.status));
+        reportStatus.current.set(r.id, r.status);
+      }
     }
     const pts = selected ? sim.routeOf(selected) : [];
     if (pts.length > 1) {
@@ -103,12 +110,14 @@ function Layers({ sim, version, selected, onSelect, lang }: { sim: FleetSim; ver
   useEffect(() => {
     const trucks = truckMarkers.current;
     const reports = reportMarkers.current;
+    const statuses = reportStatus.current;
     return () => {
       // Remove and forget, so a remount (React Strict Mode in dev) recreates them on the map.
       trucks.forEach((m) => m.remove());
       trucks.clear();
       reports.forEach((m) => m.remove());
       reports.clear();
+      statuses.clear();
       routeLine.current?.remove();
       routeLine.current = null;
     };
