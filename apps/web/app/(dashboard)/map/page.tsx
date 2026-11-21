@@ -5,7 +5,6 @@ import { BarList } from '@/components/bar-list';
 import { Badge, Card, CategoryLabel, DemoBadge, Segmented } from '@/components/ui';
 import { getPoints } from '@/lib/data';
 import { fmt } from '@/lib/format';
-import { project } from '@/lib/geo';
 import { getLang, tr } from '@/lib/lang';
 import { BIN_KINDS, getBinsByKind, getCategoryMix, getDistrictStats, getKpis, getObjectCategoryCounts, getTopItems } from '@/lib/queries';
 import { CAR_KG_PER_KM, totalAvoidedKg } from '@recycleiq/engine';
@@ -82,7 +81,7 @@ export default async function MapPage({ searchParams }: PageProps<'/map'>) {
             }))}
             points={shownPoints.map((p) => {
               const cat = (p.categories[0] ?? 'general') as CategoryId;
-              return { id: p.id, ...project(p.lng, p.lat), color: categoryColors[cat].solid, name: t(p.name) };
+              return { id: p.id, lat: p.lat, lng: p.lng, color: categoryColors[cat].solid, name: t(p.name) };
             })}
             selected={sel?.id}
             legend={{ title: t('Χάρτης ερωτημάτων ανά συνοικία', 'Map of requests by district'), low: t('Λιγότερα', 'Fewer'), high: t('Περισσότερα ερωτήματα', 'More requests') }}

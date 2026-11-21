@@ -40,3 +40,9 @@
   border-radius: var(--radius-card);
   box-shadow: var(--shadow-soft);
 }
+
+/* OpenStreetMap base map: muted tiles so the choropleth and bins carry the colour. */
+.riq-map .leaflet-tile-pane { filter: grayscale(1) contrast(0.9) brightness(1.08); }
+.riq-map, .riq-map .leaflet-tooltip { font-family: var(--font-sans); }
+.riq-map .leaflet-tooltip { border-radius: 10px; border: 0; box-shadow: 0 6px 20px rgb(23 33 29 / 0.18); padding: 8px 10px; font-size: 13px; }
+.riq-map { z-index: 0; }
