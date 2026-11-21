@@ -36,7 +36,6 @@ export default async function Overview({ searchParams }: PageProps<'/'>) {
   ]);
   const delta = kpis.requestsPrev ? (kpis.requests - kpis.requestsPrev) / kpis.requestsPrev : 0;
   const mixTotal = mix.reduce((s, m) => s + m.n, 0) || 1;
-  const service = { full: t('Πλήρης', 'Full'), partial: t('Μερική', 'Partial'), none: t('Καμία', 'None') };
 
   return (
     <div className="flex flex-col gap-6">
@@ -55,7 +54,7 @@ export default async function Overview({ searchParams }: PageProps<'/'>) {
         />
       </header>
 
-      <div className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-5">
+      <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
         <Kpi
           label={t('Ερωτήματα', 'Requests')}
           value={f.compact(kpis.requests)}
@@ -72,11 +71,6 @@ export default async function Overview({ searchParams }: PageProps<'/'>) {
           label={t('Ενεργοί χρήστες', 'Active users')}
           value={f.compact(kpis.activeDevices)}
           hint={t('ανώνυμες εγκαταστάσεις', 'anonymous installs')}
-        />
-        <Kpi
-          label={t('Αιτήματα καφέ κάδου', 'Brown-bin requests')}
-          value={f.n(kpis.brownBinRequests)}
-          hint={t('από γειτονιές χωρίς πλήρη κάλυψη', 'from areas without full coverage')}
         />
       </div>
 
@@ -143,8 +137,6 @@ export default async function Overview({ searchParams }: PageProps<'/'>) {
                   <th className="pb-2 text-right font-semibold">{t('Ερωτήματα', 'Requests')}</th>
                   <th className="pb-2 pl-6 font-semibold">{t('Κορυφαία κατηγορία', 'Top category')}</th>
                   <th className="pb-2 text-right font-semibold">{t('Κάδοι', 'Bins')}</th>
-                  <th className="pb-2 pl-6 font-semibold">{t('Καφέ κάδος', 'Brown bin')}</th>
-                  <th className="pb-2 text-right font-semibold">{t('Αιτήματα', 'Requests for bin')}</th>
                 </tr>
               </thead>
               <tbody>
@@ -160,12 +152,6 @@ export default async function Overview({ searchParams }: PageProps<'/'>) {
                       {d.topCategory && <CategoryLabel category={d.topCategory} label={t(CATEGORIES[d.topCategory].short)} />}
                     </td>
                     <td className="num py-2 text-right">{f.n(d.points)}</td>
-                    <td className="py-2 pl-6">
-                      <Badge tone={d.organicService === 'full' ? 'forest' : d.organicService === 'partial' ? 'warn' : 'neutral'}>
-                        {service[d.organicService]}
-                      </Badge>
-                    </td>
-                    <td className="num py-2 text-right text-muted">{d.brownBinRequests ? f.n(d.brownBinRequests) : '—'}</td>
                   </tr>
                 ))}
               </tbody>

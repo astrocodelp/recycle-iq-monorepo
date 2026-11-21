@@ -47,7 +47,6 @@ export default function Result() {
   const [failed, setFailed] = useState(false);
   const [traceOpen, setTraceOpen] = useState(false);
   const [done, setDone] = useState<Record<number, boolean>>({});
-  const [requested, setRequested] = useState(false);
   const story = cached?.unlockedStory ?? null;
   const [burst] = useState(story ? 1 : 0);
 
@@ -82,7 +81,6 @@ export default function Result() {
   const certainty = { high: t('Υψηλή βεβαιότητα', 'High certainty'), medium: t('Μέτρια βεβαιότητα', 'Medium certainty'), low: t('Χαμηλή βεβαιότητα', 'Low certainty') }[decision.certainty];
   const totalMs = decision.trace.reduce((s, x) => s + x.durationMs, 0);
   const doneCount = Object.values(done).filter(Boolean).length;
-  const askBrownBin = decision.objectId === 'food-scraps' && decision.category === 'general' && decision.districtId !== 'athens';
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.paper }}>
@@ -231,14 +229,6 @@ export default function Result() {
                 </View>
                 {decision.notes.map((n, i) => <T key={i} v="body">{t(n)}</T>)}
                 {decision.alternatives && decision.notes.every((n) => n.el !== decision.alternatives!.el) && <T v="body">{t(decision.alternatives)}</T>}
-                {askBrownBin && (
-                  <Button
-                    label={requested ? t('Το αίτημα στάλθηκε', 'Request sent') : t('Ζήτησε καφέ κάδο', 'Request a brown bin')}
-                    variant={requested ? 'secondary' : 'primary'}
-                    disabled={requested}
-                    onPress={() => api.requestBrownBin({ districtId: decision.districtId, deviceId }).then(() => setRequested(true), () => {})}
-                  />
-                )}
               </Card>
             </Animated.View>
           )}

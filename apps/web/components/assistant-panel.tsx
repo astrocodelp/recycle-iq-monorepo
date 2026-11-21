@@ -15,8 +15,8 @@ const SUGGESTIONS = {
     en: ['Which bins have open reports?', 'Show scans per day for the last month', 'Top 5 neighbourhoods by scans', 'How much CO₂ did we save last month?'],
   },
   citizen: {
-    el: ['Πού πετάω κουτί πίτσας με λάδια;', 'Πού είναι ο κοντινότερος καφέ κάδος;', 'Δείξε την κατάταξη της εβδομάδας'],
-    en: ['Where does a greasy pizza box go?', 'Where is the nearest brown bin?', "Show this week's leaderboard"],
+    el: ['Πού πετάω κουτί πίτσας με λάδια;', 'Πού είναι ο κοντινότερος κάδος ανακύκλωσης;', 'Δείξε την κατάταξη της εβδομάδας'],
+    en: ['Where does a greasy pizza box go?', 'Where is the nearest recycling bin?', "Show this week's leaderboard"],
   },
 } as const;
 

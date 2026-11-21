@@ -16,16 +16,13 @@ export async function numbersStory(districtId: string, source: BinSource = 'synt
   if (!r) return null;
   const name = r.name as L10n;
   const area = Number(r.area_km2).toFixed(2);
-  const brown = { full: ['έχει καφέ κάδο παντού', 'has brown bins everywhere'], partial: ['έχει καφέ κάδο σε μέρος της', 'has brown bins in part of it'], none: ['δεν έχει ακόμη καφέ κάδο', 'has no brown bins yet'] }[
-    String(r.organic_service) as 'full' | 'partial' | 'none'
-  ];
   return {
     id: 'numbers',
     kind: 'numbers',
     title: { el: `${name.el} σε αριθμούς`, en: `${name.en} in numbers` },
     body: {
-      el: `${area.replace('.', ',')} τ.χλμ., ${r.bins} κάδοι και σημεία συλλογής, και ${brown[0]}. Τον τελευταίο μήνα ${r.people} γείτονές σου έκαναν ${r.scans} σαρώσεις.`,
-      en: `${area} km², ${r.bins} bins and collection points, and it ${brown[1]}. In the last month ${r.people} neighbours made ${r.scans} scans.`,
+      el: `${area.replace('.', ',')} τ.χλμ., ${r.bins} κάδοι και σημεία συλλογής. Τον τελευταίο μήνα ${r.people} γείτονές σου έκαναν ${r.scans} σαρώσεις.`,
+      en: `${area} km², ${r.bins} bins and collection points. In the last month ${r.people} neighbours made ${r.scans} scans.`,
     },
   };
 }

@@ -29,7 +29,6 @@ export default async function MapPage({ searchParams }: PageProps<'/map'>) {
     ? await Promise.all([getKpis(range, sel.id), getCategoryMix(range, sel.id), getTopItems(range, sel.id), getBinsByKind(sel.id, source), getObjectCategoryCounts(range, sel.id)])
     : [null, [], [], [], []];
   const avoidedKg = totalAvoidedKg(impactRows);
-  const service = { full: t('πλήρης κάλυψη', 'full coverage'), partial: t('μερική κάλυψη', 'partial coverage'), none: t('χωρίς κάλυψη', 'no coverage') };
   const q = (extra: Record<string, string | undefined>) => {
     const p = new URLSearchParams({ range: String(range), ...(districtId ? { district: districtId } : {}), ...(showPoints ? { points: '1' } : {}) });
     for (const [k, v] of Object.entries(extra)) {
@@ -83,7 +82,7 @@ export default async function MapPage({ searchParams }: PageProps<'/map'>) {
               path: d.svgPath,
               value: d.requests,
               valueLabel: t(`${f.n(d.requests)} ερωτήματα`, `${f.n(d.requests)} requests`),
-              detail: t(`Καφέ κάδος: ${service[d.organicService]}`, `Brown bin: ${service[d.organicService]}`),
+              detail: t(`${f.n(d.points)} σημεία συλλογής`, `${f.n(d.points)} collection points`),
               href: q({ district: d.id }),
             }))}
             points={shownPoints.map((p) => {
@@ -105,7 +104,7 @@ export default async function MapPage({ searchParams }: PageProps<'/map'>) {
         {sel && kpis ? (
           <Card
             title={t(sel.name)}
-            subtitle={t(`${f.n(sel.points)} σημεία συλλογής · καφέ κάδος: ${service[sel.organicService]}`, `${f.n(sel.points)} collection points · brown bin: ${service[sel.organicService]}`)}
+            subtitle={t(`${f.n(sel.points)} σημεία συλλογής`, `${f.n(sel.points)} collection points`)}
             action={<a href={q({ district: undefined })} className="text-caption font-semibold text-forest-700 hover:underline">{t('Όλη η πόλη', 'Whole city')}</a>}
           >
             <dl className="mb-5 grid grid-cols-2 gap-3">
@@ -113,7 +112,7 @@ export default async function MapPage({ searchParams }: PageProps<'/map'>) {
                 [t('Ερωτήματα', 'Requests'), f.n(kpis.requests)],
                 [t('Μέση βεβαιότητα', 'Avg confidence'), f.pct(kpis.avgConfidence)],
                 [t('Με διευκρίνιση', 'Clarified'), f.pct(kpis.clarificationRate)],
-                [t('Αιτήματα καφέ κάδου', 'Brown-bin requests'), f.n(kpis.brownBinRequests)],
+                [t('Ενεργοί χρήστες', 'Active users'), f.n(kpis.activeDevices)],
               ].map(([k, v]) => (
                 <div key={k} className="rounded-control bg-surface-2 p-3">
                   <dt className="text-caption text-muted">{k}</dt>
@@ -161,14 +160,6 @@ export default async function MapPage({ searchParams }: PageProps<'/map'>) {
                 </li>
               ))}
             </ul>
-            {sel.organicService !== 'full' && (
-              <p className="mt-4 rounded-control bg-warn-soft p-3 text-body text-warn">
-                {t(
-                  `${f.n(sel.brownBinRequests)} κάτοικοι ζήτησαν καφέ κάδο τις τελευταίες ${range} ημέρες.`,
-                  `${f.n(sel.brownBinRequests)} residents asked for a brown bin in the last ${range} days.`,
-                )}
-              </p>
-            )}
           </Card>
         ) : (
           <Card title={t('Συνοικίες', 'Districts')} subtitle={t('Πάτησε μια συνοικία στον χάρτη', 'Click a district on the map')}>
@@ -178,7 +169,6 @@ export default async function MapPage({ searchParams }: PageProps<'/map'>) {
                   <a href={q({ district: d.id })} className="flex items-center gap-3 py-2 hover:bg-surface-2">
                     <span className="num w-6 text-caption text-muted">{i + 1}</span>
                     <span className="flex-1">{t(d.name)}</span>
-                    {d.organicService === 'none' && <Badge>{t('χωρίς καφέ', 'no brown bin')}</Badge>}
                     <span className="num text-muted">{f.n(d.requests)}</span>
                   </a>
                 </li>

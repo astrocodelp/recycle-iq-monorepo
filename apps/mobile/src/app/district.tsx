@@ -19,7 +19,6 @@ export default function DistrictPicker() {
     router.back();
   };
   const sorted = [...districts].sort((a, b) => a.name[lang].localeCompare(b.name[lang], lang));
-  const service = { full: t('καφέ κάδος', 'brown bin'), partial: t('μερικώς καφέ κάδος', 'partial brown bin'), none: '' };
 
   return (
     <Screen>
@@ -51,7 +50,7 @@ export default function DistrictPicker() {
         {note && <T v="caption" color={colors.warn}>{note}</T>}
       </Card>
       <Card style={{ padding: 4 }}>
-        {[{ id: null as string | null, label: t('Όλη η πόλη', 'Whole city'), sub: '' }, ...sorted.map((d) => ({ id: d.id as string | null, label: t(d.name), sub: service[d.organicService] }))].map((d) => (
+        {[{ id: null as string | null, label: t('Όλη η πόλη', 'Whole city'), sub: '' }, ...sorted.map((d) => ({ id: d.id as string | null, label: t(d.name), sub: '' }))].map((d) => (
           <PressableScale key={d.id ?? 'all'} onPress={() => choose(d.id)} scaleTo={0.99}>
             <View style={{ flexDirection: 'row', alignItems: 'center', padding: 12, gap: 10, borderBottomWidth: 1, borderBottomColor: colors.line }}>
               <View style={{ flex: 1 }}>

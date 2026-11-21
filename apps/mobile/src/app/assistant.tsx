@@ -63,8 +63,8 @@ export default function Assistant() {
 
   const suggestions =
     lang === 'el'
-      ? ['Πού πετάω κουτί πίτσας με λάδια;', 'Πού είναι ο κοντινότερος καφέ κάδος;', 'Τι σκανάρουν στη γειτονιά μου;', 'Δείξε την κατάταξη της εβδομάδας']
-      : ['Where does a greasy pizza box go?', 'Where is the nearest brown bin?', 'What do people scan in my neighbourhood?', "Show this week's leaderboard"];
+      ? ['Πού πετάω κουτί πίτσας με λάδια;', 'Πού είναι ο κοντινότερος κάδος ανακύκλωσης;', 'Τι σκανάρουν στη γειτονιά μου;', 'Δείξε την κατάταξη της εβδομάδας']
+      : ['Where does a greasy pizza box go?', 'Where is the nearest recycling bin?', 'What do people scan in my neighbourhood?', "Show this week's leaderboard"];
 
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{ flex: 1, backgroundColor: colors.paper }}>

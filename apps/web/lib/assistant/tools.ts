@@ -140,7 +140,7 @@ export function buildTools(ctx: AssistantContext) {
       description: 'List the 38 neighbourhoods of Athens with their ids, municipal community and brown-bin coverage.',
       inputSchema: z.object({}),
       execute: async () => ({
-        neighbourhoods: (await getDistricts()).map((d) => ({ id: d.id, name: t(d.name), community: d.communityId, brownBin: d.organicService })),
+        neighbourhoods: (await getDistricts()).map((d) => ({ id: d.id, name: t(d.name), community: d.communityId })),
       }),
     }),
 
@@ -196,7 +196,6 @@ export function buildTools(ctx: AssistantContext) {
               { label: tx('Ενεργοί χρήστες', 'Active users'), value: fmt(k.activeDevices) },
               { label: tx('Μέση βεβαιότητα', 'Avg confidence'), value: pct(k.avgConfidence) },
               { label: tx('Με διευκρίνιση', 'Clarified'), value: pct(k.clarificationRate) },
-              { label: tx('Αιτήματα καφέ κάδου', 'Brown-bin requests'), value: fmt(k.brownBinRequests) },
             ],
           } satisfies AssistantChart,
           dataSource,
@@ -271,7 +270,7 @@ export function buildTools(ctx: AssistantContext) {
         const sorted = [...rows].sort((a, b) => (order === 'desc' ? val(b) - val(a) : val(a) - val(b))).slice(0, limit);
         const label = { scans: tx('Σαρώσεις', 'Scans'), brownBinRequests: tx('Αιτήματα καφέ κάδου', 'Brown-bin requests'), bins: tx('Κάδοι', 'Bins'), avgConfidence: tx('Μέση βεβαιότητα %', 'Avg confidence %') }[metric];
         return {
-          ranking: sorted.map((r, i) => ({ rank: i + 1, id: r.id, name: t(r.name), value: val(r), brownBin: r.organicService })),
+          ranking: sorted.map((r, i) => ({ rank: i + 1, id: r.id, name: t(r.name), value: val(r) })),
           chart: { type: 'bar', title: `${label} · ${d} ${tx('ημέρες', 'days')}`, items: sorted.map((r) => ({ label: t(r.name), value: val(r) })) } satisfies AssistantChart,
           dataSource,
         };
