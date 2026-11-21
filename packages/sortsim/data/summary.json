@@ -1,0 +1,390 @@
+{
+  "generatedBy": "packages/sortsim/scripts/summarize.mjs",
+  "source": "github.com/Mike17K/recycleiq-delta-sort (src/core, ops/server/plant-sim.js)",
+  "seed": 7,
+  "simMinutes": 10,
+  "itemKg": {
+    "PET_CLEAR": 0.028,
+    "PET_COLOR": 0.03,
+    "HDPE": 0.045,
+    "PP": 0.02,
+    "PS": 0.012,
+    "ALU": 0.015,
+    "GLASS": 0.3,
+    "CARTON": 0.06,
+    "STEEL": 0.08,
+    "RESIDUE": 0.04
+  },
+  "materials": {
+    "PET_CLEAR": {
+      "color": "#8fd3f4",
+      "label": {
+        "en": "PET clear",
+        "el": "PET διαφανές"
+      }
+    },
+    "PET_COLOR": {
+      "color": "#3aa655",
+      "label": {
+        "en": "PET coloured",
+        "el": "PET χρωματιστό"
+      }
+    },
+    "HDPE": {
+      "color": "#f4b942",
+      "label": {
+        "en": "HDPE",
+        "el": "HDPE"
+      }
+    },
+    "PP": {
+      "color": "#e4572e",
+      "label": {
+        "en": "PP",
+        "el": "PP"
+      }
+    },
+    "PS": {
+      "color": "#b07cc6",
+      "label": {
+        "en": "PS",
+        "el": "PS"
+      }
+    },
+    "ALU": {
+      "color": "#c4c9cf",
+      "label": {
+        "en": "Aluminium",
+        "el": "Αλουμίνιο"
+      }
+    },
+    "GLASS": {
+      "color": "#5fd0b0",
+      "label": {
+        "en": "Glass",
+        "el": "Γυαλί"
+      }
+    },
+    "CARTON": {
+      "color": "#c89b5a",
+      "label": {
+        "en": "Carton",
+        "el": "Χαρτόνι"
+      }
+    },
+    "STEEL": {
+      "color": "#6f8fb0",
+      "label": {
+        "en": "Steel",
+        "el": "Χάλυβας"
+      }
+    },
+    "RESIDUE": {
+      "color": "#8a7560",
+      "label": {
+        "en": "Residue",
+        "el": "Υπόλειμμα"
+      }
+    }
+  },
+  "plants": [
+    {
+      "id": "P1",
+      "name": {
+        "el": "Μονάδα διαλογής Α",
+        "en": "Sorting plant A"
+      },
+      "scene": "single-line",
+      "lines": 1,
+      "robots": 3,
+      "simMinutes": 10,
+      "items": 946,
+      "picked": 787,
+      "itemsPerMin": 78.7,
+      "sortedPerMin": 78.7,
+      "materials": {
+        "RESIDUE": 0,
+        "PET_CLEAR": 5.6,
+        "PET_COLOR": 2.88,
+        "HDPE": 7.2,
+        "PS": 1.04,
+        "PP": 2.68,
+        "ALU": 1.65
+      },
+      "sortedKg": 21.05,
+      "residueKg": 6.36,
+      "inputKg": 27.41,
+      "kgPerHour": 126.32,
+      "recovery": 0.77,
+      "purity": 1,
+      "flows": [
+        {
+          "material": "RESIDUE",
+          "kg": 6.36,
+          "destination": {
+            "el": "ΧΥΤΑ",
+            "en": "Landfill"
+          }
+        },
+        {
+          "material": "PET_CLEAR",
+          "kg": 5.6,
+          "destination": {
+            "el": "Ανακυκλωτής PET",
+            "en": "PET recycler"
+          }
+        },
+        {
+          "material": "PET_COLOR",
+          "kg": 2.88,
+          "destination": {
+            "el": "Ανακυκλωτής PET",
+            "en": "PET recycler"
+          }
+        },
+        {
+          "material": "HDPE",
+          "kg": 7.2,
+          "destination": {
+            "el": "Ανακυκλωτής πολυολεφινών",
+            "en": "Polyolefin recycler"
+          }
+        },
+        {
+          "material": "PS",
+          "kg": 1.04,
+          "destination": {
+            "el": "Ανακυκλωτής PS",
+            "en": "PS recycler"
+          }
+        },
+        {
+          "material": "PP",
+          "kg": 2.68,
+          "destination": {
+            "el": "Ανακυκλωτής πολυολεφινών",
+            "en": "Polyolefin recycler"
+          }
+        },
+        {
+          "material": "ALU",
+          "kg": 1.65,
+          "destination": {
+            "el": "Χυτήριο αλουμινίου",
+            "en": "Aluminium smelter"
+          }
+        }
+      ],
+      "outbound": [
+        {
+          "destination": {
+            "el": "ΧΥΤΑ",
+            "en": "Landfill"
+          },
+          "kg": 6.36
+        },
+        {
+          "destination": {
+            "el": "Ανακυκλωτής PET",
+            "en": "PET recycler"
+          },
+          "kg": 8.48
+        },
+        {
+          "destination": {
+            "el": "Ανακυκλωτής πολυολεφινών",
+            "en": "Polyolefin recycler"
+          },
+          "kg": 9.88
+        },
+        {
+          "destination": {
+            "el": "Ανακυκλωτής PS",
+            "en": "PS recycler"
+          },
+          "kg": 1.04
+        },
+        {
+          "destination": {
+            "el": "Χυτήριο αλουμινίου",
+            "en": "Aluminium smelter"
+          },
+          "kg": 1.65
+        }
+      ]
+    },
+    {
+      "id": "P2",
+      "name": {
+        "el": "Μονάδα διαλογής Β",
+        "en": "Sorting plant B"
+      },
+      "scene": "twin-lines",
+      "lines": 2,
+      "robots": 12,
+      "simMinutes": 10,
+      "items": 5027,
+      "picked": 3297,
+      "itemsPerMin": 329.7,
+      "sortedPerMin": 329.7,
+      "materials": {
+        "RESIDUE": 0,
+        "PET_CLEAR": 11.2,
+        "PET_COLOR": 9.18,
+        "HDPE": 15.75,
+        "PP": 5.6,
+        "PS": 4.24,
+        "ALU": 5.04,
+        "GLASS": 107.4,
+        "CARTON": 31.32,
+        "STEEL": 31.36
+      },
+      "sortedKg": 221.09,
+      "residueKg": 69.2,
+      "inputKg": 290.29,
+      "kgPerHour": 1326.52,
+      "recovery": 0.76,
+      "purity": 1,
+      "flows": [
+        {
+          "material": "RESIDUE",
+          "kg": 69.2,
+          "destination": {
+            "el": "ΧΥΤΑ",
+            "en": "Landfill"
+          }
+        },
+        {
+          "material": "PET_CLEAR",
+          "kg": 11.2,
+          "destination": {
+            "el": "Ανακυκλωτής PET",
+            "en": "PET recycler"
+          }
+        },
+        {
+          "material": "PET_COLOR",
+          "kg": 9.18,
+          "destination": {
+            "el": "Ανακυκλωτής PET",
+            "en": "PET recycler"
+          }
+        },
+        {
+          "material": "HDPE",
+          "kg": 15.75,
+          "destination": {
+            "el": "Ανακυκλωτής πολυολεφινών",
+            "en": "Polyolefin recycler"
+          }
+        },
+        {
+          "material": "PP",
+          "kg": 5.6,
+          "destination": {
+            "el": "Ανακυκλωτής πολυολεφινών",
+            "en": "Polyolefin recycler"
+          }
+        },
+        {
+          "material": "PS",
+          "kg": 4.24,
+          "destination": {
+            "el": "Ανακυκλωτής PS",
+            "en": "PS recycler"
+          }
+        },
+        {
+          "material": "ALU",
+          "kg": 5.04,
+          "destination": {
+            "el": "Χυτήριο αλουμινίου",
+            "en": "Aluminium smelter"
+          }
+        },
+        {
+          "material": "GLASS",
+          "kg": 107.4,
+          "destination": {
+            "el": "Υαλουργία",
+            "en": "Glassworks"
+          }
+        },
+        {
+          "material": "CARTON",
+          "kg": 31.32,
+          "destination": {
+            "el": "Χαρτοβιομηχανία",
+            "en": "Paper mill"
+          }
+        },
+        {
+          "material": "STEEL",
+          "kg": 31.36,
+          "destination": {
+            "el": "Χαλυβουργία",
+            "en": "Steelworks"
+          }
+        }
+      ],
+      "outbound": [
+        {
+          "destination": {
+            "el": "ΧΥΤΑ",
+            "en": "Landfill"
+          },
+          "kg": 69.2
+        },
+        {
+          "destination": {
+            "el": "Ανακυκλωτής PET",
+            "en": "PET recycler"
+          },
+          "kg": 20.38
+        },
+        {
+          "destination": {
+            "el": "Ανακυκλωτής πολυολεφινών",
+            "en": "Polyolefin recycler"
+          },
+          "kg": 21.35
+        },
+        {
+          "destination": {
+            "el": "Ανακυκλωτής PS",
+            "en": "PS recycler"
+          },
+          "kg": 4.24
+        },
+        {
+          "destination": {
+            "el": "Χυτήριο αλουμινίου",
+            "en": "Aluminium smelter"
+          },
+          "kg": 5.04
+        },
+        {
+          "destination": {
+            "el": "Υαλουργία",
+            "en": "Glassworks"
+          },
+          "kg": 107.4
+        },
+        {
+          "destination": {
+            "el": "Χαρτοβιομηχανία",
+            "en": "Paper mill"
+          },
+          "kg": 31.32
+        },
+        {
+          "destination": {
+            "el": "Χαλυβουργία",
+            "en": "Steelworks"
+          },
+          "kg": 31.36
+        }
+      ]
+    }
+  ]
+}

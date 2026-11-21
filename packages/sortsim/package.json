@@ -1,0 +1,13 @@
+{
+  "name": "@recycleiq/sortsim",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Headless delta-robot sorter simulation (from github.com/Mike17K/recycleiq-delta-sort) and the precomputed plant summary used by the dashboard.",
+  "type": "module",
+  "exports": {
+    "./summary.json": "./data/summary.json"
+  },
+  "scripts": {
+    "summarize": "node scripts/summarize.mjs"
+  }
+}

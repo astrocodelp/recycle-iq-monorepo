@@ -149,6 +149,9 @@ importers:
       '@recycleiq/engine':
         specifier: workspace:*
         version: link:../../packages/engine
+      '@recycleiq/sortsim':
+        specifier: workspace:*
+        version: link:../../packages/sortsim
       '@recycleiq/tokens':
         specifier: workspace:*
         version: link:../../packages/tokens
@@ -265,6 +268,8 @@ importers:
       vitest:
         specifier: 5.1.1
         version: 5.1.1(@types/node@22.19.1)(vite@8.3.8(@types/node@22.19.1)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.4)(tsx@4.23.15))
+
+  packages/sortsim: {}
 
   packages/tokens:
     devDependencies:

@@ -1,4 +1,4 @@
-import { BarChart3, Bell, BookOpen, Map, MapPin, Scale } from 'lucide-react';
+import { BarChart3, Bell, BookOpen, Factory, Map, MapPin, Scale, Truck } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { setBinSource, setLanguage } from '../actions';
 import { getBinSource } from '@/lib/bins';
@@ -16,6 +16,8 @@ export default async function DashboardLayout({ children }: { children: ReactNod
     { href: '/', label: t('Επισκόπηση', 'Overview'), icon: BarChart3 },
     { href: '/map', label: t('Χάρτης Αθήνας', 'Athens map'), icon: Map },
     { href: '/alerts', label: t('Γεμάτοι κάδοι', 'Full bins'), icon: Bell, badge: openAlerts },
+    { href: '/fleet', label: t('Στόλος', 'Fleet'), icon: Truck },
+    { href: '/sorting', label: t('Διαλογή', 'Sorting'), icon: Factory },
     { href: '/rules', label: t('Κανόνες Δήμου', 'Municipal rules'), icon: Scale },
     { href: '/points', label: t('Σημεία συλλογής', 'Collection points'), icon: MapPin },
     { href: '/developers', label: t('API για την εφαρμογή', 'App API'), icon: BookOpen },
