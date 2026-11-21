@@ -23,13 +23,12 @@ export default async function FleetPage() {
         <h1 className="mt-1 text-h1">{t('Στόλος απορριμματοφόρων', 'Garbage-truck fleet')}</h1>
         <p className="mt-1 max-w-3xl text-body text-muted">
           {t(
-            'Τα οχήματα κινούνται στους πραγματικούς δρόμους της Αθήνας (μονόδρομοι, ταχύτητα ανά κατηγορία δρόμου) και αδειάζουν πρώτα τους πιο γεμάτους κάδους του τομέα τους. Οι αναφορές πολιτών ανατίθενται στο πλησιέστερο όχημα.',
-            'Trucks drive on the real streets of Athens (one-way streets, speed per road class) and empty the fullest bins of their sector first. Citizen reports go to the nearest truck.',
+            'Κάθε χρώμα είναι ένα όχημα και η περιοχή του. Τα οχήματα αδειάζουν πρώτα τους πιο γεμάτους κάδους και παίρνουν τις αναφορές των πολιτών.',
+            'Each colour is a truck and its area. Trucks empty the fullest bins first and pick up citizen reports.',
           )}
         </p>
         <div className="mt-2 flex flex-wrap gap-2">
-          <DemoBadge>{t('Προσομοίωση: στόλος, κινήσεις και πληρότητα κάδων', 'Simulation: fleet, movements and bin fill')}</DemoBadge>
-          <DemoBadge>{t('Οι αναφορές πολιτών και το κλείσιμό τους είναι πραγματικά', 'Citizen reports and closing them are real')}</DemoBadge>
+          <DemoBadge>{t('Προσομοίωση · οι αναφορές πολιτών είναι πραγματικές', 'Simulation · citizen reports are real')}</DemoBadge>
         </div>
       </header>
       <FleetView
@@ -38,8 +37,8 @@ export default async function FleetPage() {
         reports={reports}
         sourceLabel={
           source === 'osm'
-            ? t(`${bins.length} πραγματικοί κάδοι · δρόμοι © OpenStreetMap`, `${bins.length} real bins · streets © OpenStreetMap`)
-            : t(`${bins.length} συνθετικοί κάδοι · δρόμοι © OpenStreetMap`, `${bins.length} synthetic bins · streets © OpenStreetMap`)
+            ? t(`${bins.length} πραγματικοί κάδοι`, `${bins.length} real bins`)
+            : t(`${bins.length} συνθετικοί κάδοι`, `${bins.length} synthetic bins`)
         }
       />
     </div>

@@ -33,7 +33,6 @@ const reportIcon = (status: string) =>
 
 function Layers({ sim, version, selected, onSelect, lang }: { sim: FleetSim; version: number; selected: string | null; onSelect: (id: string) => void; lang: 'el' | 'en' }) {
   const map = useMap();
-  const binMarkers = useRef<L.CircleMarker[]>([]);
   const truckMarkers = useRef(new Map<string, L.Marker>());
   const reportMarkers = useRef(new Map<string, L.Marker>());
   const routeLine = useRef<L.Polyline | null>(null);
@@ -44,27 +43,21 @@ function Layers({ sim, version, selected, onSelect, lang }: { sim: FleetSim; ver
     // The selected truck's route sits above the bins and below the trucks, as SVG.
     if (!map.getPane('riq-route')) map.createPane('riq-route').style.zIndex = '450';
     const renderer = L.canvas({ padding: 0.3 });
-    binMarkers.current = sim.bins.map((b) =>
-      L.circleMarker([b.lat, b.lon], { renderer, radius: 3.5, weight: 1, color: truckColor.get(b.truck ?? '') ?? '#64748B', fillColor: truckColor.get(b.truck ?? '') ?? '#64748B', fillOpacity: 0.2 + 0.8 * b.fill })
+    const binMarkers = sim.bins.map((b) =>
+      L.circleMarker([b.lat, b.lon], { renderer, radius: 3, weight: 0, fillColor: truckColor.get(b.truck ?? '') ?? '#64748B', fillOpacity: 0.55 })
         .bindTooltip(`${b.id} · ${b.truck ?? ''}`)
         .addTo(map),
     );
     const sites = sim.sites.map((s) => L.marker([s.lat, s.lon], { icon: siteIcon(s.id) }).bindTooltip(`${s.name[lang]} (${lang === 'el' ? 'ενδεικτική θέση' : 'demo location'})`).addTo(map));
     if (sim.bins.length) map.fitBounds(L.latLngBounds(sim.bins.map((b) => [b.lat, b.lon] as [number, number])), { padding: [20, 20] });
     return () => {
-      binMarkers.current.forEach((m) => m.remove());
+      binMarkers.forEach((m) => m.remove());
       sites.forEach((m) => m.remove());
     };
   }, [sim, map, truckColor, lang]);
 
   // Dynamic layers, refreshed every tick.
   useEffect(() => {
-    if (version % 4 === 0)
-      sim.bins.forEach((b, i) => {
-        const m = binMarkers.current[i];
-        if (!m) return;
-        m.setStyle({ fillOpacity: 0.15 + 0.85 * b.fill, weight: b.fill > 0.8 ? 2.5 : 1, color: b.fill > 0.8 ? '#17211D' : (truckColor.get(b.truck ?? '') ?? '#64748B') });
-      });
     for (const t of sim.trucks) {
       let m = truckMarkers.current.get(t.id);
       const icon = truckIcon(t.color, t.heading, t.id === selected, t.state === 'breakdown');
