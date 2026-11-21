@@ -1,0 +1,4 @@
+{
+  "extends": "@recycleiq/tsconfig/base.json",
+  "include": ["src"]
+}

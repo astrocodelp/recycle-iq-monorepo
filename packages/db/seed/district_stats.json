@@ -1,0 +1,52 @@
+{
+ "pangrati": {
+  "clar": 0.33,
+  "conf": 0.88,
+  "growth": 0.22,
+  "quality": 0.86,
+  "special": 0.22,
+  "shares": [
+   0.41,
+   0.14,
+   0.17,
+   0.22,
+   0.06
+  ]
+ },
+ "koukaki": {
+  "clar": 0.42,
+  "conf": 0.84,
+  "growth": 0.27,
+  "quality": 0.83,
+  "shares": [
+   0.46,
+   0.13,
+   0.2,
+   0.1,
+   0.11
+  ]
+ },
+ "patisia": {
+  "clar": 0.39,
+  "conf": 0.84,
+  "growth": 0.13,
+  "quality": 0.72,
+  "shares": [
+   0.37,
+   0.07,
+   0.31,
+   0.13,
+   0.12
+  ],
+  "top": true
+ },
+ "plateia-vathis": {
+  "clar": 0.38,
+  "conf": 0.84,
+  "quality": 0.69
+ },
+ "exarchia": {
+  "quality": 0.74,
+  "clar": 0.37
+ }
+}

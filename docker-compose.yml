@@ -1,0 +1,14 @@
+# Local Postgres for development. Production and previews use Neon.
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: recycleiq
+      POSTGRES_PASSWORD: recycleiq
+      POSTGRES_DB: recycleiq
+    ports:
+      - '5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+volumes:
+  pgdata:

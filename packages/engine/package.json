@@ -1,0 +1,20 @@
+{
+  "name": "@recycleiq/engine",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Explainable disposal decision engine: catalog, municipal rules, 6-step trace, search, point ranking, rewards.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "lint": "tsc --noEmit -p tsconfig.test.json",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@recycleiq/tsconfig": "workspace:*",
+    "typescript": "6.0.3",
+    "vitest": "5.1.1"
+  }
+}

@@ -1,0 +1,295 @@
+[
+ {
+  "id": "pkg-blue",
+  "code": "ATH-PKG-01",
+  "enabled": true,
+  "version": "v1.2",
+  "updatedAt": "2026-02-10",
+  "title": {
+   "el": "Συσκευασίες στον μπλε κάδο",
+   "en": "Packaging in the blue bin"
+  },
+  "text": {
+   "el": "Καθαρές και άδειες συσκευασίες από πλαστικό, μέταλλο και χαρτί/χαρτόνι τοποθετούνται στον μπλε κάδο ανακύκλωσης.",
+   "en": "Clean, empty plastic, metal and paper/cardboard packaging goes into the blue recycling bin."
+  },
+  "appliesTo": [
+   "plastic-bottle",
+   "pizza-box",
+   "packaging"
+  ],
+  "source": {
+   "el": "Κανονισμός καθαριότητας — ενδεικτική ρύθμιση demo",
+   "en": "Cleansing regulation — indicative demo rule"
+  }
+ },
+ {
+  "id": "pkg-grease",
+  "code": "ATH-PKG-02",
+  "enabled": true,
+  "version": "v1.1",
+  "updatedAt": "2026-02-10",
+  "title": {
+   "el": "Λερωμένο χαρτί και χαρτόνι",
+   "en": "Soiled paper and cardboard"
+  },
+  "text": {
+   "el": "Χαρτί ή χαρτόνι με λάδια ή υπολείμματα φαγητού δεν ανακυκλώνεται και πηγαίνει στα σύμμεικτα. Το καθαρό τμήμα μπορεί να διαχωριστεί.",
+   "en": "Paper or cardboard with grease or food residue is not recyclable and goes to general waste. The clean part may be separated."
+  },
+  "appliesTo": [
+   "pizza-box"
+  ],
+  "source": {
+   "el": "Κανονισμός καθαριότητας — ενδεικτική ρύθμιση demo",
+   "en": "Cleansing regulation — indicative demo rule"
+  }
+ },
+ {
+  "id": "glass-bell",
+  "code": "ATH-PKG-03",
+  "enabled": true,
+  "version": "v2.0",
+  "updatedAt": "2026-04-02",
+  "title": {
+   "el": "Καμπάνες γυαλιού",
+   "en": "Glass bells"
+  },
+  "text": {
+   "el": "Μπουκάλια και βάζα γυαλιού ρίχνονται στις καμπάνες γυαλιού όπου υπάρχουν. Όπου δεν υπάρχουν, μπαίνουν στον μπλε κάδο.",
+   "en": "Glass bottles and jars go into glass bells where available. Where there are none, they go into the blue bin."
+  },
+  "appliesTo": [
+   "glass-bottle"
+  ],
+  "source": {
+   "el": "Δημοτική απόφαση — ενδεικτική ρύθμιση demo",
+   "en": "Municipal decision — indicative demo rule"
+  }
+ },
+ {
+  "id": "glass-other",
+  "code": "ATH-GLS-02",
+  "enabled": true,
+  "version": "v1.0",
+  "updatedAt": "2026-02-10",
+  "title": {
+   "el": "Τζάμια και ποτήρια εκτός ανακύκλωσης γυαλιού",
+   "en": "Window and drinking glass excluded"
+  },
+  "text": {
+   "el": "Τα τζάμια, τα ποτήρια και τα κεραμικά έχουν άλλο σημείο τήξης από το γυαλί συσκευασίας και πηγαίνουν στα σύμμεικτα, καλά τυλιγμένα.",
+   "en": "Window glass, drinking glasses and ceramics melt at a different point than packaging glass and go to general waste, well wrapped."
+  },
+  "appliesTo": [
+   "glass-bottle"
+  ],
+  "source": {
+   "el": "Κανονισμός καθαριότητας — ενδεικτική ρύθμιση demo",
+   "en": "Cleansing regulation — indicative demo rule"
+  }
+ },
+ {
+  "id": "org-brown",
+  "code": "ATH-ORG-01",
+  "enabled": true,
+  "version": "v1.3",
+  "updatedAt": "2026-03-18",
+  "title": {
+   "el": "Καφέ κάδος",
+   "en": "Brown organic bin"
+  },
+  "text": {
+   "el": "Στις γειτονιές όπου λειτουργεί η υπηρεσία, τα υπολείμματα τροφών ρίχνονται στον καφέ κάδο. Όπου η κάλυψη είναι μερική ή δεν υπάρχει, ισχύει ο εναλλακτικός κανόνας.",
+   "en": "In neighbourhoods where the service operates, organic scraps go into the brown bin. Where coverage is partial or absent, the fallback rule applies."
+  },
+  "appliesTo": [
+   "food-scraps",
+   "organic"
+  ],
+  "source": {
+   "el": "Δημοτική απόφαση — ενδεικτική ρύθμιση demo",
+   "en": "Municipal decision — indicative demo rule"
+  }
+ },
+ {
+  "id": "org-cooked",
+  "code": "ATH-ORG-02",
+  "enabled": true,
+  "version": "v1.0",
+  "updatedAt": "2026-03-18",
+  "title": {
+   "el": "Μαγειρεμένο φαγητό, κρέας και ψάρι",
+   "en": "Cooked food, meat and fish"
+  },
+  "text": {
+   "el": "Το μαγειρεμένο φαγητό, το κρέας και το ψάρι γίνονται δεκτά στον καφέ κάδο μόνο σε κλειστή βιοδιασπώμενη σακούλα. Αν ο κανόνας απενεργοποιηθεί, πηγαίνουν στα σύμμεικτα.",
+   "en": "Cooked food, meat and fish are accepted in the brown bin only in a sealed compostable bag. If the rule is disabled, they go to general waste."
+  },
+  "appliesTo": [
+   "food-scraps"
+  ],
+  "source": {
+   "el": "Δημοτική απόφαση — ενδεικτική ρύθμιση demo",
+   "en": "Municipal decision — indicative demo rule"
+  }
+ },
+ {
+  "id": "spc-battery",
+  "code": "ATH-SPC-01",
+  "enabled": true,
+  "version": "v1.4",
+  "updatedAt": "2026-01-22",
+  "title": {
+   "el": "Μπαταρίες σε σημεία συλλογής",
+   "en": "Batteries at collection points"
+  },
+  "text": {
+   "el": "Οι χρησιμοποιημένες μπαταρίες δεν πετιούνται σε κάδους. Παραδίδονται σε ειδικά σημεία συλλογής μπαταριών ή σε καταστήματα που τις δέχονται.",
+   "en": "Used batteries are never thrown in bins. They are handed in at dedicated battery collection points or at shops that accept them."
+  },
+  "appliesTo": [
+   "battery",
+   "special"
+  ],
+  "source": {
+   "el": "Κανονισμός καθαριότητας — ενδεικτική ρύθμιση demo",
+   "en": "Cleansing regulation — indicative demo rule"
+  }
+ },
+ {
+  "id": "spc-damaged",
+  "code": "ATH-SPC-02",
+  "enabled": true,
+  "version": "v1.0",
+  "updatedAt": "2026-01-22",
+  "title": {
+   "el": "Ασφάλεια για φουσκωμένες μπαταρίες",
+   "en": "Safety for swollen batteries"
+  },
+  "text": {
+   "el": "Φουσκωμένες ή χαλασμένες μπαταρίες ιόντων λιθίου μονώνονται στους πόλους με ταινία και παραδίδονται μόνο σε σημείο ειδικής συλλογής.",
+   "en": "Swollen or damaged lithium-ion batteries have their terminals taped and are handed in only at a special collection point."
+  },
+  "appliesTo": [
+   "battery"
+  ],
+  "source": {
+   "el": "Κανονισμός καθαριότητας — ενδεικτική ρύθμιση demo",
+   "en": "Cleansing regulation — indicative demo rule"
+  }
+ },
+ {
+  "id": "wee-appliance",
+  "code": "ATH-WEE-01",
+  "enabled": true,
+  "version": "v1.1",
+  "updatedAt": "2026-01-22",
+  "title": {
+   "el": "Ηλεκτρικές και ηλεκτρονικές συσκευές (ΑΗΗΕ)",
+   "en": "Electrical and electronic equipment (WEEE)"
+  },
+  "text": {
+   "el": "Οι μικρές ηλεκτρικές συσκευές παραδίδονται σε σημεία ΑΗΗΕ ή επιστρέφονται σε κατάστημα κατά την αγορά νέας. Δεν μπαίνουν σε κάδους.",
+   "en": "Small electrical appliances are handed in at WEEE points or returned to a shop when buying a new one. They do not go in bins."
+  },
+  "appliesTo": [
+   "coffee-maker",
+   "special"
+  ],
+  "source": {
+   "el": "Κανονισμός καθαριότητας — ενδεικτική ρύθμιση demo",
+   "en": "Cleansing regulation — indicative demo rule"
+  }
+ },
+ {
+  "id": "wee-reuse",
+  "code": "ATH-WEE-02",
+  "enabled": true,
+  "version": "v1.0",
+  "updatedAt": "2026-05-06",
+  "title": {
+   "el": "Προτεραιότητα στην επαναχρησιμοποίηση",
+   "en": "Reuse first"
+  },
+  "text": {
+   "el": "Για συσκευές που λειτουργούν προτείνεται πρώτα δωρεά ή επισκευή (π.χ. repair café) και μετά ανακύκλωση.",
+   "en": "For working appliances, donation or repair (e.g. a repair café) is suggested before recycling."
+  },
+  "appliesTo": [
+   "coffee-maker"
+  ],
+  "source": {
+   "el": "Δημοτική απόφαση — ενδεικτική ρύθμιση demo",
+   "en": "Municipal decision — indicative demo rule"
+  }
+ },
+ {
+  "id": "blk-pickup",
+  "code": "ATH-BLK-01",
+  "enabled": true,
+  "version": "v1.2",
+  "updatedAt": "2026-02-28",
+  "title": {
+   "el": "Αποκομιδή ογκωδών κατόπιν ραντεβού",
+   "en": "Bulky pickup by appointment"
+  },
+  "text": {
+   "el": "Έπιπλα και ογκώδη αντικείμενα παραλαμβάνονται κατόπιν ραντεβού και δεν αφήνονται στο πεζοδρόμιο πριν την ημέρα αποκομιδής.",
+   "en": "Furniture and bulky items are collected by appointment and must not be left on the pavement before pickup day."
+  },
+  "appliesTo": [
+   "sofa",
+   "bulky"
+  ],
+  "source": {
+   "el": "Δημοτική απόφαση — ενδεικτική ρύθμιση demo",
+   "en": "Municipal decision — indicative demo rule"
+  }
+ },
+ {
+  "id": "gen-fallback",
+  "code": "ATH-GEN-01",
+  "enabled": true,
+  "version": "v1.0",
+  "updatedAt": "2026-02-10",
+  "title": {
+   "el": "Σύμμεικτα ως ασφαλής επιλογή",
+   "en": "General waste as the safe default"
+  },
+  "text": {
+   "el": "Όταν η κατάσταση ενός αντικειμένου δεν μπορεί να επιβεβαιωθεί, προτιμάται ο πράσινος κάδος (σύμμεικτα), ώστε να μη λερωθεί η ανακύκλωση.",
+   "en": "When an item’s condition cannot be confirmed, general waste is preferred so recycling streams are not contaminated."
+  },
+  "appliesTo": [
+   "pizza-box",
+   "general"
+  ],
+  "source": {
+   "el": "Κανονισμός καθαριότητας — ενδεικτική ρύθμιση demo",
+   "en": "Cleansing regulation — indicative demo rule"
+  }
+ },
+ {
+  "id": "loc-verified",
+  "code": "ATH-LOC-01",
+  "enabled": true,
+  "version": "v0.9",
+  "updatedAt": "2026-05-20",
+  "title": {
+   "el": "Προτεραιότητα σε πρόσφατα επιβεβαιωμένα σημεία",
+   "en": "Prefer recently verified points"
+  },
+  "text": {
+   "el": "Στις προτάσεις τοποθεσίας προηγούνται σημεία που έχουν επιβεβαιωθεί τις τελευταίες 30 ημέρες και είναι κοντινότερα.",
+   "en": "Location suggestions rank points verified in the last 30 days and nearest first."
+  },
+  "appliesTo": [
+   "location"
+  ],
+  "source": {
+   "el": "Δημοτική απόφαση — ενδεικτική ρύθμιση demo",
+   "en": "Municipal decision — indicative demo rule"
+  }
+ }
+]

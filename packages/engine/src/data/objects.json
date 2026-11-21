@@ -1,0 +1,438 @@
+[
+ {
+  "id": "plastic-bottle",
+  "name": {
+   "el": "Πλαστικό μπουκάλι",
+   "en": "Plastic bottle"
+  },
+  "aliases": [
+   "πλαστικο μπουκαλι",
+   "μπουκαλι νερου",
+   "μπουκαλι",
+   "πετ",
+   "pet",
+   "πλαστικο",
+   "plastic bottle",
+   "water bottle",
+   "bottle",
+   "plastic"
+  ],
+  "material": {
+   "el": "Πλαστικό PET",
+   "en": "PET plastic"
+  },
+  "icon": "Container",
+  "thumbTone": "#E8F0FE",
+  "recognitionConfidence": 0.97,
+  "fact": {
+   "el": "Το πλαστικό PET ανακυκλώνεται ξανά και ξανά — αρκεί να μπει άδειο στον μπλε κάδο.",
+   "en": "PET plastic can be recycled again and again — as long as it goes into the blue bin clean."
+  },
+  "questions": []
+ },
+ {
+  "id": "pizza-box",
+  "name": {
+   "el": "Κουτί πίτσας",
+   "en": "Pizza box"
+  },
+  "aliases": [
+   "κουτι πιτσας",
+   "κουτι απο πιτσα",
+   "πιτσα",
+   "χαρτονι",
+   "χαρτονενιο κουτι",
+   "pizza box",
+   "pizza",
+   "cardboard box",
+   "cardboard"
+  ],
+  "material": {
+   "el": "Χαρτόνι",
+   "en": "Cardboard"
+  },
+  "icon": "Pizza",
+  "thumbTone": "#F5ECE2",
+  "recognitionConfidence": 0.94,
+  "fact": {
+   "el": "Το λάδι λερώνει το χαρτί. Γι’ αυτό ανακυκλώνεται μόνο το καθαρό μέρος του κουτιού.",
+   "en": "Grease contaminates paper fibres, which is why only the clean part of the box can be recycled."
+  },
+  "questions": [
+   {
+    "id": "greasy",
+    "prompt": {
+     "el": "Το κουτί έχει λάδια ή υπολείμματα φαγητού;",
+     "en": "Does the box have grease or food residue?"
+    },
+    "helper": {
+     "el": "Το λάδι λερώνει το χαρτί και δυσκολεύει την ανακύκλωση.",
+     "en": "Grease contaminates the paper and makes recycling harder."
+    },
+    "options": [
+     {
+      "id": "yes",
+      "label": {
+       "el": "Ναι, είναι αρκετά λερωμένο",
+       "en": "Yes, it is quite dirty"
+      },
+      "hint": {
+       "el": "Λιπαρά σημάδια ή υπολείμματα τυριού",
+       "en": "Grease marks or cheese residue"
+      }
+     },
+     {
+      "id": "no",
+      "label": {
+       "el": "Όχι, είναι καθαρό",
+       "en": "No, it is clean"
+      },
+      "hint": {
+       "el": "Χωρίς λάδια ή υπολείμματα",
+       "en": "No grease or residue"
+      }
+     },
+     {
+      "id": "unsure",
+      "label": {
+       "el": "Δεν είμαι σίγουρος/η",
+       "en": "I am not sure"
+      }
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "food-scraps",
+  "name": {
+   "el": "Υπολείμματα φαγητού",
+   "en": "Food scraps"
+  },
+  "aliases": [
+   "υπολειμματα φαγητου",
+   "υπολειμματα",
+   "φαγητο",
+   "φρουτα",
+   "λαχανικα",
+   "φλουδες",
+   "οργανικα",
+   "σκουπιδια κουζινας",
+   "food scraps",
+   "food waste",
+   "organic",
+   "leftovers",
+   "peel",
+   "coffee grounds"
+  ],
+  "material": {
+   "el": "Υπολείμματα τροφών",
+   "en": "Organic waste"
+  },
+  "icon": "Apple",
+  "thumbTone": "#F5ECE2",
+  "recognitionConfidence": 0.91,
+  "fact": {
+   "el": "Σχεδόν το ένα τρίτο των οικιακών απορριμμάτων είναι οργανικά και μπορεί να γίνει κομπόστ.",
+   "en": "Almost a third of household waste is organic and can become compost."
+  },
+  "questions": [
+   {
+    "id": "content",
+    "prompt": {
+     "el": "Τι είδους υπολείμματα είναι;",
+     "en": "What do they contain?"
+    },
+    "helper": {
+     "el": "Το κρέας και το ψάρι έχουν ξεχωριστούς κανόνες στον καφέ κάδο.",
+     "en": "Meat and fish have separate rules for the brown bin."
+    },
+    "options": [
+     {
+      "id": "plant",
+      "label": {
+       "el": "Φρούτα, λαχανικά, καφές",
+       "en": "Fruit, vegetables, coffee"
+      }
+     },
+     {
+      "id": "cooked",
+      "label": {
+       "el": "Μαγειρεμένο φαγητό",
+       "en": "Cooked food"
+      }
+     },
+     {
+      "id": "meat",
+      "label": {
+       "el": "Κρέας ή ψάρι",
+       "en": "Meat or fish"
+      }
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "battery",
+  "name": {
+   "el": "Μπαταρία",
+   "en": "Battery"
+  },
+  "aliases": [
+   "μπαταρια",
+   "μπαταριες",
+   "μπαταρια κινητου",
+   "πιλα",
+   "πιλο",
+   "αα",
+   "ααα",
+   "επαναφορτιζομενη",
+   "battery",
+   "batteries",
+   "aa",
+   "aaa",
+   "power cell"
+  ],
+  "material": {
+   "el": "Μέταλλα και χημικές ουσίες",
+   "en": "Metals & chemicals"
+  },
+  "icon": "Battery",
+  "thumbTone": "#FDEFE3",
+  "recognitionConfidence": 0.96,
+  "fact": {
+   "el": "Οι μπαταρίες έχουν μέταλλα που ανακτώνται — και ουσίες που δεν πρέπει να καταλήξουν στα σκουπίδια.",
+   "en": "Batteries contain metals that can be recovered — and substances that must not end up in general waste."
+  },
+  "questions": [
+   {
+    "id": "kind",
+    "prompt": {
+     "el": "Τι είδους μπαταρία είναι;",
+     "en": "What kind of battery is it?"
+    },
+    "helper": {
+     "el": "Μια φουσκωμένη ή χαλασμένη μπαταρία μπορεί να πάρει φωτιά και θέλει προσοχή.",
+     "en": "Swollen or damaged batteries carry a fire risk and need care."
+    },
+    "options": [
+     {
+      "id": "small",
+      "label": {
+       "el": "Μικρή οικιακή (ΑΑ/ΑΑΑ)",
+       "en": "Small household (AA/AAA)"
+      }
+     },
+     {
+      "id": "rechargeable",
+      "label": {
+       "el": "Επαναφορτιζόμενη ή κινητού",
+       "en": "Rechargeable / phone"
+      }
+     },
+     {
+      "id": "damaged",
+      "label": {
+       "el": "Φουσκωμένη ή χαλασμένη",
+       "en": "Swollen or damaged"
+      },
+      "hint": {
+       "el": "Διαρροή, φούσκωμα ή ζέστη",
+       "en": "Leaking, swelling or heat"
+      }
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "sofa",
+  "name": {
+   "el": "Παλιός καναπές",
+   "en": "Old sofa"
+  },
+  "aliases": [
+   "καναπες",
+   "καναπε",
+   "παλιος καναπες",
+   "επιπλο",
+   "επιπλα",
+   "στρωμα",
+   "πολυθρονα",
+   "ογκωδες",
+   "sofa",
+   "couch",
+   "furniture",
+   "mattress",
+   "armchair"
+  ],
+  "material": {
+   "el": "Ύφασμα, ξύλο και αφρώδες υλικό",
+   "en": "Fabric, wood & foam"
+  },
+  "icon": "Sofa",
+  "thumbTone": "#EFECFB",
+  "recognitionConfidence": 0.95,
+  "fact": {
+   "el": "Τα ογκώδη δεν αφήνονται στο πεζοδρόμιο: με ραντεβού αποκομιδής ο δρόμος μένει καθαρός και ασφαλής.",
+   "en": "Bulky items should not be left on the pavement: a pickup appointment keeps the street clean and safe."
+  },
+  "questions": []
+ },
+ {
+  "id": "glass-bottle",
+  "name": {
+   "el": "Γυάλινο μπουκάλι",
+   "en": "Glass bottle"
+  },
+  "aliases": [
+   "γυαλινο μπουκαλι",
+   "γυαλι",
+   "γυαλινο βαζο",
+   "βαζο",
+   "μπουκαλι κρασιου",
+   "μπουκαλι μπυρας",
+   "σπασμενο γυαλι",
+   "τζαμι",
+   "ποτηρι",
+   "glass bottle",
+   "glass",
+   "jar",
+   "broken glass",
+   "wine bottle"
+  ],
+  "material": {
+   "el": "Γυαλί",
+   "en": "Glass"
+  },
+  "icon": "Wine",
+  "thumbTone": "#E7F3EE",
+  "recognitionConfidence": 0.93,
+  "fact": {
+   "el": "Το γυαλί ανακυκλώνεται επ’ άπειρον χωρίς να χάνει την ποιότητά του.",
+   "en": "Glass can be recycled endlessly without losing quality."
+  },
+  "questions": [
+   {
+    "id": "form",
+    "prompt": {
+     "el": "Είναι μπουκάλι ή βάζο ή σπασμένο τζάμι ή ποτήρι;",
+     "en": "Is it a bottle or jar, or broken glass / window glass?"
+    },
+    "helper": {
+     "el": "Το τζάμι και τα ποτήρια έχουν διαφορετική σύνθεση και δεν ανακυκλώνονται με τις συσκευασίες.",
+     "en": "Window glass and drinking glasses have a different composition and are not recycled with packaging."
+    },
+    "options": [
+     {
+      "id": "bottle",
+      "label": {
+       "el": "Μπουκάλι ή βάζο",
+       "en": "Bottle or jar"
+      }
+     },
+     {
+      "id": "broken",
+      "label": {
+       "el": "Σπασμένο τζάμι ή ποτήρι",
+       "en": "Broken window or drinking glass"
+      }
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "coffee-maker",
+  "name": {
+   "el": "Καφετιέρα",
+   "en": "Coffee maker"
+  },
+  "aliases": [
+   "καφετιερα",
+   "καφετιερα φιλτρου",
+   "μηχανη καφε",
+   "συσκευη",
+   "ηλεκτρικη συσκευη",
+   "ηλεκτρικα",
+   "ηλεκτρονικα",
+   "αηηε",
+   "coffee maker",
+   "coffee machine",
+   "appliance",
+   "weee",
+   "electronics"
+  ],
+  "material": {
+   "el": "Ηλεκτρική συσκευή",
+   "en": "Electrical appliance (WEEE)"
+  },
+  "icon": "Coffee",
+  "thumbTone": "#FDEFE3",
+  "recognitionConfidence": 0.92,
+  "fact": {
+   "el": "Οι ηλεκτρικές συσκευές έχουν πολύτιμα μέταλλα και ανακυκλώνονται μόνο σε ειδικά σημεία — ποτέ σε κάδο.",
+   "en": "Electrical appliances hold valuable metals and are recycled only at dedicated points — never in a bin."
+  },
+  "questions": [
+   {
+    "id": "works",
+    "prompt": {
+     "el": "Λειτουργεί ακόμα;",
+     "en": "Does it still work?"
+    },
+    "helper": {
+     "el": "Αν δουλεύει, μπορεί να έχει δεύτερη ζωή σε κάποιον άλλον.",
+     "en": "If it works, it can have a second life with someone else."
+    },
+    "options": [
+     {
+      "id": "works",
+      "label": {
+       "el": "Ναι, λειτουργεί",
+       "en": "Yes, it works"
+      }
+     },
+     {
+      "id": "broken",
+      "label": {
+       "el": "Όχι, είναι χαλασμένη",
+       "en": "No, it is broken"
+      }
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "unknown",
+  "name": {
+   "el": "Άγνωστο αντικείμενο",
+   "en": "Unknown item"
+  },
+  "aliases": [],
+  "material": {
+   "el": "Δεν προσδιορίστηκε",
+   "en": "Not determined"
+  },
+  "icon": "HelpCircle",
+  "thumbTone": "#F1F3EE",
+  "recognitionConfidence": 0.41,
+  "questions": [],
+  "guesses": [
+   {
+    "objectId": "plastic-bottle",
+    "confidence": 0.41
+   },
+   {
+    "objectId": "glass-bottle",
+    "confidence": 0.33
+   },
+   {
+    "objectId": "coffee-maker",
+    "confidence": 0.12
+   }
+  ]
+ }
+]
