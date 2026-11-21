@@ -47,6 +47,7 @@ describe('catalog and rules data', () => {
       'battery',
       'sofa',
       'glass-bottle',
+      'clothes',
       'coffee-maker',
       'unknown',
     ]);
@@ -55,6 +56,11 @@ describe('catalog and rules data', () => {
 });
 
 describe('decisions', () => {
+  it('clothes go to the clothing bin', () => {
+    expect(run('clothes')).toMatchObject({ category: 'special' });
+    expect(run('clothes').destination.en).toBe('Purple clothing bin');
+  });
+
   it('cans, paper and cardboard go to the blue bin, or general waste if ATH-PKG-01 is off', () => {
     for (const id of ['can', 'paper', 'cardboard-box']) {
       expect(run(id)).toMatchObject({ category: 'packaging', rulesApplied: ['ATH-PKG-01'] });

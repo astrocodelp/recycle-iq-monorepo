@@ -89,6 +89,8 @@ export function impactFor(objectId: string, category: CategoryId, uncertain = fa
   }
   if (category === 'packaging')
     return { grams: null, carKm: null, counts: true, headline: te('Γίνεται ξανά πρώτη ύλη', 'It becomes raw material again'), detail: te('Στον μπλε κάδο το υλικό ξαναμπαίνει στην παραγωγή αντί να καταλήξει σε χωματερή.', 'In the blue bin the material goes back into production instead of landfill.') };
+  if (objectId === 'clothes')
+    return { grams: null, carKm: null, counts: true, headline: te('Ξαναφοριούνται ή γίνονται νέες ίνες', 'Worn again or made into new fibres'), detail: te('Στον κάδο ρούχων τα υφάσματα πάνε για επαναχρησιμοποίηση ή ανακύκλωση αντί για χωματερή.', 'In the clothing bin, textiles go to reuse or recycling instead of landfill.') };
   if (category === 'special')
     return { grams: null, carKm: null, counts: true, headline: te('Ανακτώνται πολύτιμα μέταλλα', 'Valuable metals are recovered'), detail: te('Στο σημείο συλλογής ανακτώνται μέταλλα και οι επικίνδυνες ουσίες δεν καταλήγουν στο έδαφος και στο νερό.', 'At the collection point metals are recovered and hazardous substances stay out of soil and water.') };
   if (category === 'bulky')

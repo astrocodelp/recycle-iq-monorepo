@@ -4,6 +4,10 @@ The scan screen (`apps/mobile/src/app/scan.tsx`) recognises the photographed ite
 tray with the most likely item first ("Μοιάζει με …"). The resident always confirms with one tap; the model
 suggests, it never decides alone.
 
+0. **On the phone, when it is very sure.** If the SigLIP 2 model is already on the phone (it downloads in the
+   background on Wi-Fi after a scan) and its top item scores ≥ 0.03 and ≥ 4× the runner-up, the phone answers
+   alone: 98% right on 150 held-out TrashNet photos, about a third of scans (`src/lib/vision-gate.ts`).
+   Never for a pizza box: the phone model cannot judge grease (3/8 greasy boxes, see below).
 1. **Server (default).** The photo is shrunk to 640 px and sent once to `POST /api/v1/recognize`
    (`apps/web/lib/recognize.ts`), which asks a vision model on the Vercel AI Gateway and answers
    `{ item, confidence, seen }`, `item` being a catalogue id or `other` (with `seen`, a few Greek words, so
@@ -28,6 +32,27 @@ TrashNet photos (not Athens bins), 6 per class, the same prompt as the route:
 | SigLIP 2 on the phone (app scoring, plastic + glass only) | 9/16 | ~0.1 s on a Mac |
 
 Used napkins and tissues answer `other`, not paper, because they go to general waste.
+
+Re-run on 50 photos (10 per class): gemini-3.1-flash-lite 48/50 (1.4 s), Google `gemini-decision-1` through
+`experimental_decide` 47/50 (0.9 s, with real probabilities). Every miss was paper read as cardboard: same bin.
+
+## Condition: grease and liquid (and clothes)
+
+40 photos made with an image model (8 each: greasy pizza box, clean pizza box, can with drink in it, empty
+can, clothes). They are synthetic and clearer than real life, so read them as a sanity check, not accuracy.
+
+| Model | Item | Greasy box | Liquid in can | Avg time |
+| --- | --- | --- | --- | --- |
+| google/gemini-3.1-flash-lite (server default) | 40/40 | 16/16 | 16/16 | 1.6 s |
+| google/gemini-decision-1 (decision model) | 40/40 | 16/16 | 16/16 | 0.9 s |
+| meta/llama-4-scout (open weights) | 40/40 | 16/16 | 16/16 | 2.2 s |
+| alibaba/qwen3-vl-instruct (open weights) | 40/40 | 16/16 | 16/16 | 4.6 s |
+| SigLIP 2 on the phone (zero-shot prompts) | 36/40 | 11/16 (3/8 greasy) | 16/16 | ~0.1 s |
+
+The decision model's probabilities separate cleanly (greasy boxes 0.90–0.96, clean 0.07–0.16), so it is a
+good second server option if its experimental API settles. The server answers `greasy` and `liquid`; the
+scan screen says «Φαίνεται λερωμένο» / «Έχει ακόμα υγρό» and pre-selects the photo's answer on the item
+page (the resident still taps). Total model spend for all of this benchmarking: under $2.
 
 # On-device recognition with SigLIP 2 (offline fallback)
 

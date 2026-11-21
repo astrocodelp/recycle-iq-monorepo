@@ -10,6 +10,7 @@ import {
   Newspaper,
   Package,
   Pizza,
+  Shirt,
   Sofa,
   Trash2,
   Wine,
@@ -19,7 +20,7 @@ import {
 import { View } from 'react-native';
 import { categoryColors, colors } from '@/lib/theme';
 
-const OBJECT_ICONS: Record<string, LucideIcon> = { Container, CupSoda, Newspaper, Package, Pizza, Apple, Battery, Sofa, Wine, Coffee, HelpCircle: CircleHelp };
+const OBJECT_ICONS: Record<string, LucideIcon> = { Container, CupSoda, Newspaper, Package, Pizza, Shirt, Apple, Battery, Sofa, Wine, Coffee, HelpCircle: CircleHelp };
 const CATEGORY_ICONS: Record<CategoryId, LucideIcon> = { packaging: Container, organic: Leaf, general: Trash2, special: Zap, bulky: Sofa };
 
 export function ObjectIcon({ name, size = 20, color = colors.ink }: { name: string; size?: number; color?: string }) {

@@ -5,7 +5,8 @@ import { z } from 'zod';
 
 /**
  * Photo recognition on the server (docs/VISION.md). The app sends one small JPEG; a vision model on the
- * Vercel AI Gateway picks the catalogue item. The photo is not stored or logged.
+ * Vercel AI Gateway picks the catalogue item and says whether it looks greasy or still holds liquid
+ * (16/16 each on the condition bench). The photo is not stored or logged.
  *
  *   VISION_MODEL   gateway model id (default google/gemini-3.1-flash-lite: 30/30 on the TrashNet bench)
  */
@@ -22,6 +23,7 @@ const HINTS: Record<string, string> = {
   battery: 'battery (AA, AAA, button cell, phone or laptop battery)',
   sofa: 'sofa, armchair, mattress or other large furniture',
   'glass-bottle': 'glass bottle or glass jar',
+  clothes: 'clothes, shoes, bags or other textiles',
   'coffee-maker': 'coffee maker or other small electrical appliance (kettle, toaster, hair dryer)',
 };
 
@@ -31,6 +33,8 @@ const Result = z.object({
   item: z.enum(['other', ...IDS] as [string, ...string[]]),
   confidence: z.number().min(0).max(1),
   seen: z.string().describe('The main object in 2 to 5 plain Greek words, e.g. «κουτάκι αναψυκτικού»'),
+  greasy: z.boolean().describe('The item is visibly soiled with grease, oil or food residue'),
+  liquid: z.boolean().describe('The container still has liquid or food inside or spilling out'),
 });
 export type CloudRecognition = z.infer<typeof Result>;
 
@@ -40,6 +44,7 @@ const SYSTEM = [
   'or if the photo shows no clear object (a person, a room, a street, a blurry frame).',
   'Judge the material carefully: glass is rigid and heavy, with a thick base and sharp reflections; plastic is thinner and may be crushed.',
   'confidence is how sure you are, from 0 to 1.',
+  'greasy: is it visibly soiled with grease, oil or food? liquid: does the container still hold liquid or food?',
   'Items:',
   ...IDS.map((id) => `- ${id}: ${HINTS[id] ?? PICKABLE_OBJECTS.find((o) => o.id === id)?.name.en}`),
 ].join('\n');

@@ -91,7 +91,7 @@ export interface PointQuery {
   category: CategoryId;
   glassBell?: boolean;
   /** Raw acceptance tag the point must take: batteries, weee (small or large), ... */
-  accepts?: 'batteries' | 'weee';
+  accepts?: 'batteries' | 'weee' | 'textiles';
 }
 
 export type PointStatus = 'available' | 'full' | 'closed';

@@ -12,6 +12,10 @@ export interface CloudResult {
   confidence: number;
   /** What the model saw, in a few Greek words. */
   seen: string;
+  /** Visibly soiled with grease or food (pizza box). */
+  greasy?: boolean;
+  /** Still holds liquid or food (can, bottle). */
+  liquid?: boolean;
 }
 
 const EDGE = 640;
@@ -34,7 +38,13 @@ export async function recognizeInCloud(photoUri: string, signal?: AbortSignal): 
       if (!res.ok) return null;
       const j = (await res.json()) as Partial<CloudResult>;
       if (typeof j.item !== 'string' || typeof j.confidence !== 'number') return null;
-      return { item: j.item, confidence: j.confidence, seen: typeof j.seen === 'string' ? j.seen : '' };
+      return {
+        item: j.item,
+        confidence: j.confidence,
+        seen: typeof j.seen === 'string' ? j.seen : '',
+        greasy: typeof j.greasy === 'boolean' ? j.greasy : undefined,
+        liquid: typeof j.liquid === 'boolean' ? j.liquid : undefined,
+      };
     } finally {
       clearTimeout(timer);
     }

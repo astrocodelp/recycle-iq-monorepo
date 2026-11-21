@@ -1,4 +1,5 @@
 import 'server-only';
+import { getBinStyles } from '@/lib/bin-styles';
 import { dbSource, type BinSource } from '@/lib/bins';
 import {
   collectionPoints,
@@ -11,6 +12,7 @@ import {
 } from '@recycleiq/db';
 import {
   unlockedAt,
+  applyBins,
   DEFAULT_LOCATION,
   cityContext,
   evaluate,
@@ -103,7 +105,8 @@ export async function makeDecision(req: DecisionRequest): Promise<{
   ]);
   const outcome = evaluate({ objectId: req.objectId, answers: req.answers }, { district: ctx, rules });
   const nearby = outcome.pointQuery ? rankPoints(points, outcome.pointQuery, centre) : [];
-  const decision = explain(outcome, nearby);
+  // The municipality's bin names and colours (Rules → Bins on the dashboard).
+  const decision = applyBins(explain(outcome, nearby), await getBinStyles());
   let id: string | null = null;
   if (req.record !== false) {
     const [row] = await getDb()

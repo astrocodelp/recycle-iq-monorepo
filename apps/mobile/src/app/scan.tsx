@@ -15,13 +15,17 @@ import { useApp } from '@/lib/store';
 import { colors, font, r } from '@/lib/theme';
 import { recognizeInCloud } from '@/lib/cloud-vision';
 import { pickPhotoOnWeb } from '@/lib/pick-photo';
-import { isModelDownloaded, recognize, visionSupported } from '@/lib/vision';
+import { isModelDownloaded, prefetchModelOnWifi, recognize, visionSupported } from '@/lib/vision';
+import { confidentOnDevice } from '@/lib/vision-gate';
 
 /**
  * Scan. The shutter freezes the frame and the pick tray is re-ordered with the most likely item first;
- * the resident confirms with one tap. Recognition (docs/VISION.md): first the server (a vision model,
- * the photo is not stored), and without network the on-device SigLIP 2 model. If neither answers, the
- * normal tray is shown.
+ * the resident confirms with one tap. Recognition (docs/VISION.md):
+ * 1. the on-device SigLIP 2 model, when it is on the phone and very sure (98% right on the bench), and the
+ *    item needs no visual check (a pizza box's grease is judged by the server);
+ * 2. otherwise the server (a vision model, the photo is not stored), which also says if it looks greasy
+ *    or still holds liquid;
+ * 3. without network, the on-device model whatever its confidence; then the normal tray.
  */
 interface Suggestion {
   /** Catalogue ids, most likely first. */
@@ -30,8 +34,15 @@ interface Suggestion {
   sure: boolean;
   /** The model saw something that is not in the catalogue, in a few Greek words. */
   notListed?: string;
+  /** Answer to the item's question suggested by the photo (pizza box: greasy yes / no). */
+  answer?: string;
+  /** Still holds liquid: empty it first. */
+  liquid?: boolean;
   where: 'cloud' | 'device';
 }
+
+/** Items whose bin depends on something the phone model cannot judge (grease). */
+const NEEDS_SERVER = new Set(['pizza-box']);
 type Phase = { k: 'idle' } | { k: 'downloading'; progress: number } | { k: 'recognizing' } | { k: 'done'; result: Suggestion | null };
 
 export default function Scan() {
@@ -71,24 +82,36 @@ export default function Scan() {
     const ctrl = new AbortController();
     abort.current = ctrl;
     setPhase({ k: 'recognizing' });
+    // 1. On the phone first, when the model is already there and very sure.
+    let local = visionSupported && isModelDownloaded() ? await recognize(uri, { signal: ctrl.signal }) : null;
+    if (ctrl.signal.aborted) return;
+    if (local && confidentOnDevice(local) && !NEEDS_SERVER.has(local.ranked[0]!.id)) {
+      return setPhase({ k: 'done', result: { order: local.ranked.map((r) => r.id), sure: true, where: 'device' } });
+    }
+    // 2. The server.
     const cloud = await recognizeInCloud(uri, ctrl.signal);
     if (ctrl.signal.aborted) return;
     if (cloud) {
+      void prefetchModelOnWifi();
       const listed = cloud.item !== 'other';
+      const sure = listed && cloud.confidence >= 0.5;
       return setPhase({
         k: 'done',
         result: {
           order: listed ? [cloud.item] : [],
-          sure: listed && cloud.confidence >= 0.5,
+          sure,
           notListed: listed ? undefined : cloud.seen || undefined,
+          answer: sure && cloud.item === 'pizza-box' && cloud.greasy !== undefined ? (cloud.greasy ? 'yes' : 'no') : undefined,
+          liquid: sure && cloud.liquid === true,
           where: 'cloud',
         },
       });
     }
-    // No network or server: the on-device model, if this build has it.
+    // 3. No network or server: the on-device model whatever its confidence, if this build has it.
     if (!visionSupported) return setPhase({ k: 'done', result: null });
+    if (local) return setPhase({ k: 'done', result: { order: local.ranked.map((r) => r.id), sure: local.sure, where: 'device' } });
     if (!isModelDownloaded()) setPhase({ k: 'downloading', progress: 0 });
-    const local = await recognize(uri, {
+    local = await recognize(uri, {
       signal: ctrl.signal,
       onDownload: (progress) => !ctrl.signal.aborted && setPhase(progress >= 1 ? { k: 'recognizing' } : { k: 'downloading', progress }),
     });
@@ -99,13 +122,16 @@ export default function Scan() {
     abort.current?.abort();
     setPhase({ k: 'done', result: null });
   };
-  const pick = (id: string) => router.replace({ pathname: '/item/[id]', params: { id, via: 'scan' } });
   const cameraOk = permission?.granted && Platform.OS !== 'web';
   const result = phase.k === 'done' ? phase.result : null;
   const order = new Map((result?.order ?? []).map((id, i) => [id, i]));
   const list = result ? [...PICKABLE_OBJECTS].sort((a, b) => (order.get(a.id) ?? 99) - (order.get(b.id) ?? 99)) : PICKABLE_OBJECTS;
   const suggested = result?.sure ? list[0] : undefined;
   const busy = phase.k === 'downloading' || phase.k === 'recognizing';
+  const pick = (id: string) => {
+    const answer = result?.answer && id === result.order[0] ? result.answer : undefined;
+    router.replace({ pathname: '/item/[id]', params: { id, via: 'scan', ...(answer ? { suggest: answer } : {}) } });
+  };
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.canvas }}>
@@ -182,7 +208,9 @@ export default function Scan() {
             {suggested ? <Sparkles size={16} color={colors.lime} style={{ marginTop: 1 }} /> : <Info size={16} color={colors.lime} style={{ marginTop: 1 }} />}
             <T v="caption" color="rgba(255,255,255,0.85)" style={{ flex: 1 }}>
               {suggested
-                ? t(`Μοιάζει με: ${suggested.name.el}. Πάτα για επιβεβαίωση.`, `Looks like: ${suggested.name.en}. Tap to confirm.`)
+                ? t(`Μοιάζει με: ${suggested.name.el}. Πάτα για επιβεβαίωση.`, `Looks like: ${suggested.name.en}. Tap to confirm.`) +
+                  (result?.liquid ? t(' Έχει ακόμα υγρό: άδειασέ το πρώτα.', ' It still has liquid in it: empty it first.') : '') +
+                  (result?.answer === 'yes' ? t(' Φαίνεται λερωμένο με λάδια.', ' It looks greasy.') : result?.answer === 'no' ? t(' Φαίνεται καθαρό.', ' It looks clean.') : '')
                 : result?.notListed
                   ? t(`Βλέπω: ${result.notListed}. Δεν είναι ακόμη στη λίστα μας — διάλεξε το πιο κοντινό ή γράψ’ το στην αναζήτηση.`, `I see: ${result.notListed}. It is not on our list yet — pick the closest or type it in search.`)
                   : result

@@ -433,6 +433,35 @@ const battery: Evaluator = ({ answers, on }) => {
   };
 };
 
+const clothes: Evaluator = () => ({
+  category: 'special',
+  destination: D.textiles,
+  confidence: 0.95,
+  rules: [],
+  headline: te('Ρίξ’ τα στον μωβ κάδο ρούχων', 'Put them in the purple clothing bin'),
+  why: te(
+    'Τα ρούχα, τα παπούτσια και τα υφάσματα συλλέγονται χωριστά, για να ξαναφορεθούν ή να γίνουν νέες ίνες.',
+    'Clothes, shoes and textiles are collected separately, to be worn again or turned into new fibres.',
+  ),
+  prep: [
+    te('Βάλ’ τα καθαρά και στεγνά σε δεμένη σακούλα.', 'Put them clean and dry in a tied bag.'),
+    te('Δέσε τα παπούτσια ανά ζευγάρι.', 'Tie shoes together in pairs.'),
+  ],
+  warnings: [
+    te(
+      'Βρεγμένα ή μουχλιασμένα υφάσματα δεν ξαναχρησιμοποιούνται: πάνε στον πράσινο κάδο.',
+      'Wet or mouldy textiles cannot be reused: they go in the general waste bin.',
+    ),
+  ],
+  notes: [],
+  alternatives: te(
+    'Αν είναι σε καλή κατάσταση, σκέψου πρώτα να τα δωρίσεις σε κοινωνικό παντοπωλείο ή ενορία.',
+    'If they are in good condition, consider donating them to a social grocery or parish first.',
+  ),
+  condition: te('Καθαρά και στεγνά', 'Clean and dry'),
+  pointFilter: { accepts: 'textiles' },
+});
+
 const sofa: Evaluator = ({ on }) => {
   const ruleOn = on('ATH-BLK-01');
   return {
@@ -605,6 +634,7 @@ export const EVALUATORS: Record<string, Evaluator> = {
   battery,
   sofa,
   'glass-bottle': glassBottle,
+  clothes,
   'coffee-maker': coffeeMaker,
   unknown,
 };
@@ -646,6 +676,10 @@ export const RUNNER_UPS: Record<string, [L10n, number][]> = {
   'glass-bottle': [
     [te('Βάζο', 'Jar'), 0.04],
     [te('Πλαστικό μπουκάλι', 'Plastic bottle'), 0.03],
+  ],
+  clothes: [
+    [te('Υφάσματα σπιτιού', 'Household textiles'), 0.03],
+    [te('Τσάντα', 'Bag'), 0.02],
   ],
   'coffee-maker': [
     [te('Βραστήρας', 'Kettle'), 0.05],

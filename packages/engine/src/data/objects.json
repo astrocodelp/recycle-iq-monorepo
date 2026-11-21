@@ -450,6 +450,46 @@
   ]
  },
  {
+  "id": "clothes",
+  "name": {
+   "el": "Ρούχα και παπούτσια",
+   "en": "Clothes and shoes"
+  },
+  "aliases": [
+   "ρουχα",
+   "παπουτσια",
+   "μπλουζα",
+   "παντελονι",
+   "τζιν",
+   "φουστα",
+   "μπουφαν",
+   "σεντονια",
+   "πετσετες",
+   "τσαντα",
+   "υφασμα",
+   "clothes",
+   "clothing",
+   "shoes",
+   "t-shirt",
+   "jeans",
+   "textiles",
+   "fabric",
+   "bag"
+  ],
+  "material": {
+   "el": "Ύφασμα, δέρμα",
+   "en": "Fabric, leather"
+  },
+  "icon": "Shirt",
+  "thumbTone": "#EFE7F6",
+  "recognitionConfidence": 0.95,
+  "fact": {
+   "el": "Τα περισσότερα ρούχα στους κάδους ξαναφοριούνται ή γίνονται νέες ίνες, μονωτικά και πανιά.",
+   "en": "Most clothes in the bins are worn again or turned into new fibres, insulation and rags."
+  },
+  "questions": []
+ },
+ {
   "id": "coffee-maker",
   "name": {
    "el": "Καφετιέρα",

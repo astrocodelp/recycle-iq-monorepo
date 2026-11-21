@@ -32,6 +32,7 @@ export const SCENARIOS: readonly Scenario[] = [
   s('sofa', {}, 'Παλιός καναπές', 'Old sofa'),
   s('glass-bottle', { form: 'bottle' }, 'Γυάλινο μπουκάλι', 'Glass bottle'),
   s('glass-bottle', { form: 'broken' }, 'Σπασμένο τζάμι', 'Broken glass'),
+  s('clothes', {}, 'Ρούχα', 'Clothes'),
   s('coffee-maker', { works: 'works' }, 'Καφετιέρα · λειτουργεί', 'Coffee maker · works'),
   s('unknown', {}, 'Θολή φωτογραφία', 'Blurry photo'),
 ];
