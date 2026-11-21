@@ -23,6 +23,9 @@ export const DEFAULT_LOCATION: LngLat = { lng: 23.7336, lat: 37.97503 };
 export function matchesQuery(point: CollectionPoint, q: PointQuery): boolean {
   if (!point.categories.includes(q.category)) return false;
   if (q.glassBell && !point.glassBell) return false;
+  // A glass bell takes only glass. It shares the packaging category with the blue bin, so without this a plastic
+  // bottle or a can would be sent to the nearest bell. Points that also take other packaging (green points) stay.
+  if (!q.glassBell && point.glassBell && point.accepts.every((a) => a === 'glass')) return false;
   if (q.accepts === 'batteries' && !point.accepts.includes('batteries')) return false;
   if (q.accepts === 'textiles' && !point.accepts.includes('textiles')) return false;
   if (q.accepts === 'weee' && !point.accepts.some((a) => a === 'weee_small' || a === 'weee_large'))

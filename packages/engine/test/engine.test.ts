@@ -182,6 +182,16 @@ describe('points and context', () => {
     const p: CollectionPoint = { id: 'b', kind: 'blue_bin', name: { el: '', en: '' }, lng: 23.73, lat: 37.97, districtId: null, categories: ['packaging'], accepts: ['paper'], glassBell: false, status: 'available' };
     expect(rankPoints([p], { category: 'packaging', glassBell: true }, { lng: 23.73, lat: 37.97 })).toEqual([]);
   });
+  it('rankPoints never sends non-glass packaging to a glass-only bell', () => {
+    const at = { lng: 23.73, lat: 37.97 };
+    const bell: CollectionPoint = { id: 'g', kind: 'glass_bell', name: { el: '', en: '' }, ...at, districtId: null, categories: ['packaging'], accepts: ['glass'], glassBell: true, status: 'available' };
+    const blue: CollectionPoint = { id: 'b', kind: 'blue_bin', name: { el: '', en: '' }, lng: 23.74, lat: 37.98, districtId: null, categories: ['packaging'], accepts: ['plastic', 'glass'], glassBell: false, status: 'available' };
+    const green: CollectionPoint = { id: 'p', kind: 'green_point', name: { el: '', en: '' }, lng: 23.75, lat: 37.99, districtId: null, categories: ['packaging'], accepts: ['plastic', 'glass'], glassBell: true, status: 'available' };
+    // A plastic bottle: the bell next door is skipped, the blue bin and the green point stay.
+    expect(rankPoints([bell, blue, green], { category: 'packaging' }, at).map((p) => p.id)).toEqual(['b', 'p']);
+    // A glass jar sent to a bell still finds it.
+    expect(rankPoints([bell, blue, green], { category: 'packaging', glassBell: true }, at).map((p) => p.id)).toEqual(['g', 'p']);
+  });
 });
 
 describe('leaderboard', () => {
