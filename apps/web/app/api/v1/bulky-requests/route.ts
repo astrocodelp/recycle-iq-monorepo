@@ -1,8 +1,6 @@
-import { districts, eq, getDb, serviceRequests } from '@recycleiq/db';
-import { getObject } from '@recycleiq/engine';
 import { z } from 'zod';
 import { deviceIdFrom, error, parseBody } from '@/lib/api';
-import { athensEnabled, cityDistrict, createCityRequest, tryCity } from '@/lib/athens';
+import { createBulkyRequest } from '@/lib/bulky';
 
 export const dynamic = 'force-dynamic';
 
@@ -15,39 +13,11 @@ const Body = z.object({
   deviceId: z.string().max(64).optional(),
 });
 
-/**
- * Ask the city to collect a bulky item (category "bulky_waste" in AthensGov citizen requests).
- * The address goes to the city for the pickup and is not kept by RecycleIQ: we store only the
- * neighbourhood, the city's request id and its status.
- */
+/** Ask the city to collect a bulky item (see lib/bulky.ts). */
 export async function POST(req: Request) {
-  if (!athensEnabled()) return error(503, 'City requests are not connected');
   const body = await parseBody(req, Body);
   if (!body.ok) return body.res;
-  const { objectId, districtId, address, note } = body.data;
-  const db = getDb();
-  const object = getObject(objectId);
-  const [district] = districtId ? await db.select().from(districts).where(eq(districts.id, districtId)) : [];
-  const city = await tryCity(() =>
-    createCityRequest({
-      category: 'bulky_waste',
-      title: `Παραλαβή ογκώδους: ${object?.name.el ?? 'αντικείμενο'}`.slice(0, 200),
-      description: ['Αίτημα από την εφαρμογή RecycleIQ.', note ? `Σημείωση: ${note}` : ''].filter(Boolean).join(' '),
-      address: address.includes('Αθήνα') ? address : `${address}, Αθήνα`,
-      district: cityDistrict(district?.communityId),
-    }),
-  );
-  if (!city) return error(502, 'The city request system did not answer. Try again later.');
-  const [row] = await db
-    .insert(serviceRequests)
-    .values({
-      kind: 'bulky_pickup',
-      districtId: district?.id ?? null,
-      deviceId: deviceIdFrom(req, body.data) ?? null,
-      cityRequestId: city.id,
-      cityStatus: city.status,
-      citySyncedAt: new Date(),
-    })
-    .returning({ id: serviceRequests.id });
-  return Response.json({ id: row!.id, city: { id: city.id, status: city.status } }, { status: 201 });
+  const res = await createBulkyRequest({ ...body.data, deviceId: deviceIdFrom(req, body.data) });
+  if (!res.ok) return error(res.status, res.error);
+  return Response.json({ id: res.id, city: res.city }, { status: 201 });
 }

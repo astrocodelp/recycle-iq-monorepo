@@ -1,5 +1,5 @@
 import { router } from 'expo-router';
-import { Check, ChevronRight, Database, Globe, MapPin, ShieldCheck, Smartphone, Trophy } from 'lucide-react-native';
+import { Check, ChevronRight, Database, Globe, MapPin, ShieldCheck, Smartphone, Sparkles, Trophy } from 'lucide-react-native';
 import { useEffect, useState } from 'react';
 import { TextInput, View } from 'react-native';
 import { BackButton } from '@/components/back-button';
@@ -11,7 +11,11 @@ import { deviceLang, useApp, type BinSource, type LangPref } from '@/lib/store';
 import { colors, font } from '@/lib/theme';
 
 export default function Settings() {
-  const { t, lang, langPref, setLangPref, district, deviceId, binSource, setBinSource } = useApp();
+  const { t, lang, langPref, setLangPref, district, deviceId, binSource, setBinSource, assistantModel, setAssistantModel } = useApp();
+  const [models, setModels] = useState<{ models: string[]; defaultModel: string } | null>(null);
+  useEffect(() => {
+    api.assistantModels().then(setModels, () => {});
+  }, []);
   const [nickname, setNickname] = useState('');
   const [saved, setSaved] = useState<'idle' | 'saving' | 'saved' | 'invalid'>('idle');
   useEffect(() => {
@@ -81,6 +85,38 @@ export default function Settings() {
           ))}
         </Card>
       </View>
+
+      {models && (
+        <View style={{ gap: 8 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+            <Sparkles size={16} color={colors.muted} />
+            <T v="eyebrow" color={colors.muted}>{t('Μοντέλο βοηθού', 'Assistant model')}</T>
+          </View>
+          <Card style={{ padding: 4 }}>
+            {models.models.map((m, i) => {
+              const selected = (assistantModel ?? models.defaultModel) === m;
+              return (
+                <PressableScale
+                  key={m}
+                  onPress={() => setAssistantModel(m === models.defaultModel ? null : m)}
+                  scaleTo={0.99}
+                  accessibilityRole="radio"
+                  accessibilityState={{ selected }}
+                >
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, padding: 12, borderTopWidth: i ? 1 : 0, borderTopColor: colors.line }}>
+                    <View style={{ flex: 1 }}>
+                      <T v="body" style={{ fontFamily: font.semibold }}>{m}</T>
+                      {m === models.defaultModel && <T v="micro" color={colors.muted}>{t('Προεπιλογή', 'Default')}</T>}
+                    </View>
+                    {selected && <Check size={20} color={colors['forest-700']} />}
+                  </View>
+                </PressableScale>
+              );
+            })}
+          </Card>
+          <T v="caption" color={colors.muted}>{t('Ανοιχτά μοντέλα μέσω Vercel AI Gateway.', 'Open-weight models via Vercel AI Gateway.')}</T>
+        </View>
+      )}
 
       <View style={{ gap: 8 }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>

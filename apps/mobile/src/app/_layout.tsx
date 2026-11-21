@@ -44,6 +44,7 @@ function Root() {
         <Stack.Screen name="settings" options={{ presentation: 'modal' }} />
         <Stack.Screen name="report" options={{ presentation: 'fullScreenModal' }} />
         <Stack.Screen name="bulky" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="assistant" options={{ presentation: 'fullScreenModal' }} />
       </Stack>
     </>
   );
