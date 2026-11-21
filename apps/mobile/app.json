@@ -58,7 +58,8 @@
         {
           "locationWhenInUsePermission": "Η τοποθεσία μετατρέπεται σε γειτονιά πάνω στη συσκευή σου. Δεν στέλνουμε ούτε αποθηκεύουμε τη διεύθυνσή σου."
         }
-      ]
+      ],
+      "expo-localization"
     ],
     "experiments": {
       "typedRoutes": false,

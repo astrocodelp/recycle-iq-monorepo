@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getLocales } from 'expo-localization';
 import { getObject, type CategoryId, type L10n, type Lang } from '@recycleiq/engine';
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { api, type Catalog, type DecisionResponse, type District } from './api';
@@ -16,8 +17,11 @@ export interface HistoryEntry {
 
 interface AppState {
   ready: boolean;
+  /** The language in use: the device's unless the user picked one in Settings. */
   lang: Lang;
-  setLang: (l: Lang) => void;
+  /** 'auto' follows the phone's language (Greek phones: Greek; anything else: English). */
+  langPref: LangPref;
+  setLangPref: (p: LangPref) => void;
   /** t('Ελληνικά', 'English') or t({ el, en }). */
   t: (el: string | L10n, en?: string) => string;
   deviceId: string;
@@ -40,6 +44,17 @@ interface AppState {
   recall: (id: string) => DecisionResponse | undefined;
 }
 
+export type LangPref = 'auto' | Lang;
+
+/** Greek if the phone's preferred language is Greek, otherwise English. */
+export function deviceLang(): Lang {
+  try {
+    return getLocales()[0]?.languageCode === 'el' ? 'el' : 'en';
+  } catch {
+    return 'el';
+  }
+}
+
 const Ctx = createContext<AppState | null>(null);
 const KEY = { lang: 'riq.lang', device: 'riq.device', district: 'riq.district', history: 'riq.history' };
 
@@ -50,7 +65,8 @@ function newDeviceId() {
 
 export function AppProvider({ children }: { children: ReactNode }) {
   const [ready, setReady] = useState(false);
-  const [lang, setLangState] = useState<Lang>('el');
+  const [langPref, setLangPrefState] = useState<LangPref>('auto');
+  const lang: Lang = langPref === 'auto' ? deviceLang() : langPref;
   const [deviceId, setDeviceId] = useState('');
   const [districtId, setDistrictState] = useState<string | null>(null);
   const [districts, setDistricts] = useState<District[]>([]);
@@ -66,7 +82,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       const [l, d, dist, h] = await Promise.all(
         [KEY.lang, KEY.device, KEY.district, KEY.history].map((k) => AsyncStorage.getItem(k)),
       );
-      if (l === 'en' || l === 'el') setLangState(l);
+      if (l === 'en' || l === 'el' || l === 'auto') setLangPrefState(l);
       let id = d;
       if (!id) {
         id = newDeviceId();
@@ -96,9 +112,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
     return {
       ready,
       lang,
-      setLang: (l) => {
-        setLangState(l);
-        AsyncStorage.setItem(KEY.lang, l);
+      langPref,
+      setLangPref: (p) => {
+        setLangPrefState(p);
+        AsyncStorage.setItem(KEY.lang, p);
       },
       t,
       deviceId,
@@ -140,7 +157,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       walletVersion,
       bumpWallet: () => setWalletVersion((v) => v + 1),
     };
-  }, [ready, lang, deviceId, districtId, districts, catalog, catalogError, loadRemote, history, coords, walletVersion]);
+  }, [ready, lang, langPref, deviceId, districtId, districts, catalog, catalogError, loadRemote, history, coords, walletVersion]);
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }

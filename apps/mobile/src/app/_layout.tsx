@@ -41,6 +41,7 @@ function Root() {
         <Stack.Screen name="scan" options={{ presentation: 'fullScreenModal', contentStyle: { backgroundColor: colors.canvas } }} />
         <Stack.Screen name="checkin" options={{ presentation: 'fullScreenModal', contentStyle: { backgroundColor: colors.canvas } }} />
         <Stack.Screen name="district" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="settings" options={{ presentation: 'modal' }} />
       </Stack>
     </>
   );

@@ -5,13 +5,13 @@ import { View } from 'react-native';
 import { BackButton } from '@/components/back-button';
 import { PressableScale } from '@/components/pressable-scale';
 import { Screen } from '@/components/screen';
-import { Button, Card, Chip, T } from '@/components/ui';
+import { Button, Card, T } from '@/components/ui';
 import { locateNeighbourhood } from '@/lib/location';
 import { useApp } from '@/lib/store';
 import { colors, font } from '@/lib/theme';
 
 export default function DistrictPicker() {
-  const { t, districts, districtId, setDistrictId, setCoords, lang, setLang } = useApp();
+  const { t, districts, districtId, setDistrictId, setCoords, lang } = useApp();
   const [busy, setBusy] = useState(false);
   const [note, setNote] = useState<string | null>(null);
   const choose = (id: string | null) => {
@@ -25,10 +25,6 @@ export default function DistrictPicker() {
     <Screen>
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
         <BackButton close />
-        <View style={{ flexDirection: 'row', gap: 6 }}>
-          <Chip label="ΕΛ" selected={lang === 'el'} onPress={() => setLang('el')} />
-          <Chip label="EN" selected={lang === 'en'} onPress={() => setLang('en')} />
-        </View>
       </View>
       <T v="h1">{t('Η γειτονιά σου', 'Your neighbourhood')}</T>
       <Card style={{ gap: 10 }}>

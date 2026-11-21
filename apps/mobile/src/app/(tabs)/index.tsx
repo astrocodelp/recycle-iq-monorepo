@@ -1,6 +1,6 @@
 import { CATEGORIES, PICKABLE_OBJECTS, getObject, searchObjects } from '@recycleiq/engine';
 import { router, useFocusEffect } from 'expo-router';
-import { ArrowRight, Camera, ChevronDown, ChevronRight, Gift, MapPin, ScanLine, Search, Smile, X } from 'lucide-react-native';
+import { ArrowRight, Camera, ChevronDown, ChevronRight, Gift, MapPin, ScanLine, Search, Settings, Smile, X } from 'lucide-react-native';
 import { useCallback, useMemo, useState } from 'react';
 import { ScrollView, TextInput, View } from 'react-native';
 import Animated from 'react-native-reanimated';
@@ -39,6 +39,7 @@ export default function Home() {
     <Screen>
       <Animated.View entering={enter(0)} style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
         <Logo />
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
         <PressableScale onPress={() => router.push('/district')} accessibilityLabel={t('Άλλαξε γειτονιά', 'Change neighbourhood')}>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, backgroundColor: colors.surface, borderRadius: r.pill, borderWidth: 1, borderColor: colors.line, paddingHorizontal: 12, height: 36 }}>
             <MapPin size={15} color={colors.ink} />
@@ -48,6 +49,12 @@ export default function Home() {
             <ChevronDown size={14} color={colors.muted} />
           </View>
         </PressableScale>
+        <PressableScale onPress={() => router.push('/settings')} accessibilityRole="button" accessibilityLabel={t('Ρυθμίσεις', 'Settings')}>
+          <View style={{ width: 36, height: 36, borderRadius: 18, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.line, alignItems: 'center', justifyContent: 'center' }}>
+            <Settings size={17} color={colors.ink} />
+          </View>
+        </PressableScale>
+        </View>
       </Animated.View>
 
       <Animated.View entering={enter(1)} style={{ flexDirection: 'row', alignItems: 'flex-end', gap: 12 }}>
