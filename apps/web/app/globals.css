@@ -56,3 +56,10 @@
 .riq-pulse { animation: riq-pulse 3.2s ease-out infinite; }
 @media (prefers-reduced-motion: reduce) { .riq-pulse { animation: none; } }
 .riq-truck, .riq-site { background: transparent; border: 0; }
+
+/* Typeform-style survey (/feedback): each question slides in. */
+@keyframes tf-up { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
+@keyframes tf-down { from { opacity: 0; transform: translateY(-28px); } to { opacity: 1; transform: none; } }
+.tf-up { animation: tf-up 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+.tf-down { animation: tf-down 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+@media (prefers-reduced-motion: reduce) { .tf-up, .tf-down { animation: none; } }

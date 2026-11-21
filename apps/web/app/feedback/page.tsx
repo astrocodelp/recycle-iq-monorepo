@@ -1,5 +1,4 @@
-import type { Metadata } from 'next';
-import { Logo } from '@/components/logo';
+import type { Metadata, Viewport } from 'next';
 import { SurveyForm } from '@/components/survey-form';
 
 export const metadata: Metadata = {
@@ -12,28 +11,13 @@ export const metadata: Metadata = {
     locale: 'el_GR',
   },
 };
+export const viewport: Viewport = { themeColor: '#0F1915' };
 
-/** Public resident survey (shared on LinkedIn and elsewhere). Answers go to the dashboard's "Έρευνα κατοίκων". */
+/** Public resident survey, Typeform-style (shared on LinkedIn and elsewhere). Answers go to the dashboard's "Έρευνα κατοίκων". */
 export default async function Feedback({ searchParams }: { searchParams: Promise<{ src?: string }> }) {
   const { src } = await searchParams;
   return (
-    <main className="mx-auto flex min-h-dvh max-w-2xl flex-col gap-6 px-5 py-8 sm:py-12">
-      <Logo />
-      <header className="flex flex-col gap-2">
-        <p className="eyebrow">Apps4Athens 2026 · RecycleIQ</p>
-        <h1 className="text-[30px] leading-tight font-bold">Πώς να γίνει η ανακύκλωση πιο εύκολη για όλους;</h1>
-        <p className="text-body text-muted">
-          Φτιάχνουμε το RecycleIQ για τους κατοίκους της Αθήνας: σκανάρεις ένα αντικείμενο και μαθαίνεις σε ποιον κάδο πάει, πού είναι ο πιο κοντινός και
-          τι κερδίζει η γειτονιά σου. Θέλουμε τη γνώμη σου για δύο πράγματα: πώς να τη χρησιμοποιεί ο καθένας, και τι θα σε έκανε να ανακυκλώνεις συχνότερα.
-        </p>
-        <p className="text-caption text-muted">
-          Περίπου 3 λεπτά. Ανώνυμο: δεν κρατάμε όνομα ή τοποθεσία. Το email στο τέλος είναι προαιρετικό, μόνο για το πιλοτικό.{' '}
-          <a href="/app" className="underline underline-offset-4">
-            Δοκίμασε την εφαρμογή
-          </a>
-          .
-        </p>
-      </header>
+    <main>
       <SurveyForm source={src ?? null} />
     </main>
   );
