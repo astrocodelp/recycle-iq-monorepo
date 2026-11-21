@@ -9,6 +9,7 @@ import {
   eq,
 } from '@recycleiq/db';
 import {
+  unlockedAt,
   DEFAULT_LOCATION,
   cityContext,
   evaluate,
@@ -20,7 +21,9 @@ import {
   type LngLat,
   type RankedPoint,
   type RuleState,
+  type Story,
 } from '@recycleiq/engine';
+import { scansInDistrict, storiesFor } from './stories';
 
 export async function getRuleStates(): Promise<RuleState[]> {
   return getDb().select({ code: rulesTable.code, enabled: rulesTable.enabled }).from(rulesTable);
@@ -86,6 +89,8 @@ export async function makeDecision(req: DecisionRequest): Promise<{
   id: string | null;
   decision: Decision;
   nearby: RankedPoint[];
+  /** A neighbourhood story this scan unlocked, if any. */
+  unlockedStory: (Story & { threshold: number }) | null;
 }> {
   const [rules, { ctx, centre, known }, points] = await Promise.all([
     getRuleStates(),
@@ -117,7 +122,13 @@ export async function makeDecision(req: DecisionRequest): Promise<{
       .returning({ id: decisions.id });
     id = row?.id ?? null;
   }
-  return { id, decision, nearby };
+  let unlockedStory: (Story & { threshold: number }) | null = null;
+  if (id && known && req.deviceId) {
+    const [stories, scans] = await Promise.all([storiesFor(ctx.id), scansInDistrict(req.deviceId, ctx.id)]);
+    const i = unlockedAt(scans, stories.length);
+    if (i != null) unlockedStory = stories[i]!;
+  }
+  return { id, decision, nearby, unlockedStory };
 }
 
 export const pointById = async (id: string) =>

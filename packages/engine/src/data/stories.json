@@ -1,0 +1,48 @@
+{
+  "_note": "Draft neighbourhood stories, written for the Apps4Athens concept from widely known facts. The municipality's culture department should verify and extend them before launch.",
+  "stories": {
+    "monastiraki-plaka": [
+      { "id": "plaka-oldest", "kind": "history", "title": { "el": "Η πιο παλιά γειτονιά", "en": "The oldest neighbourhood" }, "body": { "el": "Η Πλάκα, κάτω από τον βράχο της Ακρόπολης, κατοικείται χωρίς διακοπή από την αρχαιότητα και είναι από τις παλαιότερες γειτονιές της Ευρώπης.", "en": "Plaka, beneath the Acropolis rock, has been lived in since antiquity and is one of the oldest neighbourhoods in Europe." } },
+      { "id": "winds", "kind": "landmark", "title": { "el": "Οι Αέρηδες", "en": "The Tower of the Winds" }, "body": { "el": "Το Ωρολόγιο του Κυρρήστου στη Ρωμαϊκή Αγορά, του 1ου αιώνα π.Χ., ήταν ηλιακό ρολόι, υδραυλικό ρολόι και ανεμοδείκτης μαζί. Οι οκτώ πλευρές του δείχνουν τους οκτώ ανέμους.", "en": "The Horologion of Andronikos in the Roman Agora, from the 1st century BC, was a sundial, water clock and weather vane in one. Its eight sides show the eight winds." } },
+      { "id": "monastiraki-name", "kind": "history", "title": { "el": "Γιατί «Μοναστηράκι»", "en": "Why “Monastiraki”" }, "body": { "el": "Η γειτονιά πήρε το όνομά της από το μικρό μοναστήρι της Παντάνασσας, που στέκεται ακόμη στην πλατεία.", "en": "The area is named after the small Pantanassa monastery that still stands in the square." } }
+    ],
+    "exarchia": [
+      { "id": "polytechnic", "kind": "event", "year": 1973, "title": { "el": "Η εξέγερση του Πολυτεχνείου", "en": "The Polytechnic uprising" }, "body": { "el": "Στις 14–17 Νοεμβρίου 1973 φοιτητές κατέλαβαν το Πολυτεχνείο ενάντια στη δικτατορία. Η επέτειος τιμάται κάθε 17 Νοεμβρίου.", "en": "On 14–17 November 1973 students occupied the Polytechnic against the dictatorship. The anniversary is marked every 17 November." } }
+    ],
+    "akadimia-platonos": [
+      { "id": "academy", "kind": "history", "title": { "el": "Εδώ γεννήθηκε η «ακαδημία»", "en": "Where “academy” was born" }, "body": { "el": "Γύρω στο 387 π.Χ. ο Πλάτωνας ίδρυσε εδώ τη σχολή του, στο άλσος του ήρωα Ακάδημου. Από αυτήν πήρε το όνομά της κάθε «ακαδημία» στον κόσμο.", "en": "Around 387 BC Plato founded his school here, in the grove of the hero Akademos. Every “academy” in the world takes its name from it." } }
+    ],
+    "kolonos": [
+      { "id": "sophocles", "kind": "history", "title": { "el": "Η πατρίδα του Σοφοκλή", "en": "Sophocles’ home" }, "body": { "el": "Ο Ίππιος Κολωνός ήταν η γενέτειρα του τραγικού ποιητή Σοφοκλή, που τον τίμησε στο έργο «Οιδίπους επί Κολωνώ».", "en": "Hippios Kolonos was the birthplace of the tragic poet Sophocles, who honoured it in “Oedipus at Colonus”." } }
+    ],
+    "stadio": [
+      { "id": "olympics-1896", "kind": "event", "year": 1896, "title": { "el": "Οι πρώτοι σύγχρονοι Ολυμπιακοί", "en": "The first modern Olympics" }, "body": { "el": "Το μαρμάρινο Παναθηναϊκό Στάδιο φιλοξένησε τους πρώτους σύγχρονους Ολυμπιακούς Αγώνες το 1896.", "en": "The marble Panathenaic Stadium hosted the first modern Olympic Games in 1896." } }
+    ],
+    "koukaki": [
+      { "id": "acropolis-museum", "kind": "landmark", "year": 2009, "title": { "el": "Το Μουσείο Ακρόπολης", "en": "The Acropolis Museum" }, "body": { "el": "Από το 2009 το Μουσείο Ακρόπολης στη Μακρυγιάννη φιλοξενεί τα ευρήματα του βράχου, πάνω από ανασκαφή που φαίνεται μέσα από γυάλινο πάτωμα.", "en": "Since 2009 the Acropolis Museum in Makrygianni has housed the finds from the rock, above an excavation visible through a glass floor." } },
+      { "id": "filopappou", "kind": "landmark", "title": { "el": "Ο λόφος του Φιλοπάππου", "en": "Philopappos Hill" }, "body": { "el": "Στην κορυφή του λόφου στέκεται το μνημείο του Φιλοπάππου, του 2ου αιώνα μ.Χ., με μία από τις ωραιότερες θέες προς την Ακρόπολη.", "en": "The 2nd-century AD monument of Philopappos crowns the hill, with one of the finest views of the Acropolis." } }
+    ],
+    "ano-petralona": [
+      { "id": "hephaestus", "kind": "landmark", "title": { "el": "Ο ναός του Ηφαίστου", "en": "The Temple of Hephaestus" }, "body": { "el": "Ο ναός του Ηφαίστου στην Αρχαία Αγορά, του 5ου αιώνα π.Χ., είναι από τους καλύτερα σωσμένους αρχαίους ναούς. Το Θησείο πήρε το όνομά του από την παλιά πεποίθηση ότι ήταν ναός του Θησέα.", "en": "The 5th-century BC Temple of Hephaestus in the Ancient Agora is one of the best-preserved ancient temples. Thiseio is named after the old belief that it was Theseus’ temple." } }
+    ],
+    "rouf": [
+      { "id": "kerameikos", "kind": "history", "title": { "el": "Κεραμεικός", "en": "Kerameikos" }, "body": { "el": "Εδώ ήταν η συνοικία των κεραμέων της αρχαίας Αθήνας και το μεγαλύτερο νεκροταφείο της πόλης, έξω από το Δίπυλο.", "en": "This was ancient Athens’ potters’ quarter and the city’s largest cemetery, outside the Dipylon gate." } }
+    ],
+    "kolonaki": [
+      { "id": "kolonaki-name", "kind": "history", "title": { "el": "Ένα μικρό κιονάκι", "en": "A little column" }, "body": { "el": "Το Κολωνάκι πήρε το όνομά του από ένα μικρό αρχαίο κιονάκι στην πλατεία της γειτονιάς.", "en": "Kolonaki is named after a small ancient column in the neighbourhood square." } },
+      { "id": "lycabettus", "kind": "landmark", "title": { "el": "Λυκαβηττός", "en": "Lycabettus" }, "body": { "el": "Πάνω από τη γειτονιά υψώνεται ο Λυκαβηττός, ο ψηλότερος λόφος του κέντρου της Αθήνας, με το εκκλησάκι του Αγίου Γεωργίου στην κορυφή.", "en": "Lycabettus rises above the neighbourhood, the highest hill in central Athens, with the chapel of St George on top." } }
+    ],
+    "gyzi": [
+      { "id": "gyzis", "kind": "history", "title": { "el": "Από έναν ζωγράφο", "en": "Named after a painter" }, "body": { "el": "Η γειτονιά πήρε το όνομα του ζωγράφου Νικόλαου Γύζη (1842–1901), από τους σημαντικότερους Έλληνες ζωγράφους του 19ου αιώνα.", "en": "The area is named after the painter Nikolaos Gyzis (1842–1901), one of the leading Greek painters of the 19th century." } }
+    ],
+    "goudi": [
+      { "id": "goudi-1909", "kind": "event", "year": 1909, "title": { "el": "Το κίνημα στο Γουδί", "en": "The Goudi revolt" }, "body": { "el": "Τον Αύγουστο του 1909 αξιωματικοί στο Γουδί ζήτησαν μεταρρυθμίσεις. Το κίνημα άνοιξε τον δρόμο για την άφιξη του Ελευθερίου Βενιζέλου στην πολιτική της χώρας.", "en": "In August 1909 officers at Goudi demanded reforms. The revolt opened the way for Eleftherios Venizelos to enter national politics." } }
+    ],
+    "ilisia": [
+      { "id": "ilisos", "kind": "history", "title": { "el": "Ένα ποτάμι κάτω από τον δρόμο", "en": "A river under the street" }, "body": { "el": "Τα Ιλίσια πήραν το όνομά τους από τον ποταμό Ιλισό, που κυλούσε εδώ και σήμερα τρέχει κυρίως κάτω από τους δρόμους.", "en": "Ilisia is named after the river Ilisos, which flowed here and today runs mostly beneath the streets." } }
+    ],
+    "kypseli": [
+      { "id": "fokionos", "kind": "landmark", "title": { "el": "Φωκίωνος Νέγρη", "en": "Fokionos Negri" }, "body": { "el": "Ο πεζόδρομος της Φωκίωνος Νέγρη είναι η «καρδιά» της Κυψέλης, με τις μεσοπολεμικές πολυκατοικίες που έδωσαν στη γειτονιά τον χαρακτήρα της.", "en": "The Fokionos Negri promenade is the heart of Kypseli, lined with the interwar apartment buildings that gave the area its character." } }
+    ]
+  }
+}

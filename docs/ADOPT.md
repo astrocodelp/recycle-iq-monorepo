@@ -8,6 +8,7 @@ RecycleIQ is Apache-2.0. Everything that is specific to Athens is data, not code
 | Collection points (bins, bells, battery/WEEE points, green points) | `packages/db/seed/points.json` | id, kind, lng/lat, accepted materials, status |
 | Municipal rules | `packages/engine/src/data/rules.json` | code, title/text (el/en), enabled, source |
 | Items and clarifying questions | `packages/engine/src/data/objects.json` + `packages/engine/src/evaluators.ts` | one evaluator per item |
+| Neighbourhood stories (the reward) | `packages/engine/src/data/stories.json` | per district: title/body (el/en), kind, optional year; unlocked at 1, 5, 15, 30, 50 scans |
 | Brand | `packages/tokens/tokens.json` then `pnpm tokens` | design tokens |
 
 The outlines use a simple linear projection of longitude/latitude (`packages/engine/src/geo.ts`); change

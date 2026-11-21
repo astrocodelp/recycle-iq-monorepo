@@ -24,6 +24,7 @@ import { ActivityIndicator, Linking, ScrollView, View } from 'react-native';
 import Animated, { useAnimatedStyle, useReducedMotion, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { BackButton } from '@/components/back-button';
+import { Confetti } from '@/components/confetti';
 import { ConfidenceRing } from '@/components/confidence-ring';
 import { CategoryTile, ObjectIcon } from '@/components/icons';
 import { PressableScale } from '@/components/pressable-scale';
@@ -44,6 +45,8 @@ export default function Result() {
   const [traceOpen, setTraceOpen] = useState(false);
   const [done, setDone] = useState<Record<number, boolean>>({});
   const [requested, setRequested] = useState(false);
+  const story = cached?.unlockedStory ?? null;
+  const [burst] = useState(story ? 1 : 0);
 
   useEffect(() => {
     if (decision || !id) return;
@@ -103,6 +106,18 @@ export default function Result() {
         </View>
 
         <View style={{ padding: 18, gap: 14 }}>
+          {story && (
+            <Animated.View entering={enter(2)}>
+              <Card onPress={() => router.push('/neighbourhood')} style={{ gap: 6, backgroundColor: colors['forest-800'], borderColor: colors['forest-800'] }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                  <Sparkles size={18} color={colors.lime} />
+                  <T v="caption" color={colors.lime}>{t('Ξεκλείδωσες μια ιστορία της γειτονιάς σου!', 'You unlocked a neighbourhood story!')}</T>
+                </View>
+                <T v="h2" color="#fff">{t(story.title)}</T>
+                {story.body && <T v="body" color="rgba(255,255,255,0.85)" numberOfLines={3}>{t(story.body)}</T>}
+              </Card>
+            </Animated.View>
+          )}
           <Animated.View entering={enter(2)}>
             <Card style={{ gap: 6 }}>
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
@@ -238,6 +253,7 @@ export default function Result() {
         )}
         <Button label={t('Σάρωση νέου αντικειμένου', 'Scan a new item')} variant="ghost" icon={<ScanLine size={18} color={colors['forest-700']} />} onPress={() => router.replace('/scan')} />
       </View>
+      <Confetti run={burst} />
     </View>
   );
 }

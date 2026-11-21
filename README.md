@@ -8,7 +8,7 @@ Open source (Apache-2.0) so any municipality can run it for its own city.
 
 | Surface | What it does | Where |
 | --- | --- | --- |
-| Citizen app | Scan or search an item, answer at most one question, get the bin, the reason and the nearest point. A leaderboard of who scans the most; report full bins with a photo. | `apps/mobile` (Expo / React Native) |
+| Citizen app | Scan or search an item, answer at most one question, get the bin, the reason and the nearest point. Scanning unlocks stories and historic events of your neighbourhood; a leaderboard of who scans the most; report full bins with a photo. | `apps/mobile` (Expo / React Native) |
 | Municipal dashboard | Requests, categories and bins per neighbourhood, Athens map, live full-bin alerts, rule toggles with impact preview, bin QR stickers. | `apps/web` (Next.js on Vercel) |
 | Public API | The same decision engine for the app and any other client. | `apps/web/app/api/v1` |
 | Decision engine | 13 municipal rules, explainable 6-step trace, search, rewards, on-device neighbourhood lookup. | `packages/engine` |

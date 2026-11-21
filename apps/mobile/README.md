@@ -1,7 +1,8 @@
 # @recycleiq/mobile
 
 The RecycleIQ citizen app (Expo SDK 58, Expo Router, React Native). Scan or search an item, answer at most
-one question, get the bin, the reason and the nearest point. Climb the scanning leaderboard; report full bins
+one question, get the bin, the reason and the nearest point. Scanning unlocks stories and historic events of
+your neighbourhood; climb the scanning leaderboard; report full bins
 to the municipality with a photo. Greek or English, following the phone (changeable in Settings).
 
 ## Run it

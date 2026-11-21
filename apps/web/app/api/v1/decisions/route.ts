@@ -20,9 +20,9 @@ const Body = z.object({
 export async function POST(req: Request) {
   const body = await parseBody(req, Body);
   if (!body.ok) return body.res;
-  const { id, decision, nearby } = await makeDecision({
+  const { id, decision, nearby, unlockedStory } = await makeDecision({
     ...body.data,
     deviceId: deviceIdFrom(req, body.data),
   });
-  return Response.json({ id, decision, nearby }, { status: 201 });
+  return Response.json({ id, decision, nearby, unlockedStory }, { status: 201 });
 }

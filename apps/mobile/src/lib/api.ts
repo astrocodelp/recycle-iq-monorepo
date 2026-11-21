@@ -37,10 +37,30 @@ export interface Catalog {
   categories: Record<CategoryId, CategoryMeta>;
 }
 
+export interface StoryCard {
+  id: string;
+  kind: 'numbers' | 'history' | 'landmark' | 'event';
+  title: L10n;
+  body?: L10n;
+  year?: number;
+  threshold: number;
+  unlocked?: boolean;
+}
+
 export interface DecisionResponse {
   id: string | null;
   decision: Decision;
   nearby: Point[];
+  /** A neighbourhood story this scan unlocked. */
+  unlockedStory?: StoryCard | null;
+}
+
+export interface Stories {
+  district: string;
+  scans: number;
+  next: { index: number; threshold: number; remaining: number } | null;
+  stories: StoryCard[];
+  note: L10n;
 }
 
 export interface Leaderboard {
@@ -105,6 +125,8 @@ export const api = {
     if (p.district) qs.set('district', p.district);
     return request<Leaderboard>(`/api/v1/leaderboard?${qs}`);
   },
+  stories: (district: string, deviceId: string) =>
+    request<Stories>(`/api/v1/stories?district=${encodeURIComponent(district)}&deviceId=${encodeURIComponent(deviceId)}`),
   profile: (deviceId: string, lang: 'el' | 'en') =>
     request<{ nickname: string; custom: boolean }>(`/api/v1/profile?deviceId=${encodeURIComponent(deviceId)}&lang=${lang}`),
   setNickname: (deviceId: string, nickname: string) =>

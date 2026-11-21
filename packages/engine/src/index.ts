@@ -8,4 +8,5 @@ export * from './decide';
 export * from './leaderboard';
 export * from './impact';
 export * from './geo';
+export * from './stories';
 export { DEFAULT_ANSWERS } from './evaluators';
