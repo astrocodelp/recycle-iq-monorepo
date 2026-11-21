@@ -49,7 +49,10 @@ export default async function BinLanding({ params }: PageProps<'/b/[id]'>) {
           <li>{t('Γεμάτος κάδος; Φωτογράφισέ τον και ενημερώνεται ο Δήμος.', 'Full bin? Snap it and the municipality is notified.')}</li>
           <li>{t('Δεν ζητάμε τη διεύθυνσή σου: ο κάδος μάς λέει τη γειτονιά.', "We never ask for your address: the bin tells us the neighbourhood.")}</li>
         </ul>
-        <p className="mt-3 text-caption text-muted">{t('Η πιλοτική έκδοση διατίθεται σύντομα στο App Store και στο Google Play.', 'The pilot app is coming soon to the App Store and Google Play.')}</p>
+        <p className="mt-3 text-caption text-muted">
+          {t('Πιλοτική έκδοση για Android και iPhone (TestFlight): ', 'Pilot app for Android and iPhone (TestFlight): ')}
+          <a href="/download" className="font-semibold text-forest-700 underline">{t('κατέβασέ την', 'get it')}</a>.
+        </p>
       </div>
       <DemoBadge>{t('Ενδεικτικά σημεία — όχι επίσημα δημοτικά δεδομένα', 'Illustrative points — not official municipal data')}</DemoBadge>
     </div>

@@ -22,7 +22,7 @@ Branch: **`claude/blissful-mayer-3h8ims`** (Vercel deploys it to production). No
 
 - Dashboard: https://recycle-iq-monorepo-web.vercel.app (open, no login)
 - Citizen app in Safari (iPhone): https://recycle-iq-monorepo-web.vercel.app/app
-- Android APK: https://recycle-iq-monorepo-web.vercel.app/download (link set in `apps/web/lib/release.ts`)
+- Android APK and iPhone TestFlight: https://recycle-iq-monorepo-web.vercel.app/download (links in `apps/web/lib/release.ts`)
 - Resident survey (Typeform-style): https://recycle-iq-monorepo-web.vercel.app/feedback?src=linkedin
 - Survey results: https://recycle-iq-monorepo-web.vercel.app/survey
 - MCP connector for municipal AIs: https://recycle-iq-monorepo-web.vercel.app/api/mcp (demo login code `test123`, see `docs/MCP.md`)
@@ -78,8 +78,8 @@ mismatch; use `tsc` for the mobile app.)
 
 1. **TestFlight** (21 Nov): build 7 (0.1.0) is in App Store Connect, in the external group «Δημόσιο beta», sent to
    Apple's beta review (WAITING_FOR_REVIEW). Public link, works once Apple approves:
-   https://testflight.apple.com/join/tqhXGdq6. Then switch the «iPhone: σύντομα» button on `/download`
-   (`apps/web/app/download/page.tsx`, `apps/web/lib/release.ts`). Builds 4–6 were rejected in processing for
+   https://testflight.apple.com/join/tqhXGdq6, already on `/download`, the bin QR pages and the deck
+   (`RELEASE.testFlight` in `apps/web/lib/release.ts`). Builds 4–6 were rejected in processing for
    missing purpose strings (microphone, photo library), now in `apps/mobile/app.json`. Review contact and test
    info are set. iOS submits need no Apple login now (`ascAppId` in `eas.json`).
 2. **Survey follow-up**: when ~30 answers are in, summarise from `/survey`, then update the deck and business plan.
