@@ -13,6 +13,11 @@ const nextConfig: NextConfig = {
   // Internal packages ship TypeScript source.
   transpilePackages: ['@recycleiq/engine', '@recycleiq/db', '@recycleiq/tokens'],
   serverExternalPackages: ['pg'],
+  // The citizen app's web build lives in public/app (exported from apps/mobile with baseUrl /app).
+  // Its routes are client-side, so every /app path that is not a file serves the app shell.
+  async rewrites() {
+    return { beforeFiles: [], afterFiles: [], fallback: [{ source: '/app/:path*', destination: '/app/index.html' }] };
+  },
   async headers() {
     return [
       {
