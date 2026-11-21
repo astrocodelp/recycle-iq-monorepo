@@ -116,6 +116,8 @@ export const CITY_STATUS: Record<CityStatus, L10n> = {
 
 export const api = {
   catalog: () => request<Catalog>('/api/v1/catalog'),
+  /** Open-weight models the assistant may use (Vercel AI Gateway) and the server's default. */
+  assistantModels: () => request<{ models: string[]; defaultModel: string; enabled: boolean }>('/api/v1/assistant/models'),
   search: (q: string) =>
     request<{ results: { id: string; name: L10n; icon: string; score: number }[] }>(
       `/api/v1/search?q=${encodeURIComponent(q)}`,

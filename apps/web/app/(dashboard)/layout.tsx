@@ -2,6 +2,7 @@ import { BarChart3, Bell, BookOpen, Map, MapPin, Scale } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { setBinSource, setLanguage } from '../actions';
 import { getBinSource } from '@/lib/bins';
+import { AssistantPanel } from '@/components/assistant-panel';
 import { Logo } from '@/components/logo';
 import { NavLink } from '@/components/nav-link';
 import { getLang, tr } from '@/lib/lang';
@@ -81,6 +82,7 @@ export default async function DashboardLayout({ children }: { children: ReactNod
         </div>
       </aside>
       <main className="min-w-0 flex-1 px-4 py-6 sm:px-6 lg:px-8 print:p-0">{children}</main>
+      <AssistantPanel lang={lang} binSource={bins} mode="municipal" />
     </div>
   );
 }

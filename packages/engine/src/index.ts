@@ -10,4 +10,5 @@ export * from './impact';
 export * from './geo';
 export * from './stories';
 export * from './environment';
+export * from './assistant';
 export { DEFAULT_ANSWERS } from './evaluators';

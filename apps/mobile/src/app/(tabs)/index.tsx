@@ -1,6 +1,6 @@
 import { CATEGORIES, PICKABLE_OBJECTS, getObject, searchObjects } from '@recycleiq/engine';
 import { router, useFocusEffect } from 'expo-router';
-import { ArrowRight, Camera, ChevronDown, ChevronRight, MapPin, ScanLine, Search, Settings, TriangleAlert, Trophy, X } from 'lucide-react-native';
+import { ArrowRight, Camera, ChevronDown, ChevronRight, MapPin, ScanLine, Search, Settings, Sparkles, TriangleAlert, Trophy, X } from 'lucide-react-native';
 import { useCallback, useMemo, useState } from 'react';
 import { ScrollView, TextInput, View } from 'react-native';
 import Animated from 'react-native-reanimated';
@@ -100,6 +100,19 @@ export default function Home() {
           <View style={{ flex: 1 }}>
             <T v="h3">{t('Γεμάτος ή χαλασμένος κάδος;', 'Full or damaged bin?')}</T>
             <T v="caption" color={colors.muted}>{t('Φωτογράφισέ τον: η αναφορά πάει στο dashboard του Δήμου', 'Snap it: the report goes to the municipal dashboard')}</T>
+          </View>
+          <ChevronRight size={20} color={colors.muted} />
+        </Card>
+      </Animated.View>
+
+      <Animated.View entering={enter(3)}>
+        <Card onPress={() => router.push('/assistant')} style={{ flexDirection: 'row', alignItems: 'center', gap: 14 }}>
+          <View style={{ width: 44, height: 44, borderRadius: 12, backgroundColor: colors['forest-50'], alignItems: 'center', justifyContent: 'center' }}>
+            <Sparkles size={22} color={colors['forest-700']} />
+          </View>
+          <View style={{ flex: 1 }}>
+            <T v="h3">{t('Ρώτα το RecycleIQ', 'Ask RecycleIQ')}</T>
+            <T v="caption" color={colors.muted}>{t('Πού πάει, πού είναι ο κάδος, στατιστικά της γειτονιάς', 'Where it goes, nearest bins, neighbourhood stats')}</T>
           </View>
           <ChevronRight size={20} color={colors.muted} />
         </Card>
