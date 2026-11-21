@@ -43,7 +43,7 @@ Checks: `pnpm typecheck`, `pnpm --filter @recycleiq/engine test`, `pnpm --filter
 ## Honesty notes
 
 Collection points are mock locations. Rules are indicative, not the official regulation. Dashboard
-activity is synthetic (rows marked `synthetic`), and the app and dashboard label all of this. Using the app is not verified recycling, and we make no CO₂ claims.
+activity is synthetic (rows marked `synthetic`), and the app and dashboard label all of this. Using the app is not verified recycling. Environmental gains are estimates of CO₂e avoided *if* items are recycled as advised, from the UK DESNZ 2025 GHG conversion factors (`packages/engine/src/environment.ts`), with typical item weights stated.
 
 ## Docs
 

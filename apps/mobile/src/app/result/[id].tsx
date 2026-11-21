@@ -3,6 +3,7 @@ import {
   DEFAULT_LOCATION,
   formatDistance,
   getObject,
+  impactFor,
   rankPoints,
   walkingMinutes,
   type Decision,
@@ -12,6 +13,7 @@ import {
   AlertTriangle,
   Check,
   ChevronDown,
+  Leaf,
   Info,
   Lightbulb,
   ListChecks,
@@ -127,6 +129,25 @@ export default function Result() {
               <T v="bodyLg">{t(decision.why)}</T>
             </Card>
           </Animated.View>
+
+          {(() => {
+            const imp = impactFor(decision.objectId, decision.category, decision.uncertain);
+            return (
+              <Animated.View entering={enter(3)}>
+                <Card style={{ gap: 6, backgroundColor: imp.counts ? colors['forest-50'] : colors.surface, borderColor: imp.counts ? colors['forest-100'] : colors.line }}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                    <Leaf size={18} color={colors['forest-700']} />
+                    <T v="caption" color={colors['forest-700']}>{t('Τι κερδίζει ο πλανήτης', 'What the planet gains')}</T>
+                  </View>
+                  <T v="h2">{t(imp.headline)}</T>
+                  <T v="body" color={colors.muted}>{t(imp.detail)}</T>
+                  {imp.grams != null && (
+                    <T v="micro" color={colors.faint}>{t('Πηγή: συντελεστές DESNZ 2025 · εκτίμηση', 'Source: DESNZ 2025 factors · estimate')}</T>
+                  )}
+                </Card>
+              </Animated.View>
+            );
+          })()}
 
           {decision.warnings.map((w, i) => (
             <Animated.View key={i} entering={enter(3)}>

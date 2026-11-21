@@ -1,6 +1,7 @@
 import { CATEGORIES, getObject } from '@recycleiq/engine';
 import { categoryColors } from '@recycleiq/tokens';
 import { BarList } from '@/components/bar-list';
+import { ImpactCard } from '@/components/impact-card';
 import { TrendChart } from '@/components/trend-chart';
 import { Badge, Card, CategoryLabel, DemoBadge, Kpi, Segmented } from '@/components/ui';
 import { fmt } from '@/lib/format';
@@ -10,6 +11,7 @@ import {
   getDailySeries,
   getDistrictStats,
   getKpis,
+  getObjectCategoryCounts,
   getRecentDecisions,
   getTopItems,
 } from '@/lib/queries';
@@ -22,13 +24,14 @@ export default async function Overview({ searchParams }: PageProps<'/'>) {
   const lang = await getLang();
   const t = tr(lang);
   const f = fmt(lang);
-  const [kpis, series, mix, items, districts, recent] = await Promise.all([
+  const [kpis, series, mix, items, districts, recent, impactRows] = await Promise.all([
     getKpis(range),
     getDailySeries(range),
     getCategoryMix(range),
     getTopItems(range),
     getDistrictStats(range),
     getRecentDecisions(8),
+    getObjectCategoryCounts(range),
   ]);
   const delta = kpis.requestsPrev ? (kpis.requests - kpis.requestsPrev) / kpis.requestsPrev : 0;
   const mixTotal = mix.reduce((s, m) => s + m.n, 0) || 1;
@@ -96,6 +99,8 @@ export default async function Overview({ searchParams }: PageProps<'/'>) {
           />
         </Card>
       </div>
+
+      <ImpactCard rows={impactRows} t={t} n={f.n} />
 
       <div className="grid gap-6 xl:grid-cols-3">
         <Card title={t('Συχνότερα αντικείμενα', 'Most asked items')} subtitle={t('Και πόσο συχνά χρειάζεται ερώτηση', 'And how often a question is needed')}>

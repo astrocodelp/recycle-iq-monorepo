@@ -9,4 +9,5 @@ export * from './leaderboard';
 export * from './impact';
 export * from './geo';
 export * from './stories';
+export * from './environment';
 export { DEFAULT_ANSWERS } from './evaluators';

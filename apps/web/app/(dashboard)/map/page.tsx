@@ -7,7 +7,8 @@ import { getPoints } from '@/lib/data';
 import { fmt } from '@/lib/format';
 import { project } from '@/lib/geo';
 import { getLang, tr } from '@/lib/lang';
-import { BIN_KINDS, getBinsByKind, getCategoryMix, getDistrictStats, getKpis, getTopItems } from '@/lib/queries';
+import { BIN_KINDS, getBinsByKind, getCategoryMix, getDistrictStats, getKpis, getObjectCategoryCounts, getTopItems } from '@/lib/queries';
+import { CAR_KG_PER_KM, totalAvoidedKg } from '@recycleiq/engine';
 import { RANGES, parseRange } from '@/lib/range';
 
 export const dynamic = 'force-dynamic';
@@ -23,9 +24,10 @@ export default async function MapPage({ searchParams }: PageProps<'/map'>) {
   const f = fmt(lang);
   const [districts, points] = await Promise.all([getDistrictStats(range), getPoints()]);
   const sel = districts.find((d) => d.id === districtId);
-  const [kpis, mix, items, bins] = sel
-    ? await Promise.all([getKpis(range, sel.id), getCategoryMix(range, sel.id), getTopItems(range, sel.id), getBinsByKind(sel.id)])
-    : [null, [], [], []];
+  const [kpis, mix, items, bins, impactRows] = sel
+    ? await Promise.all([getKpis(range, sel.id), getCategoryMix(range, sel.id), getTopItems(range, sel.id), getBinsByKind(sel.id), getObjectCategoryCounts(range, sel.id)])
+    : [null, [], [], [], []];
+  const avoidedKg = totalAvoidedKg(impactRows);
   const service = { full: t('πλήρης κάλυψη', 'full coverage'), partial: t('μερική κάλυψη', 'partial coverage'), none: t('χωρίς κάλυψη', 'no coverage') };
   const q = (extra: Record<string, string | undefined>) => {
     const p = new URLSearchParams({ range: String(range), ...(districtId ? { district: districtId } : {}), ...(showPoints ? { points: '1' } : {}) });
@@ -113,6 +115,12 @@ export default async function MapPage({ searchParams }: PageProps<'/map'>) {
                 </div>
               ))}
             </dl>
+            <div className="mb-5 rounded-control bg-forest-50 p-3">
+              <p className="text-caption text-forest-700">{t('Τι κερδίζει το περιβάλλον (εκτίμηση)', 'What the environment gains (estimate)')}</p>
+              <p className="num mt-1 text-[22px] font-bold text-forest-700">
+                {f.n(Math.round(avoidedKg))} kg CO₂e · {f.n(Math.round(avoidedKg / CAR_KG_PER_KM))} {t('χλμ. αυτοκινήτου', 'car km')}
+              </p>
+            </div>
             <h3 className="mb-2 text-h3">{t('Κάδοι και σημεία στη γειτονιά', 'Bins and points in the area')}</h3>
             <ul className="mb-5 text-body">
               {bins.map((b) => (

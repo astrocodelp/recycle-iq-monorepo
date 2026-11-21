@@ -256,3 +256,15 @@ export async function getOpenAlertCount() {
   const [r] = (await getDb().execute(sql`select count(distinct point_id) as n from bin_reports where status = 'open'`)).rows;
   return num(r?.n);
 }
+
+/** Decisions per item and category, for the environmental estimate. */
+export async function getObjectCategoryCounts(days: number, districtId?: string) {
+  const d = districtId ? sql`and district_id = ${districtId}` : sql``;
+  const rows = (
+    await getDb().execute(sql`
+      select object_id, category, count(*) as n from decisions
+      where created_at >= ${since(days)} and not uncertain ${d}
+      group by object_id, category`)
+  ).rows;
+  return rows.map((r) => ({ objectId: String(r.object_id), category: r.category as CategoryId, n: num(r.n) }));
+}
