@@ -136,7 +136,8 @@ export default async function Overview({ searchParams }: PageProps<'/'>) {
                   <th className="pb-2 font-semibold">{t('Συνοικία', 'District')}</th>
                   <th className="pb-2 text-right font-semibold">{t('Ερωτήματα', 'Requests')}</th>
                   <th className="pb-2 pl-6 font-semibold">{t('Κορυφαία κατηγορία', 'Top category')}</th>
-                  <th className="pb-2 font-semibold">{t('Καφέ κάδος', 'Brown bin')}</th>
+                  <th className="pb-2 text-right font-semibold">{t('Κάδοι', 'Bins')}</th>
+                  <th className="pb-2 pl-6 font-semibold">{t('Καφέ κάδος', 'Brown bin')}</th>
                   <th className="pb-2 text-right font-semibold">{t('Αιτήματα', 'Requests for bin')}</th>
                 </tr>
               </thead>
@@ -152,7 +153,8 @@ export default async function Overview({ searchParams }: PageProps<'/'>) {
                     <td className="py-2 pl-6">
                       {d.topCategory && <CategoryLabel category={d.topCategory} label={t(CATEGORIES[d.topCategory].short)} />}
                     </td>
-                    <td className="py-2">
+                    <td className="num py-2 text-right">{f.n(d.points)}</td>
+                    <td className="py-2 pl-6">
                       <Badge tone={d.organicService === 'full' ? 'forest' : d.organicService === 'partial' ? 'warn' : 'neutral'}>
                         {service[d.organicService]}
                       </Badge>

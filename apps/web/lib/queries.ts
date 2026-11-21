@@ -185,3 +185,24 @@ export async function getRuleChanges(limit = 10) {
     title: r.title as L10n,
   }));
 }
+
+export const BIN_KINDS = {
+  blue_bin: { el: 'Μπλε κάδοι', en: 'Blue bins', category: 'packaging' },
+  glass_bell: { el: 'Καμπάνες γυαλιού', en: 'Glass bells', category: 'packaging' },
+  brown_bin: { el: 'Καφέ κάδοι', en: 'Brown bins', category: 'organic' },
+  battery_point: { el: 'Σημεία μπαταριών', en: 'Battery points', category: 'special' },
+  weee_point: { el: 'Σημεία συσκευών', en: 'WEEE points', category: 'special' },
+  clothing_bin: { el: 'Κάδοι ρούχων', en: 'Clothing bins', category: 'special' },
+  green_point: { el: 'Πράσινα σημεία', en: 'Green points', category: 'bulky' },
+} as const satisfies Record<string, { el: string; en: string; category: CategoryId }>;
+
+/** Bins and points by type, for one district or the whole city. */
+export async function getBinsByKind(districtId?: string) {
+  const d = districtId ? sql`where district_id = ${districtId}` : sql``;
+  const rows = (
+    await getDb().execute(sql`
+      select kind, count(*) as n, count(*) filter (where status <> 'available') as issues
+      from collection_points ${d} group by kind order by n desc`)
+  ).rows;
+  return rows.map((r) => ({ kind: String(r.kind) as keyof typeof BIN_KINDS, n: num(r.n), issues: num(r.issues) }));
+}

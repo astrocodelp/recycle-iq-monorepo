@@ -55,6 +55,9 @@ export default async function PointsPage({ searchParams }: PageProps<'/points'>)
             `${f.n(points.length)} points · ${f.n(stale)} not verified in the last 30 days (rule ATH-LOC-01).`,
           )}
         </p>
+        <a href="/points/qr" className="mt-2 inline-block text-caption font-semibold text-forest-700 hover:underline">
+          {t('Εκτύπωση QR αυτοκόλλητων για κάδους', 'Print QR stickers for bins')} →
+        </a>
         <div className="mt-2">
           <DemoBadge>{t('Ενδεικτικά σημεία για την παρουσίαση — όχι επίσημα δημοτικά δεδομένα', 'Illustrative locations — not official municipal data')}</DemoBadge>
         </div>

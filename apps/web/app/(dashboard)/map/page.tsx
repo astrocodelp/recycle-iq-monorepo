@@ -7,7 +7,7 @@ import { getPoints } from '@/lib/data';
 import { fmt } from '@/lib/format';
 import { project } from '@/lib/geo';
 import { getLang, tr } from '@/lib/lang';
-import { getCategoryMix, getDistrictStats, getKpis, getTopItems } from '@/lib/queries';
+import { BIN_KINDS, getBinsByKind, getCategoryMix, getDistrictStats, getKpis, getTopItems } from '@/lib/queries';
 import { RANGES, parseRange } from '@/lib/range';
 
 export const dynamic = 'force-dynamic';
@@ -23,9 +23,9 @@ export default async function MapPage({ searchParams }: PageProps<'/map'>) {
   const f = fmt(lang);
   const [districts, points] = await Promise.all([getDistrictStats(range), getPoints()]);
   const sel = districts.find((d) => d.id === districtId);
-  const [kpis, mix, items] = sel
-    ? await Promise.all([getKpis(range, sel.id), getCategoryMix(range, sel.id), getTopItems(range, sel.id)])
-    : [null, [], []];
+  const [kpis, mix, items, bins] = sel
+    ? await Promise.all([getKpis(range, sel.id), getCategoryMix(range, sel.id), getTopItems(range, sel.id), getBinsByKind(sel.id)])
+    : [null, [], [], []];
   const service = { full: t('πλήρης κάλυψη', 'full coverage'), partial: t('μερική κάλυψη', 'partial coverage'), none: t('χωρίς κάλυψη', 'no coverage') };
   const q = (extra: Record<string, string | undefined>) => {
     const p = new URLSearchParams({ range: String(range), ...(districtId ? { district: districtId } : {}), ...(showPoints ? { points: '1' } : {}) });
@@ -113,7 +113,22 @@ export default async function MapPage({ searchParams }: PageProps<'/map'>) {
                 </div>
               ))}
             </dl>
-            <h3 className="mb-3 text-h3">{t('Πού καταλήγουν', 'Where items go')}</h3>
+            <h3 className="mb-2 text-h3">{t('Κάδοι και σημεία στη γειτονιά', 'Bins and points in the area')}</h3>
+            <ul className="mb-5 text-body">
+              {bins.map((b) => (
+                <li key={b.kind} className="flex items-center justify-between border-t border-line py-1.5 first:border-0">
+                  <CategoryLabel category={BIN_KINDS[b.kind].category} label={t(BIN_KINDS[b.kind].el, BIN_KINDS[b.kind].en)} />
+                  <span className="num text-muted">
+                    {f.n(b.n)}
+                    {b.issues > 0 && <span className="ml-2 text-warn">{t(`${b.issues} με πρόβλημα`, `${b.issues} with issues`)}</span>}
+                  </span>
+                </li>
+              ))}
+            </ul>
+            <a href={`/points/qr?district=${sel.id}`} className="mb-5 inline-block text-caption font-semibold text-forest-700 hover:underline">
+              {t('QR αυτοκόλλητα για αυτούς τους κάδους', 'QR stickers for these bins')} →
+            </a>
+            <h3 className="mb-3 text-h3">{t('Τι σκανάρουν εδώ', 'What people scan here')}</h3>
             <BarList
               rows={mix.map((m) => ({
                 key: m.category,
