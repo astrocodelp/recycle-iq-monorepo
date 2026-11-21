@@ -19,7 +19,7 @@ import {
 } from '@recycleiq/engine';
 import { eq, sql } from 'drizzle-orm';
 import { readFileSync } from 'node:fs';
-import { scriptDb } from './client';
+import { scriptDb, unpooledDatabaseUrl } from './client';
 import {
   binReports,
   collectionPoints,
@@ -100,7 +100,7 @@ async function insertBatched<T>(rows: T[], insert: (chunk: T[]) => Promise<unkno
 
 // Deploy-time flags (see apps/web/vercel.json): skip without a database, and only seed an empty one,
 // so a fresh Neon database gets demo data on its first deploy and later deploys leave it alone.
-if (process.argv.includes('--if-configured') && !process.env.DATABASE_URL_UNPOOLED && !process.env.DATABASE_URL) {
+if (process.argv.includes('--if-configured') && !unpooledDatabaseUrl()) {
   console.log('DATABASE_URL not set: skipping seed');
   process.exit(0);
 }
