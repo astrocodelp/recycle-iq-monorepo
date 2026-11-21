@@ -48,6 +48,41 @@ export default async function Developers() {
           </tbody>
         </table>
       </Card>
+
+      <section className="flex flex-col gap-3">
+        <h2 className="text-h2">{t('Σύνδεσε το RecycleIQ στο AI του Δήμου (MCP)', "Connect RecycleIQ to the municipality's AI (MCP)")}</h2>
+        <p className="text-body text-muted">
+          {t(
+            'Ο Δήμος βάζει το RecycleIQ στο AI που ήδη χρησιμοποιεί (Claude, ChatGPT, Claude Code) ως connector. Έχει όλα τα εργαλεία του βοηθού του dashboard: αναλύσεις, χάρτες, αναφορές, κανόνες και ενέργειες.',
+            'The municipality adds RecycleIQ to the AI it already uses (Claude, ChatGPT, Claude Code) as a connector, with every tool of the dashboard assistant: analytics, bins, reports, rules and actions.',
+          )}
+        </p>
+        <Card>
+          <dl className="grid gap-3 text-body sm:grid-cols-[160px_1fr]">
+            <dt className="text-muted">{t('Διεύθυνση', 'URL')}</dt>
+            <dd className="num break-all">https://recycle-iq-monorepo-web.vercel.app/api/mcp</dd>
+            <dt className="text-muted">{t('Σύνδεση', 'Login')}</dt>
+            <dd>
+              {t('OAuth. Δοκιμαστικός κωδικός:', 'OAuth. Demo login code:')} <code className="num rounded-pill bg-surface-2 px-2 py-0.5">test123</code>
+            </dd>
+            <dt className="text-muted">Claude</dt>
+            <dd>{t('Ρυθμίσεις → Connectors → Add custom connector → η διεύθυνση → Connect → κωδικός.', 'Settings → Connectors → Add custom connector → the URL → Connect → login code.')}</dd>
+            <dt className="text-muted">Claude Code</dt>
+            <dd className="num text-[13px] break-all">claude mcp add --transport http recycleiq https://recycle-iq-monorepo-web.vercel.app/api/mcp</dd>
+            <dt className="text-muted">{t('Επιλογές', 'Options')}</dt>
+            <dd>
+              <code className="num">?lang=en</code> {t('αγγλικά', 'English')} · <code className="num">?bins=osm</code> {t('πραγματικοί κάδοι', 'real bins')}
+            </dd>
+          </dl>
+        </Card>
+        <p className="text-caption text-muted">
+          {t('Οδηγός και λίστα εργαλείων: ', 'Guide and tool list: ')}
+          <a className="underline underline-offset-4" href="https://github.com/astrocodelp/recycle-iq-monorepo/blob/claude/blissful-mayer-3h8ims/docs/MCP.md" target="_blank" rel="noopener">
+            docs/MCP.md
+          </a>
+          . {t('Η σύνδεση είναι δοκιμαστική: ένας κοινός κωδικός αντί για τον λογαριασμό του Δήμου.', "The login is a demo: one shared code instead of the municipality's account.")}
+        </p>
+      </section>
     </div>
   );
 }

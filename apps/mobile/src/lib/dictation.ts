@@ -7,7 +7,7 @@ import { useCallback, useRef, useState } from 'react';
  *
  * `onText` gets the running transcript while the person speaks, `onFinal` the finished sentence once they stop.
  */
-export function useDictation({ lang, onText, onFinal }: { lang: 'el' | 'en'; onText: (text: string) => void; onFinal: (text: string) => void }) {
+export function useDictation({ onText, onFinal }: { onText: (text: string) => void; onFinal: (text: string) => void }) {
   const [supported] = useState(() => {
     try {
       return ExpoSpeechRecognitionModule.isRecognitionAvailable();
@@ -48,8 +48,9 @@ export function useDictation({ lang, onText, onFinal }: { lang: 'el' | 'en'; onT
       return;
     }
     last.current = '';
-    ExpoSpeechRecognitionModule.start({ lang: lang === 'el' ? 'el-GR' : 'en-US', interimResults: true, continuous: false });
-  }, [lang]);
+    // Always Greek input, on the phone's own recognizer.
+    ExpoSpeechRecognitionModule.start({ lang: 'el-GR', interimResults: true, continuous: false });
+  }, []);
   const stop = useCallback(() => ExpoSpeechRecognitionModule.stop(), []);
 
   return { supported, listening, error, start, stop };

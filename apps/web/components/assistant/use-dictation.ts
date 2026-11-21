@@ -26,11 +26,12 @@ function recognitionCtor(): Ctor | null {
 }
 
 /**
- * Voice input for the assistant with the browser's own speech recognition (Chrome, Edge, Safari).
+ * Voice input for the assistant with the browser's own speech recognition (Chrome's built-in voice input, Edge, Safari),
+ * always in Greek. No external speech service is called by RecycleIQ.
  * `onText` gets the running transcript, `onFinal` the finished question when the person stops talking.
  * Hidden where the browser has no speech recognition (e.g. Firefox).
  */
-export function useDictation({ lang, onText, onFinal }: { lang: 'el' | 'en'; onText: (text: string) => void; onFinal: (text: string) => void }) {
+export function useDictation({ onText, onFinal }: { onText: (text: string) => void; onFinal: (text: string) => void }) {
   // False on the server and on first paint, then whether this browser has speech recognition.
   const supported = useSyncExternalStore(noop, () => recognitionCtor() !== null, () => false);
   const [listening, setListening] = useState(false);
@@ -49,7 +50,8 @@ export function useDictation({ lang, onText, onFinal }: { lang: 'el' | 'en'; onT
     setError(null);
     last.current = '';
     const r = new C();
-    r.lang = lang === 'el' ? 'el-GR' : 'en-US';
+    // Always Greek: the browser's own recognizer (Chrome, Edge, Safari) with Greek input.
+    r.lang = 'el-GR';
     r.interimResults = true;
     r.continuous = false;
     r.onstart = () => setListening(true);
@@ -72,7 +74,7 @@ export function useDictation({ lang, onText, onFinal }: { lang: 'el' | 'en'; onT
     };
     rec.current = r;
     r.start();
-  }, [lang]);
+  }, []);
   const stop = useCallback(() => rec.current?.stop(), []);
 
   return { supported, listening, error, start, stop };

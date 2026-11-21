@@ -59,7 +59,7 @@ export default function Assistant() {
     setInput('');
   };
   // Speak instead of typing: the transcript fills the box while you talk and is sent when you stop.
-  const mic = useDictation({ lang, onText: setInput, onFinal: send });
+  const mic = useDictation({ onText: setInput, onFinal: send });
 
   const suggestions =
     lang === 'el'

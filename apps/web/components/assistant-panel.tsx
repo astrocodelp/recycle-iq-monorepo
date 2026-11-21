@@ -81,7 +81,7 @@ export function AssistantPanel({ lang, binSource, mode = 'municipal' }: { lang: 
     setInput('');
   };
   // Speak instead of typing: the transcript fills the box while you talk and is sent when you stop.
-  const mic = useDictation({ lang, onText: setInput, onFinal: send });
+  const mic = useDictation({ onText: setInput, onFinal: send });
 
   return (
     <>
