@@ -8,14 +8,16 @@
 2. **Add Neon** from the Vercel Marketplace (Storage → Neon) and connect it to the project. The
    integration sets `DATABASE_URL` (pooled) and `DATABASE_URL_UNPOOLED` for Production and Preview, and
    can create a Neon branch per preview deployment.
-3. **Deploy.** The build runs `pnpm db:migrate` against that environment's database, then `next build`.
-4. **Seed once** per database (reference data plus synthetic demo activity):
+3. **Deploy** (or redeploy after adding Neon). The build migrates the database, seeds it if it is
+   empty (reference data plus synthetic demo activity), then runs `next build`. Later deploys find
+   data and skip the seed.
+4. **Re-seed by hand** if you want fresh demo dates or to remove the demo activity:
 
    ```bash
-   DATABASE_URL="<Neon unpooled URL>" pnpm db:seed
+   DATABASE_URL="<Neon unpooled URL>" pnpm db:seed                  # refresh demo activity
+   DATABASE_URL="<Neon unpooled URL>" pnpm db:seed --no-synthetic   # keep only reference data
    ```
 
-   To remove the demo activity later and keep only reference data: `pnpm db:seed --no-synthetic`.
    Re-running the seed never touches real activity or rule toggles made in the dashboard.
 5. **Optional:** set `NEXT_PUBLIC_SITE_URL` to your public domain so bin QR codes use it.
 

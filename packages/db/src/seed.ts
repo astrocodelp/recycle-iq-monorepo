@@ -6,6 +6,7 @@
 //
 //   pnpm db:seed                 reference data + synthetic activity
 //   pnpm db:seed --no-synthetic  reference data only (and removes synthetic rows)
+//   --if-configured --if-empty   used by the Vercel build: seed a fresh database once
 import './env';
 import {
   CATEGORY_IDS,
@@ -97,7 +98,22 @@ async function insertBatched<T>(rows: T[], insert: (chunk: T[]) => Promise<unkno
   for (let i = 0; i < rows.length; i += size) await insert(rows.slice(i, i + size));
 }
 
+// Deploy-time flags (see apps/web/vercel.json): skip without a database, and only seed an empty one,
+// so a fresh Neon database gets demo data on its first deploy and later deploys leave it alone.
+if (process.argv.includes('--if-configured') && !process.env.DATABASE_URL_UNPOOLED && !process.env.DATABASE_URL) {
+  console.log('DATABASE_URL not set: skipping seed');
+  process.exit(0);
+}
+
 const { db, close } = scriptDb();
+if (process.argv.includes('--if-empty')) {
+  const existing = await db.select({ n: sql<number>`count(*)::int` }).from(communities);
+  if ((existing[0]?.n ?? 0) > 0) {
+    console.log('database already has data: skipping seed');
+    await close();
+    process.exit(0);
+  }
+}
 try {
   // --- reference data -------------------------------------------------------------------------
   const rawCommunities = json<RawCommunity[]>('communities.json');

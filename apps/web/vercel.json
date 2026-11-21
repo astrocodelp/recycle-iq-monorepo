@@ -2,6 +2,6 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "nextjs",
   "installCommand": "pnpm install --frozen-lockfile",
-  "buildCommand": "pnpm --filter @recycleiq/db migrate --if-configured && pnpm --filter @recycleiq/web build",
+  "buildCommand": "pnpm --filter @recycleiq/db migrate --if-configured && pnpm --filter @recycleiq/db seed --if-configured --if-empty && pnpm --filter @recycleiq/web build",
   "ignoreCommand": "npx turbo-ignore @recycleiq/web"
 }
