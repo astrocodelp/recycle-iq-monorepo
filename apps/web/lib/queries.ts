@@ -212,12 +212,22 @@ export interface AlertRow {
   status: 'open' | 'acknowledged';
 }
 
+/**
+ * node-postgres returns arrays of enum values as the raw literal "{full,damaged}" (it has no parser
+ * for custom type OIDs), while Neon's HTTP driver returns a real array. Accept both.
+ */
+function pgArray(v: unknown): string[] {
+  if (Array.isArray(v)) return v.map(String);
+  if (typeof v === 'string') return v.replace(/^\{|\}$/g, '').split(',').filter(Boolean).map((x) => x.replace(/^"|"$/g, ''));
+  return [];
+}
+
 /** Open full-bin alerts, one row per bin, oldest problem first. */
 export async function getOpenAlerts(): Promise<AlertRow[]> {
   const rows = (
     await getDb().execute(sql`
       select r.point_id, p.name as point_name, p.kind as point_kind, d.name as district,
-             count(*) as reports, array_agg(distinct r.kind) as kinds,
+             count(*) as reports, array_agg(distinct r.kind::text) as kinds,
              min(r.created_at) as first_at, max(r.created_at) as last_at,
              case when bool_or(r.status = 'open') then 'open' else 'acknowledged' end as status
       from bin_reports r
@@ -233,7 +243,7 @@ export async function getOpenAlerts(): Promise<AlertRow[]> {
     pointKind: String(r.point_kind),
     district: (r.district as L10n | null) ?? null,
     reports: num(r.reports),
-    kinds: (r.kinds as string[]) ?? [],
+    kinds: pgArray(r.kinds),
     firstAt: new Date(String(r.first_at)),
     lastAt: new Date(String(r.last_at)),
     status: r.status as 'open' | 'acknowledged',
