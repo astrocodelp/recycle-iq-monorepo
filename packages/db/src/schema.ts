@@ -202,3 +202,22 @@ export const binReports = pgTable(
   },
   (t) => [index('bin_reports_status_idx').on(t.status, t.createdAt), index('bin_reports_point_idx').on(t.pointId)],
 );
+
+/**
+ * Resident feedback survey (public page /feedback): accessibility needs and rewards. Anonymous answers;
+ * the optional email (pilot sign-up) is kept apart from the answers and never shown on the dashboard.
+ */
+export const surveyResponses = pgTable(
+  'survey_responses',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    /** Survey version, so answers stay comparable when questions change. */
+    version: text('version').notNull(),
+    answers: jsonb('answers').$type<Record<string, unknown>>().notNull(),
+    email: text('email'),
+    /** Where the link was shared, from ?src= (e.g. linkedin). */
+    source: text('source'),
+  },
+  (t) => [index('survey_responses_created_idx').on(t.createdAt)],
+);

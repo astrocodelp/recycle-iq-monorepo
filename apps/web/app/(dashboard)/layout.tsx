@@ -1,4 +1,4 @@
-import { BarChart3, Bell, BookOpen, Factory, Map, MapPin, Scale, Truck } from 'lucide-react';
+import { BarChart3, Bell, BookOpen, Factory, Map, MapPin, MessageSquareText, Scale, Truck } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { setBinSource, setLanguage } from '../actions';
 import { getBinSource } from '@/lib/bins';
@@ -20,6 +20,7 @@ export default async function DashboardLayout({ children }: { children: ReactNod
     { href: '/sorting', label: t('Διαλογή', 'Sorting'), icon: Factory },
     { href: '/rules', label: t('Κανόνες Δήμου', 'Municipal rules'), icon: Scale },
     { href: '/points', label: t('Σημεία συλλογής', 'Collection points'), icon: MapPin },
+    { href: '/survey', label: t('Έρευνα κατοίκων', 'Resident survey'), icon: MessageSquareText },
     { href: '/developers', label: t('API για την εφαρμογή', 'App API'), icon: BookOpen },
   ];
   return (
