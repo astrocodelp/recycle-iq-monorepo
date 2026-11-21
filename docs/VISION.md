@@ -23,4 +23,4 @@ Steps:
 4. Score each label: sigmoid(scale × dot + bias), using the model's logit scale and bias.
 5. Top candidates go to the engine's recognition step; low scores use the existing "not sure enough" path.
 
-The same ONNX file and label JSON can later run on the RecycleIQ Sort machine.
+The same ONNX file and label JSON can later run on the vision cell of RecycleIQ Delta Sort, the sorting line at the recycling centre.

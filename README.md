@@ -54,4 +54,4 @@ activity is synthetic (rows marked `synthetic`), and the app and dashboard label
 - [On-device recognition with SigLIP 2](docs/VISION.md)
 - [Architecture](docs/ARCHITECTURE.md)
 
-The RecycleIQ Sort machine (hardware) is out of scope for this repository for now.
+RecycleIQ Delta Sort, the sorting infrastructure for recycling centres (delta robots on a conveyor, mobile robots hauling bins), lives in its own repository as a simulation: [Mike17K/recycleiq-delta-sort](https://github.com/Mike17K/recycleiq-delta-sort). It is not a street bin, and its hardware is out of scope here.
