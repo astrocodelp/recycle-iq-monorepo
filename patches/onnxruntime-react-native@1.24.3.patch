@@ -14,3 +14,80 @@ index 41b43599a9af6ef1c170047d39db1f3baa6ca682..a7db1c4b981ce3462b4c0e2fec3330bf
  
    // By default it will just include onnxruntime full aar package
    if (ortExtensionsEnabled) {
+diff --git a/ios/OnnxruntimeModule.h b/ios/OnnxruntimeModule.h
+index 288876c0c1eaf61371ddc15fd74183d0d7396b53..97ed1ff195fb0807e229b8000ad61fbbb3b9cdf3 100644
+--- a/ios/OnnxruntimeModule.h
++++ b/ios/OnnxruntimeModule.h
+@@ -5,8 +5,11 @@
+ #define OnnxruntimeModule_h
+ 
+ #import <React/RCTBridgeModule.h>
++#import <ReactCommon/RCTTurboModuleWithJSIBindings.h>
+ 
+-@interface OnnxruntimeModule : NSObject <RCTBridgeModule>
++// RecycleIQ patch: React Native 0.88 has no legacy bridge (RCTCxxBridge). The module receives the JS
++// runtime through RCTTurboModuleWithJSIBindings instead, which works with the New Architecture.
++@interface OnnxruntimeModule : NSObject <RCTBridgeModule, RCTTurboModuleWithJSIBindings>
+ 
+ @end
+ 
+diff --git a/ios/OnnxruntimeModule.mm b/ios/OnnxruntimeModule.mm
+index 8155f92aa4770c2c13c6c7c3db2a38f7311282c1..cf6f51cc9dd98531e14416ffdc50b2cd8ab68145 100644
+--- a/ios/OnnxruntimeModule.mm
++++ b/ios/OnnxruntimeModule.mm
+@@ -5,46 +5,30 @@
+ #include "JsiMain.h"
+ 
+ #import <Foundation/Foundation.h>
+-#import <React/RCTBridge+Private.h>
+ #import <React/RCTUtils.h>
+ #import <ReactCommon/RCTTurboModule.h>
+ #import <jsi/jsi.h>
+ 
+ @implementation OnnxruntimeModule
+ 
+-@synthesize bridge = _bridge;
+-
+ static std::shared_ptr<onnxruntimejsi::Env> env;
+ 
+ RCT_EXPORT_MODULE(Onnxruntime)
+ 
+-- (void)setBridge:(RCTBridge*)bridge {
+-  _bridge = bridge;
++/**
++ * RecycleIQ patch: called by React Native (New Architecture) with the JS runtime when the module is
++ * created; installs the onnxruntime JSI API there instead of reaching through the removed RCTCxxBridge.
++ */
++- (void)installJSIBindingsWithRuntime:(facebook::jsi::Runtime &)runtime
++                          callInvoker:(const std::shared_ptr<facebook::react::CallInvoker> &)callInvoker {
++  env = onnxruntimejsi::install(runtime, callInvoker);
+ }
+ 
+ /**
+- * React native binding API to install onnxruntime JSI API
++ * React native binding API: the JSI API is already installed when the module is created.
+  */
+ RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(install) {
+-  @try {
+-    RCTCxxBridge* cxxBridge = (RCTCxxBridge*)_bridge;
+-    if (cxxBridge == nil) {
+-      return @false;
+-    }
+-
+-    auto jsiRuntime = (facebook::jsi::Runtime*)cxxBridge.runtime;
+-    if (jsiRuntime == nil) {
+-      return @false;
+-    }
+-    auto& runtime = *jsiRuntime;
+-    auto jsiInvoker = _bridge.jsCallInvoker;
+-
+-    env = onnxruntimejsi::install(runtime, jsiInvoker);
+-
+-    return @true;
+-  } @catch (...) {
+-    return @false;
+-  }
++  return env ? @true : @false;
+ }
+ 
+ - (void)dealloc {
