@@ -75,23 +75,29 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     (async () => {
-      const [l, d, dist, h] = await Promise.all(
-        [KEY.lang, KEY.device, KEY.district, KEY.history].map((k) => AsyncStorage.getItem(k)),
-      );
-      if (l === 'en' || l === 'el' || l === 'auto') setLangPrefState(l);
-      let id = d;
-      if (!id) {
-        id = newDeviceId();
-        await AsyncStorage.setItem(KEY.device, id);
+      try {
+        const [l, d, dist, h] = await Promise.all(
+          [KEY.lang, KEY.device, KEY.district, KEY.history].map((k) => AsyncStorage.getItem(k)),
+        );
+        if (l === 'en' || l === 'el' || l === 'auto') setLangPrefState(l);
+        let id = d;
+        if (!id) {
+          id = newDeviceId();
+          await AsyncStorage.setItem(KEY.device, id);
+        }
+        setDeviceId(id);
+        setDistrictState(dist || null);
+        if (h) {
+          try {
+            setHistory(JSON.parse(h));
+          } catch {}
+        }
+      } catch {
+        // Storage unavailable: run with defaults for this session rather than stay on the splash.
+        setDeviceId((cur) => cur || newDeviceId());
+      } finally {
+        setReady(true);
       }
-      setDeviceId(id);
-      setDistrictState(dist || null);
-      if (h) {
-        try {
-          setHistory(JSON.parse(h));
-        } catch {}
-      }
-      setReady(true);
     })();
   }, []);
 

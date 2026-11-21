@@ -19,7 +19,7 @@ SplashScreen.preventAutoHideAsync().catch(() => {});
 
 function Root() {
   const { ready } = useApp();
-  const [fontsLoaded] = useFonts({
+  const [fontsLoaded, fontError] = useFonts({
     Commissioner_400Regular,
     Commissioner_500Medium,
     Commissioner_600SemiBold,
@@ -28,7 +28,8 @@ function Root() {
     JetBrainsMono_500Medium,
     JetBrainsMono_700Bold,
   });
-  const show = ready && fontsLoaded;
+  // A font that fails to load falls back to the system font; never keep the splash up for it.
+  const show = ready && (fontsLoaded || !!fontError);
   useEffect(() => {
     if (show) SplashScreen.hideAsync().catch(() => {});
   }, [show]);
