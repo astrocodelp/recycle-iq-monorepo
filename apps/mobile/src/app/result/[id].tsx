@@ -38,7 +38,7 @@ import { categoryColors, colors, font, r } from '@/lib/theme';
 
 export default function Result() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { t, lang, recall, coords, district, deviceId } = useApp();
+  const { t, lang, recall, coords, district, deviceId, binSource } = useApp();
   const insets = useSafeAreaInsets();
   const cached = recall(id ?? '');
   const [decision, setDecision] = useState<Decision | null>(cached?.decision ?? null);
@@ -60,7 +60,7 @@ export default function Result() {
     if (!decision?.pointQuery) return;
     if (!coords && nearby.length) return;
     const q = decision.pointQuery;
-    api.points({ category: q.category, near: decision.districtId === 'athens' ? null : decision.districtId }).then(
+    api.points({ category: q.category, near: decision.districtId === 'athens' ? null : decision.districtId, source: binSource, limit: 2000 }).then(
       (r) => setNearby(rankPoints(r.points, q, coords ?? (district ? { lng: district.lng, lat: district.lat } : DEFAULT_LOCATION)) as Point[]),
       () => {},
     );
@@ -262,7 +262,7 @@ export default function Result() {
             </Animated.View>
           )}
 
-          <DemoBadge label={t('Ενδεικτικοί κανόνες demo · Ενδεικτικά σημεία', 'Indicative rules · Illustrative points')} />
+          <DemoBadge label={binSource === 'osm' ? t('Ενδεικτικοί κανόνες demo · Κάδοι © OpenStreetMap', 'Indicative rules · Bins © OpenStreetMap') : t('Ενδεικτικοί κανόνες demo · Ενδεικτικά σημεία', 'Indicative rules · Illustrative points')} />
         </View>
       </ScrollView>
 

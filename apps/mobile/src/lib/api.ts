@@ -106,7 +106,7 @@ export const api = {
     ),
   districts: () => request<{ districts: District[] }>('/api/v1/districts'),
   /** Never sends coordinates: optionally a neighbourhood to sort by. Ranking by GPS happens on the device. */
-  points: (params: { category?: CategoryId; near?: string | null; limit?: number }) => {
+  points: (params: { category?: CategoryId; near?: string | null; limit?: number; source?: 'synthetic' | 'osm' }) => {
     const qs = new URLSearchParams();
     for (const [k, v] of Object.entries(params)) if (v != null) qs.set(k, String(v));
     return request<{ points: (Point & { distance: number })[] }>(`/api/v1/points?${qs}`);
@@ -118,6 +118,7 @@ export const api = {
     districtId?: string | null;
     deviceId: string;
     via: 'search' | 'scan';
+    binSource?: 'synthetic' | 'osm';
   }) => request<DecisionResponse>('/api/v1/decisions', { method: 'POST', body: JSON.stringify(body) }),
   decision: (id: string) => request<{ id: string; decision: Decision }>(`/api/v1/decisions/${id}`),
   leaderboard: (p: { period: 'week' | 'month'; district?: string | null; deviceId: string; lang: 'el' | 'en' }) => {
@@ -125,8 +126,8 @@ export const api = {
     if (p.district) qs.set('district', p.district);
     return request<Leaderboard>(`/api/v1/leaderboard?${qs}`);
   },
-  stories: (district: string, deviceId: string) =>
-    request<Stories>(`/api/v1/stories?district=${encodeURIComponent(district)}&deviceId=${encodeURIComponent(deviceId)}`),
+  stories: (district: string, deviceId: string, source: 'synthetic' | 'osm' = 'synthetic') =>
+    request<Stories>(`/api/v1/stories?district=${encodeURIComponent(district)}&deviceId=${encodeURIComponent(deviceId)}&source=${source}`),
   profile: (deviceId: string, lang: 'el' | 'en') =>
     request<{ nickname: string; custom: boolean }>(`/api/v1/profile?deviceId=${encodeURIComponent(deviceId)}&lang=${lang}`),
   setNickname: (deviceId: string, nickname: string) =>

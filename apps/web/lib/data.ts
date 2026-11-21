@@ -84,6 +84,8 @@ export interface DecisionRequest {
   via?: 'search' | 'scan' | 'api';
   /** Persist the decision (dashboard analytics). */
   record?: boolean;
+  /** Bin inventory for the nearby suggestions. */
+  binSource?: BinSource;
 }
 
 /** The one path every recommendation goes through: rules from the DB, engine, nearby points, log. */
@@ -97,7 +99,7 @@ export async function makeDecision(req: DecisionRequest): Promise<{
   const [rules, { ctx, centre, known }, points] = await Promise.all([
     getRuleStates(),
     getDistrictContext(req.districtId),
-    getPoints(),
+    getPoints(req.binSource ?? 'synthetic'),
   ]);
   const outcome = evaluate({ objectId: req.objectId, answers: req.answers }, { district: ctx, rules });
   const nearby = outcome.pointQuery ? rankPoints(points, outcome.pointQuery, centre) : [];
@@ -126,7 +128,7 @@ export async function makeDecision(req: DecisionRequest): Promise<{
   }
   let unlockedStory: (Story & { threshold: number }) | null = null;
   if (id && known && req.deviceId) {
-    const [stories, scans] = await Promise.all([storiesFor(ctx.id), scansInDistrict(req.deviceId, ctx.id)]);
+    const [stories, scans] = await Promise.all([storiesFor(ctx.id, req.binSource ?? 'synthetic'), scansInDistrict(req.deviceId, ctx.id)]);
     const i = unlockedAt(scans, stories.length);
     if (i != null) unlockedStory = stories[i]!;
   }

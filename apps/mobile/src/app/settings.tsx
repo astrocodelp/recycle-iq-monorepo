@@ -1,5 +1,5 @@
 import { router } from 'expo-router';
-import { Check, ChevronRight, Globe, MapPin, ShieldCheck, Smartphone, Trophy } from 'lucide-react-native';
+import { Check, ChevronRight, Database, Globe, MapPin, ShieldCheck, Smartphone, Trophy } from 'lucide-react-native';
 import { useEffect, useState } from 'react';
 import { TextInput, View } from 'react-native';
 import { BackButton } from '@/components/back-button';
@@ -7,11 +7,11 @@ import { PressableScale } from '@/components/pressable-scale';
 import { Screen } from '@/components/screen';
 import { Button, Card, T } from '@/components/ui';
 import { api } from '@/lib/api';
-import { deviceLang, useApp, type LangPref } from '@/lib/store';
+import { deviceLang, useApp, type BinSource, type LangPref } from '@/lib/store';
 import { colors, font } from '@/lib/theme';
 
 export default function Settings() {
-  const { t, lang, langPref, setLangPref, district, deviceId } = useApp();
+  const { t, lang, langPref, setLangPref, district, deviceId, binSource, setBinSource } = useApp();
   const [nickname, setNickname] = useState('');
   const [saved, setSaved] = useState<'idle' | 'saving' | 'saved' | 'invalid'>('idle');
   useEffect(() => {
@@ -36,6 +36,18 @@ export default function Settings() {
     },
     { value: 'el', label: 'Ελληνικά' },
     { value: 'en', label: 'English' },
+  ];
+  const binOptions: { value: BinSource; label: string; sub: string }[] = [
+    {
+      value: 'synthetic',
+      label: t('Συνθετικά (επίδειξη)', 'Synthetic (demo)'),
+      sub: t('Ενδεικτικά σημεία για την παρουσίαση', 'Illustrative points for the demo'),
+    },
+    {
+      value: 'osm',
+      label: t('Πραγματικοί κάδοι (OpenStreetMap)', 'Real bins (OpenStreetMap)'),
+      sub: t('1.167 κάδοι στην Αθήνα · © OpenStreetMap contributors', '1,167 bins in Athens · © OpenStreetMap contributors'),
+    },
   ];
 
   return (
@@ -64,6 +76,32 @@ export default function Settings() {
                   {o.sub && <T v="caption" color={colors.muted}>{o.sub}</T>}
                 </View>
                 {langPref === o.value && <Check size={20} color={colors['forest-700']} />}
+              </View>
+            </PressableScale>
+          ))}
+        </Card>
+      </View>
+
+      <View style={{ gap: 8 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+          <Database size={16} color={colors.muted} />
+          <T v="eyebrow" color={colors.muted}>{t('Δεδομένα κάδων', 'Bin data')}</T>
+        </View>
+        <Card style={{ padding: 4 }}>
+          {binOptions.map((o, i) => (
+            <PressableScale
+              key={o.value}
+              onPress={() => setBinSource(o.value)}
+              scaleTo={0.99}
+              accessibilityRole="radio"
+              accessibilityState={{ selected: binSource === o.value }}
+            >
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, padding: 14, borderTopWidth: i ? 1 : 0, borderTopColor: colors.line }}>
+                <View style={{ flex: 1 }}>
+                  <T v="bodyLg" style={{ fontFamily: font.semibold }}>{o.label}</T>
+                  <T v="caption" color={colors.muted}>{o.sub}</T>
+                </View>
+                {binSource === o.value && <Check size={20} color={colors['forest-700']} />}
               </View>
             </PressableScale>
           ))}

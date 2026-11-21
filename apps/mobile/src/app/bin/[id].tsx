@@ -64,7 +64,11 @@ export default function Bin() {
             <Button label={t('Τι θέλεις να πετάξεις;', 'What do you want to throw away?')} icon={<ScanLine size={18} color="#fff" />} onPress={() => router.replace('/scan')} />
             <Button label={t('Ο κάδος είναι γεμάτος', 'This bin is full')} variant="secondary" icon={<TriangleAlert size={18} color={colors.ink} />} onPress={() => router.push({ pathname: '/report', params: { bin: point.id } })} />
           </Animated.View>
-          <DemoBadge label={t('Ενδεικτικά σημεία — όχι επίσημα δημοτικά δεδομένα', 'Illustrative points — not official data')} />
+          {point.id.startsWith('osm-') ? (
+            <T v="caption" color={colors.muted}>{t('Κάδος από το OpenStreetMap · © OpenStreetMap contributors (ODbL)', 'Bin from OpenStreetMap · © OpenStreetMap contributors (ODbL)')}</T>
+          ) : (
+            <DemoBadge label={t('Ενδεικτικά σημεία — όχι επίσημα δημοτικά δεδομένα', 'Illustrative points — not official data')} />
+          )}
         </>
       )}
     </Screen>

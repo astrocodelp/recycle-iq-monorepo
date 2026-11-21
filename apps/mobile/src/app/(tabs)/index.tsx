@@ -15,7 +15,7 @@ import { useApp } from '@/lib/store';
 import { colors, font, r, shadow } from '@/lib/theme';
 
 export default function Home() {
-  const { t, lang, district, deviceId, history } = useApp();
+  const { t, lang, district, deviceId, history, binSource } = useApp();
   const [q, setQ] = useState('');
   const [rank, setRank] = useState<{ rank: number | null; score: number } | null>(null);
   const hits = useMemo(() => searchObjects(q).slice(0, 5), [q]);
@@ -180,7 +180,7 @@ export default function Home() {
         </Animated.View>
       )}
 
-      <DemoBadge label={t('Συνθετικά δεδομένα · Ενδεικτικά σημεία', 'Synthetic data · Illustrative points')} />
+      <DemoBadge label={binSource === 'osm' ? t('Συνθετικά δεδομένα · Κάδοι © OpenStreetMap', 'Synthetic data · Bins © OpenStreetMap') : t('Συνθετικά δεδομένα · Ενδεικτικά σημεία', 'Synthetic data · Illustrative points')} />
     </Screen>
   );
 }

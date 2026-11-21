@@ -10,6 +10,8 @@ const Body = z.object({
   districtId: z.string().max(64).nullish(),
   deviceId: z.string().max(64).optional(),
   via: z.enum(['search', 'scan', 'api']).default('api'),
+  /** Which bins to suggest nearby: synthetic (default) or osm (real bins, © OpenStreetMap contributors). */
+  binSource: z.enum(['synthetic', 'osm']).optional(),
 });
 
 /**

@@ -13,7 +13,7 @@ import { useApp } from '@/lib/store';
 import { categoryColors, colors } from '@/lib/theme';
 
 export default function Points() {
-  const { t, lang, coords, setCoords, district, districts, setDistrictId } = useApp();
+  const { t, lang, coords, setCoords, district, districts, setDistrictId, binSource } = useApp();
   const [category, setCategory] = useState<CategoryId | 'all'>('all');
   const [points, setPoints] = useState<Point[] | null>(null);
   const [locating, setLocating] = useState(false);
@@ -21,8 +21,9 @@ export default function Points() {
 
   useFocusEffect(
     useCallback(() => {
-      api.points({}).then((r) => setPoints(r.points), () => setPoints([]));
-    }, []),
+      setPoints(null);
+      api.points({ source: binSource, limit: 2000 }).then((r) => setPoints(r.points), () => setPoints([]));
+    }, [binSource]),
   );
 
   const from = coords ?? (district ? { lng: district.lng, lat: district.lat } : DEFAULT_LOCATION);
@@ -63,7 +64,7 @@ export default function Points() {
       )}
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8, paddingRight: 18 }} style={{ marginRight: -18 }}>
         <Chip label={t('Όλα', 'All')} selected={category === 'all'} onPress={() => setCategory('all')} />
-        {CATEGORY_IDS.filter((c) => c !== 'general').map((c) => (
+        {CATEGORY_IDS.filter((c) => c !== 'general' || binSource === 'osm').map((c) => (
           <Chip key={c} label={t(CATEGORIES[c].short)} selected={category === c} onPress={() => setCategory(c)} icon={<View style={{ width: 10, height: 10, borderRadius: 3, backgroundColor: categoryColors[c].solid }} />} />
         ))}
       </ScrollView>
@@ -89,7 +90,13 @@ export default function Points() {
           </Animated.View>
         ))
       )}
-      <DemoBadge label={t('Ενδεικτικά σημεία — όχι επίσημα δημοτικά δεδομένα', 'Illustrative points — not official data')} />
+      {binSource === 'osm' ? (
+        <T v="caption" color={colors.muted}>
+          {t('Πραγματικοί κάδοι από το OpenStreetMap · © OpenStreetMap contributors (ODbL). Αλλαγή από τις Ρυθμίσεις.', 'Real bins from OpenStreetMap · © OpenStreetMap contributors (ODbL). Change in Settings.')}
+        </T>
+      ) : (
+        <DemoBadge label={t('Ενδεικτικά σημεία — όχι επίσημα δημοτικά δεδομένα', 'Illustrative points — not official data')} />
+      )}
       <Button label={t('Άλλαξε γειτονιά', 'Change neighbourhood')} variant="ghost" onPress={() => router.push('/district')} />
     </Screen>
   );

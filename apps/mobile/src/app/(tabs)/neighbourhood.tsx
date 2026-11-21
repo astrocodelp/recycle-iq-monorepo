@@ -14,7 +14,7 @@ const ICON = { numbers: Sparkles, history: BookOpen, landmark: Landmark, event: 
 
 /** The reward for scanning: stories about your neighbourhood, unlocked as you scan there. */
 export default function Neighbourhood() {
-  const { t, deviceId, district } = useApp();
+  const { t, deviceId, district, binSource } = useApp();
   const [data, setData] = useState<Stories | null>(null);
   const [failed, setFailed] = useState(false);
   const reduce = useReducedMotion();
@@ -25,7 +25,7 @@ export default function Neighbourhood() {
     useCallback(() => {
       if (!district || !deviceId) return;
       setFailed(false);
-      api.stories(district.id, deviceId).then(
+      api.stories(district.id, deviceId, binSource).then(
         (d) => {
           setData(d);
           const target = d.next ? d.scans / d.next.threshold : 1;
@@ -33,7 +33,7 @@ export default function Neighbourhood() {
         },
         () => setFailed(true),
       );
-    }, [district, deviceId, reduce, progress]),
+    }, [district, deviceId, binSource, reduce, progress]),
   );
 
   if (!district)

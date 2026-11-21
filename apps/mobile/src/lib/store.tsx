@@ -22,6 +22,9 @@ interface AppState {
   /** 'auto' follows the phone's language (Greek phones: Greek; anything else: English). */
   langPref: LangPref;
   setLangPref: (p: LangPref) => void;
+  /** Which bins the app shows: synthetic demo points (default) or real bins from OpenStreetMap. */
+  binSource: BinSource;
+  setBinSource: (s: BinSource) => void;
   /** t('Ελληνικά', 'English') or t({ el, en }). */
   t: (el: string | L10n, en?: string) => string;
   deviceId: string;
@@ -41,6 +44,7 @@ interface AppState {
   recall: (id: string) => DecisionResponse | undefined;
 }
 
+export type BinSource = 'synthetic' | 'osm';
 export type LangPref = 'auto' | Lang;
 
 /** Greek if the phone's preferred language is Greek, otherwise English. */
@@ -53,7 +57,7 @@ export function deviceLang(): Lang {
 }
 
 const Ctx = createContext<AppState | null>(null);
-const KEY = { lang: 'riq.lang', device: 'riq.device', district: 'riq.district', history: 'riq.history' };
+const KEY = { lang: 'riq.lang', device: 'riq.device', district: 'riq.district', history: 'riq.history', bins: 'riq.bins' };
 
 function newDeviceId() {
   const rand = () => Math.random().toString(36).slice(2, 10);
@@ -63,6 +67,7 @@ function newDeviceId() {
 export function AppProvider({ children }: { children: ReactNode }) {
   const [ready, setReady] = useState(false);
   const [langPref, setLangPrefState] = useState<LangPref>('auto');
+  const [binSource, setBinSourceState] = useState<BinSource>('synthetic');
   const lang: Lang = langPref === 'auto' ? deviceLang() : langPref;
   const [deviceId, setDeviceId] = useState('');
   const [districtId, setDistrictState] = useState<string | null>(null);
@@ -76,10 +81,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     (async () => {
       try {
-        const [l, d, dist, h] = await Promise.all(
-          [KEY.lang, KEY.device, KEY.district, KEY.history].map((k) => AsyncStorage.getItem(k)),
+        const [l, d, dist, h, bins] = await Promise.all(
+          [KEY.lang, KEY.device, KEY.district, KEY.history, KEY.bins].map((k) => AsyncStorage.getItem(k)),
         );
         if (l === 'en' || l === 'el' || l === 'auto') setLangPrefState(l);
+        if (bins === 'osm') setBinSourceState('osm');
         let id = d;
         if (!id) {
           id = newDeviceId();
@@ -119,6 +125,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
         setLangPrefState(p);
         AsyncStorage.setItem(KEY.lang, p);
       },
+      binSource,
+      setBinSource: (b) => {
+        setBinSourceState(b);
+        AsyncStorage.setItem(KEY.bins, b).catch(() => {});
+      },
       t,
       deviceId,
       districtId,
@@ -157,7 +168,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       coords,
       setCoords,
     };
-  }, [ready, lang, langPref, deviceId, districtId, districts, catalog, catalogError, loadRemote, history, coords]);
+  }, [ready, lang, langPref, binSource, deviceId, districtId, districts, catalog, catalogError, loadRemote, history, coords]);
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }

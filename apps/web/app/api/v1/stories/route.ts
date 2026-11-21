@@ -5,7 +5,12 @@ import { scansInDistrict, storiesFor } from '@/lib/stories';
 
 export const dynamic = 'force-dynamic';
 
-const Query = z.object({ district: z.string().min(1).max(64), deviceId: z.string().max(64).optional() });
+const Query = z.object({
+  district: z.string().min(1).max(64),
+  deviceId: z.string().max(64).optional(),
+  /** Bin inventory for the numbers story: synthetic (default) or osm. */
+  source: z.enum(['synthetic', 'osm']).default('synthetic'),
+});
 
 /**
  * Neighbourhood stories: the reward for scanning. Each one unlocks after a number of scans in that
@@ -14,8 +19,8 @@ const Query = z.object({ district: z.string().min(1).max(64), deviceId: z.string
 export async function GET(req: Request) {
   const parsed = Query.safeParse(Object.fromEntries(new URL(req.url).searchParams));
   if (!parsed.success) return error(400, 'Invalid query', parsed.error.issues);
-  const { district, deviceId } = parsed.data;
-  const [stories, scans] = await Promise.all([storiesFor(district), deviceId ? scansInDistrict(deviceId, district) : 0]);
+  const { district, deviceId, source } = parsed.data;
+  const [stories, scans] = await Promise.all([storiesFor(district, source), deviceId ? scansInDistrict(deviceId, district) : 0]);
   if (!stories.length) return error(404, 'Unknown district');
   const next = nextLocked(scans, stories.length);
   return Response.json({

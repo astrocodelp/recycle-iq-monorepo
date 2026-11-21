@@ -16,7 +16,7 @@ import { categoryColors, colors, font, r } from '@/lib/theme';
 
 type Kind = 'full' | 'overflowing' | 'damaged';
 type Step = 'photo' | 'details' | 'sending' | 'done' | 'duplicate' | 'error';
-const REPORTABLE = ['blue_bin', 'glass_bell', 'brown_bin', 'clothing_bin'];
+const REPORTABLE = ['blue_bin', 'glass_bell', 'brown_bin', 'clothing_bin', 'general_bin'];
 
 /**
  * Report a full, overflowing or damaged bin. The photo stays on the phone (in a later version an
@@ -24,7 +24,7 @@ const REPORTABLE = ['blue_bin', 'glass_bell', 'brown_bin', 'clothing_bin'];
  */
 export default function Report() {
   const { bin } = useLocalSearchParams<{ bin?: string }>();
-  const { t, lang, deviceId, coords, district } = useApp();
+  const { t, lang, deviceId, coords, district, binSource } = useApp();
   const insets = useSafeAreaInsets();
   const [permission, requestPermission] = useCameraPermissions();
   const [step, setStep] = useState<Step>('photo');
@@ -33,8 +33,8 @@ export default function Report() {
   const [kind, setKind] = useState<Kind>('full');
 
   useEffect(() => {
-    api.points({ near: district?.id ?? null }).then((res) => setPoints(res.points), () => setPoints([]));
-  }, [district?.id]);
+    api.points({ near: district?.id ?? null, source: binSource, limit: 2000 }).then((res) => setPoints(res.points), () => setPoints([]));
+  }, [district?.id, binSource]);
 
   const from = coords ?? (district ? { lng: district.lng, lat: district.lat } : DEFAULT_LOCATION);
   const nearest = useMemo(
