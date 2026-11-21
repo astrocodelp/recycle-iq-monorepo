@@ -4,7 +4,7 @@
  */
 export const RELEASE = {
   /** Latest Android preview build (APK) from EAS. Override with ANDROID_APK_URL. */
-  androidApk: process.env.ANDROID_APK_URL || 'https://expo.dev/artifacts/eas/oMPxEgNGVaKLGLxjvFZn4SexzBNjhotuRlbnBbUC_1I.apk',
+  androidApk: process.env.ANDROID_APK_URL || 'https://expo.dev/artifacts/eas/H0-x-ooZVoY94Ab5f_e3NQ5O6SqgU70TZzNlmVZvCEs.apk',
   /** App Store / Google Play listings, once published. */
   appStore: process.env.APP_STORE_URL || null,
   googlePlay: process.env.GOOGLE_PLAY_URL || null,
