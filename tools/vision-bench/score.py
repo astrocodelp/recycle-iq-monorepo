@@ -13,8 +13,9 @@ MODELS = {
     "siglip2-on-device": "SigLIP 2 · on device (quantized ONNX)",
     "google__gemma-4-26b-a4b-it": "Gemma 4 26B-A4B · open weights, via gateway",
     "google__gemini-3.5-flash-lite": "Gemini 3.5 Flash-Lite · cloud",
+    "google__gemini-3.1-flash-lite": "Gemini 3.1 Flash-Lite · cloud (production default)",
 }
-CLOUD = ["google__gemini-3.5-flash-lite", "google__gemma-4-26b-a4b-it"]
+CLOUD = ["google__gemini-3.1-flash-lite", "google__gemini-3.5-flash-lite", "google__gemma-4-26b-a4b-it"]
 
 
 SYN = {"organic": "food", "biological": "food", "clothes": "textile", "clothing": "textile", "shoes": "textile", "fabric": "textile",
@@ -183,8 +184,8 @@ def main():
 def write_report(s, datasets):
     L = []
     w = L.append
-    w("# Vision benchmark: SigLIP 2 on device vs Gemma 4 vs Gemini 3.5 Flash-Lite\n")
-    w(f"{s['n_common']} photos scored by all three models. 95% intervals: Wilson for proportions, bootstrap for the severity score.\n")
+    w("# Vision benchmark: SigLIP 2 on device vs Gemma 4 vs Gemini Flash-Lite (3.1 and 3.5)\n")
+    w(f"{s['n_common']} photos scored by every model. 95% intervals: Wilson for proportions, bootstrap for the severity score.\n")
     w("## Headline\n")
     w("| Model | Material accuracy | Macro (per-class mean) | Athens bin accuracy | Severity per 100 items | Severe errors (≥3) | Batteries missed | Latency p50 / p95 | Cost per 1,000 scans |")
     w("|---|---|---|---|---|---|---|---|---|")
