@@ -7,16 +7,30 @@
     "development": {
       "developmentClient": true,
       "distribution": "internal",
-      "env": { "EXPO_PUBLIC_API_URL": "https://recycle-iq-monorepo-web.vercel.app" }
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://recycle-iq-monorepo-web.vercel.app"
+      }
     },
     "preview": {
       "distribution": "internal",
-      "android": { "buildType": "apk" },
-      "env": { "EXPO_PUBLIC_API_URL": "https://recycle-iq-monorepo-web.vercel.app" }
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://recycle-iq-monorepo-web.vercel.app"
+      }
+    },
+    "simulator": {
+      "extends": "preview",
+      "ios": {
+        "simulator": true
+      }
     },
     "production": {
       "autoIncrement": true,
-      "env": { "EXPO_PUBLIC_API_URL": "https://recycle-iq-monorepo-web.vercel.app" }
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://recycle-iq-monorepo-web.vercel.app"
+      }
     }
   },
   "submit": {

@@ -14,7 +14,8 @@
       "icon": "./assets/images/icon.png",
       "infoPlist": {
         "NSCameraUsageDescription": "Η κάμερα χρησιμοποιείται για να αναγνωρίσεις αντικείμενα και για να αναφέρεις γεμάτους κάδους. Οι φωτογραφίες δεν αποστέλλονται.",
-        "NSLocationWhenInUseUsageDescription": "Η τοποθεσία μετατρέπεται σε γειτονιά πάνω στη συσκευή σου. Δεν στέλνουμε ούτε αποθηκεύουμε τη διεύθυνσή σου."
+        "NSLocationWhenInUseUsageDescription": "Η τοποθεσία μετατρέπεται σε γειτονιά πάνω στη συσκευή σου. Δεν στέλνουμε ούτε αποθηκεύουμε τη διεύθυνσή σου.",
+        "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {
