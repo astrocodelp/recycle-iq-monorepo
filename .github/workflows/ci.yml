@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: recycleiq
+          POSTGRES_PASSWORD: recycleiq
+          POSTGRES_DB: recycleiq
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U recycleiq" --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      DATABASE_URL: postgres://recycleiq:recycleiq@localhost:5432/recycleiq
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Design tokens are up to date
+        run: pnpm --filter @recycleiq/tokens lint
+      - run: pnpm typecheck
+      - run: pnpm --filter @recycleiq/engine test
+      - name: Migrate and seed (twice, to prove the seed is idempotent)
+        run: pnpm db:migrate && pnpm db:seed && pnpm db:seed
+      - run: pnpm --filter @recycleiq/web lint
+      - run: pnpm --filter @recycleiq/web build
+      - name: Mobile app bundles for web
+        run: pnpm --filter @recycleiq/mobile build:web

@@ -1,0 +1,18 @@
+RecycleIQ
+Copyright 2026 RecycleIQ contributors
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+Data notices
+- District outlines of the Municipality of Athens are a simplified rendering of official boundaries,
+  converted for the Apps4Athens 2026 concept. Verify against the municipality's own data before
+  operational use.
+- Collection points in packages/db/seed/points.json are MOCK (illustrative) locations, not official
+  municipal data.
+- The municipal rules in packages/engine/src/data/rules.json are INDICATIVE demo rules, not the
+  official regulation.
+- Dashboard activity created by `pnpm db:seed` is SYNTHETIC and marked `synthetic = true`.
+
+Third-party
+- Lucide icons (ISC). Plus Jakarta Sans and JetBrains Mono fonts (SIL Open Font License 1.1).
+- Optional on-device vision model: google/siglip2-base-patch16-224 (Apache-2.0), see docs/VISION.md.
