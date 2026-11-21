@@ -7,7 +7,8 @@ services:
       POSTGRES_PASSWORD: recycleiq
       POSTGRES_DB: recycleiq
     ports:
-      - '5432:5432'
+      # Host port: set DB_PORT in .env if 5432 is taken (e.g. by a Postgres already installed).
+      - '${DB_PORT:-5432}:5432'
     volumes:
       - pgdata:/var/lib/postgresql/data
 volumes:
