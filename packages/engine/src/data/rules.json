@@ -15,6 +15,9 @@
   },
   "appliesTo": [
    "plastic-bottle",
+   "can",
+   "paper",
+   "cardboard-box",
    "pizza-box",
    "packaging"
   ],

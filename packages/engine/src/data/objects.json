@@ -31,6 +31,112 @@
   "questions": []
  },
  {
+  "id": "can",
+  "name": {
+   "el": "Κουτάκι αναψυκτικού",
+   "en": "Drink can"
+  },
+  "aliases": [
+   "κουτακι",
+   "κουτι αναψυκτικου",
+   "κουτακι μπυρας",
+   "αλουμινιο",
+   "τενεκεδακι",
+   "κονσερβα",
+   "μεταλλικο κουτι",
+   "can",
+   "soda can",
+   "beer can",
+   "tin",
+   "tin can",
+   "aluminium",
+   "aluminum"
+  ],
+  "material": {
+   "el": "Αλουμίνιο ή λευκοσίδηρος",
+   "en": "Aluminium or tinplate"
+  },
+  "icon": "CupSoda",
+  "thumbTone": "#EEF1F5",
+  "recognitionConfidence": 0.95,
+  "fact": {
+   "el": "Ένα κουτάκι αλουμινίου μπορεί να ξαναγίνει κουτάκι σε περίπου δύο μήνες.",
+   "en": "An aluminium can can be back on the shelf as a new can in about two months."
+  },
+  "questions": []
+ },
+ {
+  "id": "paper",
+  "name": {
+   "el": "Χαρτί",
+   "en": "Paper"
+  },
+  "aliases": [
+   "χαρτι",
+   "εφημεριδα",
+   "περιοδικο",
+   "χαρτια",
+   "φυλλαδιο",
+   "φακελος",
+   "χαρτινη σακουλα",
+   "τετραδιο",
+   "χαρτι γραφειου",
+   "paper",
+   "newspaper",
+   "magazine",
+   "envelope",
+   "paper bag",
+   "office paper",
+   "flyer"
+  ],
+  "material": {
+   "el": "Χαρτί",
+   "en": "Paper"
+  },
+  "icon": "Newspaper",
+  "thumbTone": "#F5F1E6",
+  "recognitionConfidence": 0.94,
+  "fact": {
+   "el": "Το χαρτί ανακυκλώνεται 5 έως 7 φορές πριν οι ίνες του γίνουν πολύ κοντές.",
+   "en": "Paper can be recycled 5 to 7 times before its fibres get too short."
+  },
+  "questions": []
+ },
+ {
+  "id": "cardboard-box",
+  "name": {
+   "el": "Χαρτόκουτο",
+   "en": "Cardboard box"
+  },
+  "aliases": [
+   "χαρτοκουτο",
+   "χαρτονι",
+   "κουτι",
+   "κουτι δεματος",
+   "κουτι παπουτσιων",
+   "κουτι δημητριακων",
+   "συσκευασια χαρτονιου",
+   "cardboard",
+   "cardboard box",
+   "box",
+   "carton",
+   "parcel box",
+   "cereal box"
+  ],
+  "material": {
+   "el": "Χαρτόνι",
+   "en": "Cardboard"
+  },
+  "icon": "Package",
+  "thumbTone": "#F3E9DC",
+  "recognitionConfidence": 0.95,
+  "fact": {
+   "el": "Ένα διπλωμένο χαρτόκουτο πιάνει έως και 10 φορές λιγότερο χώρο στον κάδο.",
+   "en": "A flattened box takes up to 10 times less room in the bin."
+  },
+  "questions": []
+ },
+ {
   "id": "pizza-box",
   "name": {
    "el": "Κουτί πίτσας",

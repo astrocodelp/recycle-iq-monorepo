@@ -33,6 +33,8 @@ type Material = keyof typeof AVOIDED_KG_PER_KG;
 const ITEMS: Record<string, { material: Material; kg: number; what: L10n; recycledIn: CategoryId }> = {
   'plastic-bottle': { material: 'pet', kg: 0.025, what: te('ένα πλαστικό μπουκάλι 25 γρ.', 'a 25 g plastic bottle'), recycledIn: 'packaging' },
   'glass-bottle': { material: 'glass', kg: 0.35, what: te('ένα γυάλινο μπουκάλι 350 γρ.', 'a 350 g glass bottle'), recycledIn: 'packaging' },
+  can: { material: 'aluminium', kg: 0.015, what: te('ένα κουτάκι αλουμινίου 15 γρ.', 'a 15 g aluminium can'), recycledIn: 'packaging' },
+  'cardboard-box': { material: 'board', kg: 0.3, what: te('ένα χαρτόκουτο 300 γρ.', 'a 300 g cardboard box'), recycledIn: 'packaging' },
   'pizza-box': { material: 'board', kg: 0.2, what: te('ένα καθαρό κουτί πίτσας 200 γρ.', 'a clean 200 g pizza box'), recycledIn: 'packaging' },
   'food-scraps': { material: 'foodCompost', kg: 0.5, what: te('μισό κιλό υπολείμματα τροφών', 'half a kilo of food scraps'), recycledIn: 'organic' },
 };
@@ -85,6 +87,8 @@ export function impactFor(objectId: string, category: CategoryId, uncertain = fa
           ),
     };
   }
+  if (category === 'packaging')
+    return { grams: null, carKm: null, counts: true, headline: te('Γίνεται ξανά πρώτη ύλη', 'It becomes raw material again'), detail: te('Στον μπλε κάδο το υλικό ξαναμπαίνει στην παραγωγή αντί να καταλήξει σε χωματερή.', 'In the blue bin the material goes back into production instead of landfill.') };
   if (category === 'special')
     return { grams: null, carKm: null, counts: true, headline: te('Ανακτώνται πολύτιμα μέταλλα', 'Valuable metals are recovered'), detail: te('Στο σημείο συλλογής ανακτώνται μέταλλα και οι επικίνδυνες ουσίες δεν καταλήγουν στο έδαφος και στο νερό.', 'At the collection point metals are recovered and hazardous substances stay out of soil and water.') };
   if (category === 'bulky')

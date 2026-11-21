@@ -95,6 +95,83 @@ const plasticBottle: Evaluator = ({ on }) =>
         condition: te('Καθαρό', 'Clean'),
       };
 
+/** Plain packaging that goes in the blue bin under ATH-PKG-01, with a safe default when the rule is off. */
+const bluePackaging =
+  (why: L10n, prep: L10n[], warnings: L10n[] = []): Evaluator =>
+  ({ on }) =>
+    on('ATH-PKG-01')
+      ? {
+          category: 'packaging',
+          destination: D.blue,
+          confidence: 0.95,
+          rules: ['ATH-PKG-01'],
+          headline: te('Ρίξ’ το στον μπλε κάδο', 'Put it in the blue recycling bin'),
+          why,
+          prep,
+          warnings,
+          notes: [],
+          condition: te('Καθαρό — δεν χρειάζεται διευκρίνιση', 'Clean — no clarification needed'),
+        }
+      : {
+          category: 'general',
+          destination: D.general,
+          confidence: 0.6,
+          rules: [],
+          certainty: 'medium',
+          headline: te('Ρίξ’ το προς το παρόν στον πράσινο κάδο', 'Put it in general waste for now'),
+          why: te(
+            'Δεν ισχύει κανόνας ανακύκλωσης συσκευασιών, γι’ αυτό προτείνουμε την ασφαλή επιλογή.',
+            'No active packaging rule applies, so the safe default is used.',
+          ),
+          prep: [],
+          warnings: [],
+          notes: [ruleDisabledNote('ATH-PKG-01')],
+          condition: te('Καθαρό', 'Clean'),
+        };
+
+const can = bluePackaging(
+  te(
+    'Τα κουτάκια αλουμινίου και οι κονσέρβες είναι μεταλλικές συσκευασίες και ανακυκλώνονται ξανά και ξανά.',
+    'Aluminium cans and tins are metal packaging and can be recycled again and again.',
+  ),
+  [
+    te('Άδειασέ το εντελώς.', 'Empty it completely.'),
+    te('Ξέπλυνε πρόχειρα τις κονσέρβες φαγητού.', 'Give food tins a quick rinse.'),
+    te('Μη βάζεις άλλα σκουπίδια μέσα του.', 'Do not stuff other rubbish inside it.'),
+  ],
+);
+
+const paper = bluePackaging(
+  te(
+    'Το καθαρό χαρτί (εφημερίδες, περιοδικά, χαρτιά γραφείου, φάκελοι) ανακυκλώνεται στον μπλε κάδο.',
+    'Clean paper (newspapers, magazines, office paper, envelopes) is recycled in the blue bin.',
+  ),
+  [
+    te('Βάλ’ το χύμα, όχι σε δεμένη σακούλα.', 'Put it in loose, not in a tied bag.'),
+    te('Αφαίρεσε πλαστικές μεμβράνες και σπιράλ.', 'Remove plastic wrapping and spirals.'),
+  ],
+  [
+    te(
+      'Χρησιμοποιημένες χαρτοπετσέτες, χαρτομάντιλα και λερωμένο χαρτί πάνε στον πράσινο κάδο.',
+      'Used napkins, tissues and soiled paper go in the general waste bin.',
+    ),
+  ],
+);
+
+const cardboardBox = bluePackaging(
+  te('Το καθαρό χαρτόνι ανακυκλώνεται κανονικά.', 'Clean cardboard is recycled normally.'),
+  [
+    te('Άδειασέ το και αφαίρεσε φελιζόλ και πλαστικά.', 'Empty it and remove foam and plastic.'),
+    te('Δίπλωσέ το για να χωράει στον κάδο.', 'Flatten it so it fits in the bin.'),
+  ],
+  [
+    te(
+      'Αν έχει λάδια ή φαγητά (όπως ένα λερωμένο κουτί πίτσας), πάει στον πράσινο κάδο.',
+      'If it has grease or food on it (like a greasy pizza box), it goes in general waste.',
+    ),
+  ],
+);
+
 const pizzaBox: Evaluator = ({ answers, on }) => {
   const greasy = answers.greasy;
   const cutLid = te(
@@ -520,6 +597,9 @@ const unknown: Evaluator = () => ({
 
 export const EVALUATORS: Record<string, Evaluator> = {
   'plastic-bottle': plasticBottle,
+  can,
+  paper,
+  'cardboard-box': cardboardBox,
   'pizza-box': pizzaBox,
   'food-scraps': foodScraps,
   battery,
@@ -534,6 +614,18 @@ export const RUNNER_UPS: Record<string, [L10n, number][]> = {
   'plastic-bottle': [
     [te('Γυάλινο μπουκάλι', 'Glass bottle'), 0.02],
     [te('Πλαστικό δοχείο', 'Plastic container'), 0.01],
+  ],
+  can: [
+    [te('Κονσέρβα', 'Food tin'), 0.03],
+    [te('Πλαστικό μπουκάλι', 'Plastic bottle'), 0.01],
+  ],
+  paper: [
+    [te('Χαρτόνι', 'Cardboard'), 0.04],
+    [te('Χαρτοπετσέτα', 'Paper napkin'), 0.02],
+  ],
+  'cardboard-box': [
+    [te('Κουτί πίτσας', 'Pizza box'), 0.04],
+    [te('Χαρτί', 'Paper'), 0.02],
   ],
   'pizza-box': [
     [te('Χάρτινο κουτί', 'Cardboard box'), 0.05],

@@ -1,8 +1,35 @@
-# On-device recognition with SigLIP 2
+# Photo recognition
 
-The scan screen (`apps/mobile/src/app/scan.tsx`) recognises the photographed item **on the phone** and
-re-orders the pick tray with the most likely item first ("Μοιάζει με …"). The resident always confirms with
-one tap; the model suggests, it never decides alone. The photo never leaves the phone.
+The scan screen (`apps/mobile/src/app/scan.tsx`) recognises the photographed item and re-orders the pick
+tray with the most likely item first ("Μοιάζει με …"). The resident always confirms with one tap; the model
+suggests, it never decides alone.
+
+1. **Server (default).** The photo is shrunk to 640 px and sent once to `POST /api/v1/recognize`
+   (`apps/web/lib/recognize.ts`), which asks a vision model on the Vercel AI Gateway and answers
+   `{ item, confidence, seen }`, `item` being a catalogue id or `other` (with `seen`, a few Greek words, so
+   the screen can say what it saw). The photo is not stored or logged. Model: `VISION_MODEL`, default
+   `google/gemini-3.1-flash-lite`. Client: `apps/mobile/src/lib/cloud-vision.ts`.
+2. **On the phone (no network).** SigLIP 2 below. Only in the native apps.
+3. **Neither.** The normal pick list.
+
+On the web (`/app`) the shutter opens the browser's own picker (`src/lib/pick-photo.ts`): the camera on a
+phone, the file chooser on a laptop.
+
+## Measured, server
+
+TrashNet photos (not Athens bins), 6 per class, the same prompt as the route:
+
+| Model | Right (plastic, glass, metal, paper, cardboard) | Avg time |
+| --- | --- | --- |
+| google/gemini-3.1-flash-lite (default) | 30/30 | 1.7 s |
+| google/gemini-3.5-flash-lite | 29/30 | 1.9 s |
+| google/gemini-2.5-flash-lite | 28/30 | 1.5 s |
+| google/gemini-3.8-flash | 29/30 | 4.3 s |
+| SigLIP 2 on the phone (app scoring, plastic + glass only) | 9/16 | ~0.1 s on a Mac |
+
+Used napkins and tissues answer `other`, not paper, because they go to general waste.
+
+# On-device recognition with SigLIP 2 (offline fallback)
 
 **Model:** `google/siglip2-base-patch16-224` (Apache-2.0, not gated: no access request or token needed), via
 the ONNX export `onnx-community/siglip2-base-patch16-224-ONNX`.
@@ -39,10 +66,11 @@ The quantized file loads and runs in about 60 ms per image on a server CPU; phon
 - Preprocessing parity with transformers.js' own SigLIP processor: cosine 0.99.
 - 40 photos across plastic, glass, cardboard, paper, metal and other waste: the right kind of item is the top
   label in 29 and in the top three in 38.
-- With the app's exact scoring on plastic and glass photos: the right item comes first in 12 of 16. Two
-  were confidently wrong (a plastic bottle read as a battery, a glass bottle read as plastic), which is why
-  the resident confirms. Cardboard and metal correctly come out as "not sure" because they are not in the
-  catalogue.
+- With the app's exact scoring on plastic and glass photos (`check-app-scoring.mjs`, re-run 21 Nov 2026 with
+  the shipped label file): the right item comes first in 9 of 16 (an earlier run noted 12). Plastic bottles
+  were sometimes read as batteries and most glass bottles as plastic. This is why the server model is the
+  default and SigLIP only the offline fallback. With `can`, `paper` and `cardboard-box` turned into catalogue
+  labels (they were "other" before): 26 of 40 across plastic, glass, cardboard, metal and paper.
 - SigLIP's absolute probabilities are small (typically under 20 %); use the ranking, not a fixed percentage.
 
 These photos are not Athens bins. Measure on real photos from the pilot before relying on the suggestion.

@@ -19,6 +19,9 @@ const s = (objectId: string, answers: Answers, el: string, en: string): Scenario
 /** Representative cases used to preview what a policy change would do. */
 export const SCENARIOS: readonly Scenario[] = [
   s('plastic-bottle', {}, 'Πλαστικό μπουκάλι', 'Plastic bottle'),
+  s('can', {}, 'Κουτάκι αναψυκτικού', 'Drink can'),
+  s('paper', {}, 'Χαρτί', 'Paper'),
+  s('cardboard-box', {}, 'Χαρτόκουτο', 'Cardboard box'),
   s('pizza-box', { greasy: 'yes' }, 'Κουτί πίτσας · λερωμένο', 'Pizza box · greasy'),
   s('pizza-box', { greasy: 'no' }, 'Κουτί πίτσας · καθαρό', 'Pizza box · clean'),
   s('pizza-box', { greasy: 'unsure' }, 'Κουτί πίτσας · δεν ξέρω', 'Pizza box · unsure'),
