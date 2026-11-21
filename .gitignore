@@ -1,4 +1,6 @@
 node_modules/
+# The citizen app's web export keeps fonts and images under assets/__node_modules: ship them.
+!apps/web/public/app/assets/**/node_modules/
 .pnpm-store/
 .turbo/
 .next/

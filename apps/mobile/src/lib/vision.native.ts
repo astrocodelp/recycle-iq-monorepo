@@ -12,6 +12,7 @@
  */
 import { File, Paths } from 'expo-file-system';
 import { ImageManipulator, SaveFormat } from 'expo-image-manipulator';
+import { getNetworkStateAsync, NetworkStateType } from 'expo-network';
 import jpeg from 'jpeg-js';
 import LABELS from '../../assets/ml/siglip2-labels.json';
 import type { Recognition, RecognizeOptions } from './vision';
@@ -77,6 +78,24 @@ async function ensureModel(options: RecognizeOptions): Promise<File | null> {
       if (partial.exists) partial.delete();
     } catch {}
     return null;
+  }
+}
+
+let prefetching = false;
+/**
+ * Fetch the model quietly after a scan, only on Wi-Fi, so later scans can be answered on the phone
+ * (and still work offline). Never on mobile data: it is 95 MB.
+ */
+export async function prefetchModelOnWifi(): Promise<void> {
+  if (prefetching || isModelDownloaded() || !loadOrt()) return;
+  try {
+    const net = await getNetworkStateAsync();
+    if (net.type !== NetworkStateType.WIFI || net.isInternetReachable === false) return;
+    prefetching = true;
+    await ensureModel({});
+  } catch {
+  } finally {
+    prefetching = false;
   }
 }
 

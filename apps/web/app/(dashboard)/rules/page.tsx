@@ -1,11 +1,12 @@
 import { asc, getDb, rules as rulesTable } from '@recycleiq/db';
-import { CATEGORIES, ruleImpact } from '@recycleiq/engine';
+import { BIN_KEYS, CATEGORIES, DEFAULT_BINS, ruleImpact } from '@recycleiq/engine';
 import { Badge, Card, CategoryLabel, DemoBadge } from '@/components/ui';
+import { getBinStyles } from '@/lib/bin-styles';
 import { getDistrictContext, getDistricts } from '@/lib/data';
 import { fmt } from '@/lib/format';
 import { getLang, tr } from '@/lib/lang';
 import { getRuleChanges } from '@/lib/queries';
-import { toggleRule } from './actions';
+import { toggleRule, updateBin } from './actions';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Κανόνες' };
@@ -16,11 +17,12 @@ export default async function RulesPage({ searchParams }: PageProps<'/rules'>) {
   const t = tr(lang);
   const f = fmt(lang);
   const districtId = typeof sp.district === 'string' ? sp.district : 'koukaki';
-  const [rows, districts, { ctx }, changes] = await Promise.all([
+  const [rows, districts, { ctx }, changes, bins] = await Promise.all([
     getDb().select().from(rulesTable).orderBy(asc(rulesTable.code)),
     getDistricts(),
     getDistrictContext(districtId),
     getRuleChanges(),
+    getBinStyles(),
   ]);
   const states = rows.map((r) => ({ code: r.code, enabled: r.enabled }));
   const on = rows.filter((r) => r.enabled).length;
@@ -61,6 +63,57 @@ export default async function RulesPage({ searchParams }: PageProps<'/rules'>) {
 
       <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_340px]">
         <div className="flex flex-col gap-4">
+          <Card title={t('Κάδοι και χρώματα', 'Bins and colours')}>
+            <p className="text-body text-muted">
+              {t(
+                'Πώς λέγεται και τι χρώμα έχει κάθε κάδος στον Δήμο. Η εφαρμογή χρησιμοποιεί αυτά τα ονόματα και χρώματα στην επόμενη απάντηση.',
+                'What each bin is called and its colour in this municipality. The app uses these names and colours from the next answer on.',
+              )}
+            </p>
+            <ul className="mt-3 flex flex-col">
+              {BIN_KEYS.map((k) => {
+                const b = bins[k];
+                const changed = b.color !== DEFAULT_BINS[k].color || b.name.el !== DEFAULT_BINS[k].name.el || b.name.en !== DEFAULT_BINS[k].name.en;
+                return (
+                  <li key={k} className="border-t border-line py-2 first:border-0">
+                    <form action={updateBin} className="flex flex-wrap items-center gap-2">
+                      <input type="hidden" name="key" value={k} />
+                      <input
+                        type="color"
+                        name="color"
+                        defaultValue={b.color}
+                        aria-label={t(`Χρώμα: ${b.name.el}`, `Colour: ${b.name.en}`)}
+                        className="h-9 w-11 cursor-pointer rounded-control border border-line-strong bg-surface p-1"
+                      />
+                      <input
+                        name="nameEl"
+                        defaultValue={b.name.el}
+                        aria-label={t('Όνομα στα ελληνικά', 'Name in Greek')}
+                        maxLength={60}
+                        className="min-w-0 flex-1 rounded-control border border-line-strong bg-surface px-3 py-2 text-body"
+                      />
+                      <input
+                        name="nameEn"
+                        defaultValue={b.name.en}
+                        aria-label={t('Όνομα στα αγγλικά', 'Name in English')}
+                        maxLength={60}
+                        className="min-w-0 flex-1 rounded-control border border-line-strong bg-surface px-3 py-2 text-body"
+                      />
+                      <button className="rounded-control bg-ink px-3 py-2 text-body font-semibold text-white">{t('Αποθήκευση', 'Save')}</button>
+                      <button
+                        name="op"
+                        value="reset"
+                        disabled={!changed}
+                        className="rounded-control border border-line-strong px-3 py-2 text-body disabled:opacity-40"
+                      >
+                        {t('Επαναφορά', 'Reset')}
+                      </button>
+                    </form>
+                  </li>
+                );
+              })}
+            </ul>
+          </Card>
           {rows.map((r) => {
             const impact = ruleImpact(r.code, states, ctx);
             return (

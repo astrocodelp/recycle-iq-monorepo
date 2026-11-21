@@ -23,6 +23,9 @@ export interface RecognizeOptions {
   signal?: AbortSignal;
 }
 
+/** Download the model in the background when on Wi-Fi (no-op where there is no model). */
+export async function prefetchModelOnWifi(): Promise<void> {}
+
 /** Whether this build can run the model at all. */
 export const visionSupported = false;
 

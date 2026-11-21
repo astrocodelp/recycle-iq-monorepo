@@ -1,13 +1,15 @@
 import { CATEGORIES, DEFAULT_ANSWERS, PICKABLE_OBJECTS, getObject } from '@recycleiq/engine';
+import { getBinStyles } from '@/lib/bin-styles';
 
-/** Static catalog: objects with their clarifying question, categories. Cached at the edge. */
-export const dynamic = 'force-static';
+/** Catalog: objects with their clarifying question, categories, and the municipality's bin names and colours. */
+export const revalidate = 60;
 
-export function GET() {
+export async function GET() {
   return Response.json({
     objects: PICKABLE_OBJECTS,
     unknown: getObject('unknown'),
     categories: CATEGORIES,
     defaultAnswers: DEFAULT_ANSWERS,
+    bins: await getBinStyles(),
   });
 }

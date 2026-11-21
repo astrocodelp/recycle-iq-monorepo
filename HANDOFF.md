@@ -12,7 +12,7 @@ nearest one; the Municipality of Athens sees everything per neighbourhood on an 
 |---|---|---|
 | Municipal dashboard (Next.js 16) | `apps/web` → https://recycle-iq-monorepo-web.vercel.app | Live on Vercel, Neon Postgres |
 | Citizen app (Expo SDK 58) | `apps/mobile` | Android APK at `/download`; iPhone via Safari at `/app`; iOS App Store build done, not yet in TestFlight |
-| Database (Drizzle) | `packages/db` | Migrations 0000–0006; Vercel build runs migrate + seed |
+| Database (Drizzle) | `packages/db` | Migrations 0000–0007; Vercel build runs migrate + seed |
 | Decision engine | `packages/engine` | Shared by app, API, assistant |
 | Delta Sort (sorting robots) | separate repo `Mike17K/recycleiq-delta-sort` | Simulation only; fleet + sorting pages port its ops |
 
@@ -22,7 +22,7 @@ Branch: **`claude/blissful-mayer-3h8ims`** (Vercel deploys it to production). No
 
 - Dashboard: https://recycle-iq-monorepo-web.vercel.app (open, no login)
 - Citizen app in Safari (iPhone): https://recycle-iq-monorepo-web.vercel.app/app
-- Android APK: https://recycle-iq-monorepo-web.vercel.app/download (link set in `apps/web/lib/release.ts`)
+- Android APK and iPhone TestFlight: https://recycle-iq-monorepo-web.vercel.app/download (links in `apps/web/lib/release.ts`)
 - Resident survey (Typeform-style): https://recycle-iq-monorepo-web.vercel.app/feedback?src=linkedin
 - Survey results: https://recycle-iq-monorepo-web.vercel.app/survey
 - MCP connector for municipal AIs: https://recycle-iq-monorepo-web.vercel.app/api/mcp (demo login code `test123`, see `docs/MCP.md`)
@@ -53,8 +53,13 @@ mismatch; use `tsc` for the mobile app.)
 - **Fleet / sorting** (simulation, ported from delta-sort): `/fleet`, `/sorting`, `docs/OPS.md`.
 - **Full-bin reports and bulky pickups**, mirrored to the city's AthensGov sandbox: `docs/ATHENSGOV.md`.
 - **Real bins** from OpenStreetMap (1,167) behind a «Συνθετικά | Πραγματικά» switch: `docs/GEODATA.md`.
-- **On-device recognition** with SigLIP 2 (native app only; patched onnxruntime-react-native, local iOS pod):
-  `docs/VISION.md`, `patches/`, `apps/mobile/vendor/onnxruntime-c`, `apps/mobile/plugins/`.
+- **Photo recognition** (`docs/VISION.md`): the phone's SigLIP 2 answers alone when very sure (98% right),
+  else `POST /api/v1/recognize` (Gemini flash-lite via AI Gateway, `VISION_MODEL`; also says greasy / liquid;
+  photo not stored), offline the phone again. Web `/app` scans with the browser's camera/file picker.
+  Benchmarks of cloud, decision, open-weight and on-device models are in `docs/VISION.md` and deck slides 7–8.
+- **Catalogue**: drink can, paper, cardboard box, clothes (purple clothing bin) added.
+- **Bins and colours per municipality**: dashboard → Κανόνες → «Κάδοι και χρώματα» (table `bin_styles`,
+  migration 0007; engine `packages/engine/src/bins.ts`). Defaults: blue, glass bell, brown, purple, green.
 - **Resident survey** (Typeform-style, anonymous, optional pilot email kept off the dashboard):
   definition `apps/web/lib/survey.ts`, form `apps/web/components/survey-form.tsx`, page `apps/web/app/feedback`,
   API `apps/web/app/api/v1/survey`, results `apps/web/app/(dashboard)/survey`, table `survey_responses` (migration 0006).
@@ -71,9 +76,12 @@ mismatch; use `tsc` for the mobile app.)
 
 ## Open items
 
-1. **TestFlight**: iOS build `a8390098-16cb-4844-b5b4-a78329c099f5` is done. On the Mac with Athanasios's Apple ID:
-   `cd apps/mobile && npx eas-cli@latest submit -p ios --id a8390098-16cb-4844-b5b4-a78329c099f5`, then
-   App Store Connect → TestFlight → External testing → Public link (first build needs Apple beta review).
+1. **TestFlight** (21 Nov): build 7 (0.1.0) is in App Store Connect, in the external group «Δημόσιο beta», sent to
+   Apple's beta review (WAITING_FOR_REVIEW). Public link, works once Apple approves:
+   https://testflight.apple.com/join/tqhXGdq6, already on `/download`, the bin QR pages and the deck
+   (`RELEASE.testFlight` in `apps/web/lib/release.ts`). Builds 4–6 were rejected in processing for
+   missing purpose strings (microphone, photo library), now in `apps/mobile/app.json`. Review contact and test
+   info are set. iOS submits need no Apple login now (`ascAppId` in `eas.json`).
 2. **Survey follow-up**: when ~30 answers are in, summarise from `/survey`, then update the deck and business plan.
    Likely product changes if the trend holds: collective neighbourhood rewards (trees / new bin), simple Greek with
    pictures on results, a "where your recycling goes" screen, stories as a bonus only.

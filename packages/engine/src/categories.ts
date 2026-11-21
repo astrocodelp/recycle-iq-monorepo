@@ -73,4 +73,5 @@ export const DESTINATIONS = {
   weee: te('Σημείο συλλογής ηλεκτρικών συσκευών', 'WEEE collection point'),
   bulky: te('Αποκομιδή ογκωδών κατόπιν ραντεβού', 'Bulky pickup by appointment'),
   glass: te('Καμπάνα γυαλιού', 'Glass bell'),
+  textiles: te('Μωβ κάδος ρούχων', 'Purple clothing bin'),
 } as const satisfies Record<string, L10n>;

@@ -1,6 +1,6 @@
 import { getObject } from '@recycleiq/engine';
 import { useLocalSearchParams } from 'expo-router';
-import { ChevronRight, Info, WifiOff } from 'lucide-react-native';
+import { ChevronRight, Info, Sparkles, WifiOff } from 'lucide-react-native';
 import { useEffect, useRef } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import Animated from 'react-native-reanimated';
@@ -16,7 +16,8 @@ import { colors, font, r } from '@/lib/theme';
 
 /** One clarifying question at most; items without one go straight to the decision. */
 export default function Item() {
-  const { id, via } = useLocalSearchParams<{ id: string; via?: string }>();
+  // suggest: the answer the scan photo points to (e.g. a pizza box that looks greasy); the resident still taps.
+  const { id, via, suggest } = useLocalSearchParams<{ id: string; via?: string; suggest?: string }>();
   const { t } = useApp();
   const { decide, busy, error } = useDecide();
   const obj = getObject(id ?? '') ?? getObject('unknown')!;
@@ -65,10 +66,16 @@ export default function Item() {
                   accessibilityRole="button"
                   accessibilityLabel={t(o.label)}
                 >
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, backgroundColor: colors.surface, borderRadius: r.card, borderWidth: 1, borderColor: colors.line, padding: 16 }}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, backgroundColor: colors.surface, borderRadius: r.card, borderWidth: o.id === suggest ? 2 : 1, borderColor: o.id === suggest ? colors['forest-700'] : colors.line, padding: 16 }}>
                     <View style={{ flex: 1, gap: 2 }}>
                       <T v="bodyLg" style={{ fontFamily: font.semibold }}>{t(o.label)}</T>
                       {o.hint && <T v="caption" color={colors.muted}>{t(o.hint)}</T>}
+                      {o.id === suggest && (
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 2 }}>
+                          <Sparkles size={14} color={colors['forest-700']} />
+                          <T v="caption" color={colors['forest-700']} style={{ fontFamily: font.semibold }}>{t('Από τη φωτογραφία', 'From the photo')}</T>
+                        </View>
+                      )}
                     </View>
                     <ChevronRight size={20} color={colors.faint} />
                   </View>

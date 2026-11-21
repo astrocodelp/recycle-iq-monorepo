@@ -107,6 +107,18 @@ export const rules = pgTable('rules', {
   updatedBy: text('updated_by'),
 });
 
+/**
+ * Bin types as the municipality names and colours them (engine `BIN_KEYS`: blue, glass, brown, general,
+ * textiles, battery, weee, bulky). A missing row means the engine default. Edited on the dashboard.
+ */
+export const binStyles = pgTable('bin_styles', {
+  key: text('key').primaryKey(),
+  name: jsonb('name').$type<L10n>().notNull(),
+  color: text('color').notNull(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  updatedBy: text('updated_by'),
+});
+
 /** Audit log of rule toggles. */
 export const ruleChanges = pgTable('rule_changes', {
   id: serial('id').primaryKey(),

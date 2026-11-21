@@ -76,7 +76,9 @@ export default function Result() {
     );
 
   const obj = getObject(decision.objectId) ?? getObject('unknown')!;
-  const color = decision.uncertain ? colors.muted : categoryColors[decision.category].solid;
+  // The municipality's colour for this bin (dashboard → Rules → Bins), else the category colour.
+  const binColor = (decision as { bin?: { color?: string } }).bin?.color;
+  const color = decision.uncertain ? colors.muted : (binColor ?? categoryColors[decision.category].solid);
   const certainty = { high: t('Υψηλή βεβαιότητα', 'High certainty'), medium: t('Μέτρια βεβαιότητα', 'Medium certainty'), low: t('Χαμηλή βεβαιότητα', 'Low certainty') }[decision.certainty];
   const totalMs = decision.trace.reduce((s, x) => s + x.durationMs, 0);
   const doneCount = Object.values(done).filter(Boolean).length;

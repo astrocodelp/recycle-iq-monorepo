@@ -1,6 +1,7 @@
 export * from './types';
 export * from './l10n';
 export * from './categories';
+export * from './bins';
 export * from './catalog';
 export * from './rules';
 export * from './points';

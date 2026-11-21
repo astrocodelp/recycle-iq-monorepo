@@ -36,14 +36,18 @@ const run = (objectId: string, answers = {}, rules = allOn, district = koukaki) 
   evaluate({ objectId, answers }, { district, rules });
 
 describe('catalog and rules data', () => {
-  it('has the prototype catalog and the 13 indicative rules', () => {
+  it('has the catalog and the 13 indicative rules', () => {
     expect(CATALOG.map((o) => o.id)).toEqual([
       'plastic-bottle',
+      'can',
+      'paper',
+      'cardboard-box',
       'pizza-box',
       'food-scraps',
       'battery',
       'sofa',
       'glass-bottle',
+      'clothes',
       'coffee-maker',
       'unknown',
     ]);
@@ -52,6 +56,18 @@ describe('catalog and rules data', () => {
 });
 
 describe('decisions', () => {
+  it('clothes go to the clothing bin', () => {
+    expect(run('clothes')).toMatchObject({ category: 'special' });
+    expect(run('clothes').destination.en).toBe('Purple clothing bin');
+  });
+
+  it('cans, paper and cardboard go to the blue bin, or general waste if ATH-PKG-01 is off', () => {
+    for (const id of ['can', 'paper', 'cardboard-box']) {
+      expect(run(id)).toMatchObject({ category: 'packaging', rulesApplied: ['ATH-PKG-01'] });
+      expect(run(id, {}, off('ATH-PKG-01'))).toMatchObject({ category: 'general', rulesApplied: [] });
+    }
+  });
+
   it('plastic bottle goes to the blue bin, or general waste if ATH-PKG-01 is off', () => {
     expect(run('plastic-bottle')).toMatchObject({ category: 'packaging', confidence: 0.97, certainty: 'high' });
     const d = run('plastic-bottle', {}, off('ATH-PKG-01'));

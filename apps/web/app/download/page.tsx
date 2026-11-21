@@ -30,7 +30,21 @@ export default async function Download() {
       {RELEASE.appStore ? (
         <a href={RELEASE.appStore} className={`${btn} bg-ink text-white`}>App Store</a>
       ) : (
-        <div className={`${btn} bg-surface-2 text-muted`}>{t('iPhone: σύντομα (TestFlight)', 'iPhone: coming soon (TestFlight)')}</div>
+        <a href={RELEASE.testFlight} className={`${btn} bg-ink text-white`}>{t('iPhone: πιλοτική έκδοση (TestFlight)', 'iPhone: pilot build (TestFlight)')}</a>
+      )}
+      {!RELEASE.appStore && (
+        <div className="card p-5 text-caption text-muted">
+          <p className="font-semibold text-ink">{t('Εγκατάσταση σε iPhone', 'Installing on iPhone')}</p>
+          <ol className="mt-2 list-decimal space-y-1 pl-5">
+            <li>{t('Πάτα το κουμπί: ανοίγει η σελίδα του TestFlight.', 'Tap the button: the TestFlight page opens.')}</li>
+            <li>{t('Εγκατάστησε την εφαρμογή TestFlight της Apple, αν δεν την έχεις.', "Install Apple's TestFlight app if you don't have it.")}</li>
+            <li>{t('Πάτα «Αποδοχή» και μετά «Εγκατάσταση».', 'Tap "Accept", then "Install".')}</li>
+          </ol>
+          <p className="mt-2">
+            {t('Αν γράφει ότι δεν δέχεται δοκιμαστές, η Apple ελέγχει ακόμη την έκδοση. Μέχρι τότε, άνοιξε την ', "If it says it isn't accepting testers, Apple is still reviewing the build. Until then, open the ")}
+            <a href="/app" className="font-semibold text-forest-700 underline">{t('εφαρμογή στο Safari', 'app in Safari')}</a>.
+          </p>
+        </div>
       )}
       {!RELEASE.googlePlay && (
         <div className="card p-5 text-caption text-muted">

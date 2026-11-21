@@ -24,6 +24,7 @@ export function matchesQuery(point: CollectionPoint, q: PointQuery): boolean {
   if (!point.categories.includes(q.category)) return false;
   if (q.glassBell && !point.glassBell) return false;
   if (q.accepts === 'batteries' && !point.accepts.includes('batteries')) return false;
+  if (q.accepts === 'textiles' && !point.accepts.includes('textiles')) return false;
   if (q.accepts === 'weee' && !point.accepts.some((a) => a === 'weee_small' || a === 'weee_large'))
     return false;
   return true;

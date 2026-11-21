@@ -50,6 +50,13 @@
       "when": 1795277674229,
       "tag": "0006_survey",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1795285840995,
+      "tag": "0007_bin_styles",
+      "breakpoints": true
     }
   ]
 }
