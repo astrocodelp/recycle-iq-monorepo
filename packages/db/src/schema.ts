@@ -4,6 +4,8 @@ import {
   boolean,
   doublePrecision,
   index,
+  integer,
+  primaryKey,
   jsonb,
   pgEnum,
   pgTable,
@@ -232,4 +234,19 @@ export const surveyResponses = pgTable(
     source: text('source'),
   },
   (t) => [index('survey_responses_created_idx').on(t.createdAt)],
+);
+
+/**
+ * Assistant usage counters for rate limits (per device, per IP, global), one row per key and time window
+ * (an hour like "2026-11-21T14" or a day like "2026-11-21"). Old windows are pruned; nothing else is stored.
+ */
+export const assistantQuota = pgTable(
+  'assistant_quota',
+  {
+    key: text('key').notNull(),
+    window: text('window').notNull(),
+    count: integer('count').notNull().default(0),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [primaryKey({ columns: [t.key, t.window] })],
 );

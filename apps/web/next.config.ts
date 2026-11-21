@@ -27,6 +27,7 @@ const nextConfig: NextConfig = {
           { key: 'Access-Control-Allow-Origin', value: '*' },
           { key: 'Access-Control-Allow-Methods', value: 'GET,POST,OPTIONS' },
           { key: 'Access-Control-Allow-Headers', value: 'Content-Type, X-Device-Id' },
+          { key: 'Access-Control-Expose-Headers', value: 'X-Assistant-Remaining, X-Assistant-Limit, Retry-After' },
         ],
       },
     ];

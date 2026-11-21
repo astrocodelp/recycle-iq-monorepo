@@ -81,3 +81,18 @@ egress proxy injects the key, run the web server with `NODE_USE_ENV_PROXY=1` (No
   system prompt makes the model say so and forbids numbers that did not come from a tool.
 - The resident's device id is used only for "my rank" and "my scans"; other people appear by nickname.
 - Rules and actions are enforced on the server: residents' chats have no municipal tools at all.
+
+## Limits (so the open models are not overused)
+
+- **Open-weight models only.** `ASSISTANT_MODELS` / `ASSISTANT_MODEL` entries that are not open-weight
+  (gpt-oss, Qwen, Llama, Gemma, Mistral, DeepSeek, Kimi, GLM, Nemotron, Granite, Phi) are ignored.
+- **Questions, not tokens, are counted.** A question is a new user message; tool steps and approvals are free.
+- **Defaults** (env, see `.env.example`): residents 10 per hour and 30 per day per app install, 100 per day
+  per IP; municipal staff 200 per day per IP; 3,000 per day for everyone. At ~$0.001 a question on
+  gpt-oss-120b that caps the worst day at about $3.
+- **Per request:** a question is at most 1,000 characters, the last 24 messages are kept, at most 6 model
+  steps and 1,000 output tokens.
+- The answer carries `X-Assistant-Remaining` / `X-Assistant-Limit`; over the limit the API answers 429 with a
+  Greek or English message and `Retry-After`. Counters: table `assistant_quota` (migration 0008), pruned after 3 days.
+- **Account cap:** also set a monthly budget on the Vercel AI Gateway (team settings → AI Gateway → Budgets),
+  so spend stops at a fixed amount whatever happens in the app.

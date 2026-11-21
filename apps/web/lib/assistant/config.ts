@@ -16,11 +16,18 @@ const DEFAULT_MODELS = [
   'alibaba/qwen3-next-80b-a3b-instruct',
 ];
 
+/**
+ * Open-weight model families only. A model in ASSISTANT_MODELS / ASSISTANT_MODEL that is not open-weight is
+ * ignored, so a configuration mistake can never route residents' questions to a closed model.
+ */
+const OPEN_WEIGHT = /^(openai\/gpt-oss|alibaba\/qwen|meta\/llama|google\/gemma|mistral\/(mistral|ministral|mixtral|devstral|magistral|pixtral)|deepseek\/|moonshotai\/kimi|zai\/glm|nvidia\/nemotron|ibm\/granite|microsoft\/phi)/i;
+export const isOpenWeight = (id: string) => OPEN_WEIGHT.test(id);
+
 export function assistantModels(): { models: string[]; defaultModel: string } {
   const fromEnv = (process.env.ASSISTANT_MODELS ?? '')
     .split(',')
     .map((s) => s.trim())
-    .filter((s) => /^[a-z0-9-]+\/[a-z0-9.:_-]+$/i.test(s));
+    .filter((s) => /^[a-z0-9-]+\/[a-z0-9.:_-]+$/i.test(s) && isOpenWeight(s));
   const models = fromEnv.length ? fromEnv : DEFAULT_MODELS;
   const wanted = process.env.ASSISTANT_MODEL?.trim();
   const defaultModel = wanted && models.includes(wanted) ? wanted : models[0]!;

@@ -11,6 +11,7 @@ import {
 import { z } from 'zod';
 import { error } from '@/lib/api';
 import { assistantConfigured, pickModel } from '@/lib/assistant/config';
+import { quotaMessage, takeQuota } from '@/lib/assistant/limits';
 import { systemPrompt } from '@/lib/assistant/prompt';
 import { buildTools, type AssistantTools } from '@/lib/assistant/tools';
 import { getDistricts } from '@/lib/data';
@@ -46,6 +47,26 @@ export async function POST(req: Request) {
   if (!parsed.success) return error(400, 'Invalid body', parsed.error.issues);
   const body = parsed.data;
 
+  // Limits: one question = one new user message (approvals and tool steps are free). History is trimmed and
+  // a question is at most 1,000 characters, so a single request cannot get expensive.
+  let messages = body.messages as UIMessage[];
+  const last = messages[messages.length - 1];
+  const lastText = last?.role === 'user' ? last.parts.map((p) => (p.type === 'text' ? p.text : '')).join(' ') : '';
+  if (lastText.length > 1000) return error(413, body.lang === 'el' ? 'Η ερώτηση είναι πολύ μεγάλη (έως 1.000 χαρακτήρες).' : 'The question is too long (1,000 characters at most).');
+  if (messages.length > 24) {
+    messages = messages.slice(-24);
+    while (messages.length && messages[0]!.role !== 'user') messages = messages.slice(1);
+  }
+  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'local';
+  const quota = last?.role === 'user' ? await takeQuota({ mode: body.mode, deviceId: body.deviceId ?? null, ip }) : null;
+  if (quota && !quota.ok)
+    return Response.json(
+      { error: 'rate_limited', message: quotaMessage(quota, body.lang), retryAfter: quota.retryAfter, limit: quota.limit },
+      { status: 429, headers: { 'Retry-After': String(quota.retryAfter ?? 3600) } },
+    );
+  const quotaHeaders: Record<string, string> =
+    quota && quota.limit >= 0 ? { 'X-Assistant-Remaining': String(quota.remaining), 'X-Assistant-Limit': String(quota.limit), 'Access-Control-Expose-Headers': 'X-Assistant-Remaining, X-Assistant-Limit' } : {};
+
   const districts = await getDistricts();
   const district = body.districtId ? districts.find((d) => d.id === body.districtId) : undefined;
   const tools = buildTools({
@@ -60,7 +81,6 @@ export async function POST(req: Request) {
     ASSISTANT_ACTION_TOOLS.filter((name) => name in tools).map((name) => [name, 'user-approval' as const]),
   ) as ToolApprovalConfiguration<AssistantTools, Record<string, unknown>>;
 
-  const messages = body.messages as UIMessage[];
   const result = streamText({
     model: pickModel(body.model),
     system: systemPrompt({ mode: body.mode, lang: body.lang, districtName: district ? district.name[body.lang] : null, binSource: body.binSource }),
@@ -68,9 +88,9 @@ export async function POST(req: Request) {
     tools,
     toolApproval: approval,
     ...(process.env.ASSISTANT_APPROVAL_SECRET ? { experimental_toolApprovalSecret: process.env.ASSISTANT_APPROVAL_SECRET } : {}),
-    stopWhen: isStepCount(8),
+    stopWhen: isStepCount(6),
     temperature: 0.2,
-    maxOutputTokens: 1200,
+    maxOutputTokens: 1000,
   });
 
   return createUIMessageStreamResponse({
@@ -83,6 +103,6 @@ export async function POST(req: Request) {
         return body.lang === 'el' ? 'Κάτι πήγε στραβά με τον βοηθό. Δοκίμασε ξανά.' : 'The assistant hit a problem. Please try again.';
       },
     }),
-    ...(body.client === 'app' ? { headers: { 'Content-Type': 'application/octet-stream', 'Content-Encoding': 'none' } } : {}),
+    headers: { ...quotaHeaders, ...(body.client === 'app' ? { 'Content-Type': 'application/octet-stream', 'Content-Encoding': 'none' } : {}) },
   });
 }
