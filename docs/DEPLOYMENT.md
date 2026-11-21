@@ -32,7 +32,7 @@ The EAS project id is already in `apps/mobile/app.json`. Once, with your Expo ac
 npm install --global eas-cli
 cd apps/mobile
 eas login
-eas init --id a9821faf-2522-4679-99d2-dadead1b1c98   # links the owner account
+eas init --id a9821faf-2522-4679-99d2-dadead1b1c98   # already linked: owner stellarfirm-ai in app.json
 ```
 
 Set `EXPO_PUBLIC_API_URL` in `apps/mobile/eas.json` to your Vercel URL, then:
