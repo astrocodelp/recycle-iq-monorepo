@@ -148,7 +148,7 @@ export const decisions = pgTable(
   ],
 );
 
-/** Daily bin-selfie check-ins that earn Φύλλα. Photos are not stored. */
+/** Daily bin-selfie check-ins that earn κουπόνια. Photos are not stored. */
 export const checkins = pgTable(
   'checkins',
   {

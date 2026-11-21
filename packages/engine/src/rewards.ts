@@ -1,8 +1,8 @@
 import { te } from './l10n';
 import type { L10n } from './types';
 
-/** Φύλλα (Leaves): the reward currency. Indicatively 100 Φύλλα ≈ 1 euro. */
-export const LEAVES_PER_EURO = 100;
+/** κουπόνια (coupons): the reward currency. Indicatively 100 κουπόνια ≈ 1 euro. */
+export const COUPONS_PER_EURO = 100;
 
 export const REWARD_RULES = {
   base: 20,
@@ -48,4 +48,4 @@ export function checkinReward(input: CheckinInput): CheckinReward {
   return { earned: breakdown.reduce((s, b) => s + b.amount, 0), breakdown };
 }
 
-export const leavesToEuro = (leaves: number) => leaves / LEAVES_PER_EURO;
+export const couponsToEuro = (coupons: number) => coupons / COUPONS_PER_EURO;
