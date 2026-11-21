@@ -75,7 +75,6 @@ export interface DecisionRequest {
   objectId: string;
   answers?: Record<string, string>;
   districtId?: string | null;
-  location?: LngLat | null;
   deviceId?: string | null;
   via?: 'search' | 'scan' | 'api';
   /** Persist the decision (dashboard analytics). */
@@ -94,7 +93,7 @@ export async function makeDecision(req: DecisionRequest): Promise<{
     getPoints(),
   ]);
   const outcome = evaluate({ objectId: req.objectId, answers: req.answers }, { district: ctx, rules });
-  const nearby = outcome.pointQuery ? rankPoints(points, outcome.pointQuery, req.location ?? centre) : [];
+  const nearby = outcome.pointQuery ? rankPoints(points, outcome.pointQuery, centre) : [];
   const decision = explain(outcome, nearby);
   let id: string | null = null;
   if (req.record !== false) {

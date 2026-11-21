@@ -1,4 +1,4 @@
-import objectsJson from './data/objects.json' with { type: 'json' };
+import objectsJson from './data/objects.json';
 import type { CatalogObject } from './types';
 
 /** The object catalog from the prototype. `unknown` is the low-confidence fallback. */

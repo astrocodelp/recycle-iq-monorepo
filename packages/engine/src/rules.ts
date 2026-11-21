@@ -1,4 +1,4 @@
-import rulesJson from './data/rules.json' with { type: 'json' };
+import rulesJson from './data/rules.json';
 import type { Rule, RuleCode, RuleState } from './types';
 
 /** The indicative Athens rule registry. Not the official regulation. */

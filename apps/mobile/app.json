@@ -1,0 +1,74 @@
+{
+  "expo": {
+    "name": "RecycleIQ",
+    "slug": "recycleiq",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "recycleiq",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "bundleIdentifier": "gr.recycleiq.app",
+      "supportsTablet": false,
+      "icon": "./assets/images/icon.png",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Η κάμερα χρησιμοποιείται για να αναγνωρίσεις αντικείμενα και για τη selfie στον κάδο. Οι φωτογραφίες δεν αποστέλλονται.",
+        "NSLocationWhenInUseUsageDescription": "Η τοποθεσία μετατρέπεται σε γειτονιά πάνω στη συσκευή σου. Δεν στέλνουμε ούτε αποθηκεύουμε τη διεύθυνσή σου."
+      }
+    },
+    "android": {
+      "package": "gr.recycleiq.app",
+      "adaptiveIcon": {
+        "backgroundColor": "#166534",
+        "foregroundImage": "./assets/images/android-icon-foreground.png",
+        "backgroundImage": "./assets/images/android-icon-background.png",
+        "monochromeImage": "./assets/images/android-icon-monochrome.png"
+      },
+      "permissions": [
+        "CAMERA",
+        "ACCESS_COARSE_LOCATION"
+      ],
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "output": "single",
+      "favicon": "./assets/images/favicon.png",
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#F8F9F6",
+          "image": "./assets/images/splash-icon.png",
+          "imageWidth": 96
+        }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Η κάμερα χρησιμοποιείται για να αναγνωρίσεις αντικείμενα και για τη selfie στον κάδο. Οι φωτογραφίες δεν αποστέλλονται.",
+          "microphonePermission": false,
+          "recordAudioAndroid": false
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Η τοποθεσία μετατρέπεται σε γειτονιά πάνω στη συσκευή σου. Δεν στέλνουμε ούτε αποθηκεύουμε τη διεύθυνσή σου."
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": false,
+      "reactCompiler": true
+    },
+    "description": "Ξέρεις τι. Ξέρεις πού. Ανακυκλώνεις σωστά. Waste-disposal guide for the City of Athens.",
+    "extra": {
+      "eas": {
+        "projectId": "a9821faf-2522-4679-99d2-dadead1b1c98"
+      }
+    }
+  }
+}
