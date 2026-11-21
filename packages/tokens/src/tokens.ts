@@ -91,7 +91,7 @@ export const spacing = {
 } as const;
 
 export const fontFamily = {
-  "sans": "\"Plus Jakarta Sans\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+  "sans": "\"Commissioner\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif",
   "mono": "\"JetBrains Mono\", ui-monospace, SFMono-Regular, Menlo, monospace"
 } as const;
 

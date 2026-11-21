@@ -1,12 +1,12 @@
 import { JetBrainsMono_500Medium, JetBrainsMono_700Bold } from '@expo-google-fonts/jetbrains-mono';
 import {
-  PlusJakartaSans_400Regular,
-  PlusJakartaSans_500Medium,
-  PlusJakartaSans_600SemiBold,
-  PlusJakartaSans_700Bold,
-  PlusJakartaSans_800ExtraBold,
+  Commissioner_400Regular,
+  Commissioner_500Medium,
+  Commissioner_600SemiBold,
+  Commissioner_700Bold,
+  Commissioner_800ExtraBold,
   useFonts,
-} from '@expo-google-fonts/plus-jakarta-sans';
+} from '@expo-google-fonts/commissioner';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
@@ -20,11 +20,11 @@ SplashScreen.preventAutoHideAsync().catch(() => {});
 function Root() {
   const { ready } = useApp();
   const [fontsLoaded] = useFonts({
-    PlusJakartaSans_400Regular,
-    PlusJakartaSans_500Medium,
-    PlusJakartaSans_600SemiBold,
-    PlusJakartaSans_700Bold,
-    PlusJakartaSans_800ExtraBold,
+    Commissioner_400Regular,
+    Commissioner_500Medium,
+    Commissioner_600SemiBold,
+    Commissioner_700Bold,
+    Commissioner_800ExtraBold,
     JetBrainsMono_500Medium,
     JetBrainsMono_700Bold,
   });

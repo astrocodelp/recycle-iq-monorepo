@@ -1,10 +1,11 @@
 import type { Metadata } from 'next';
-import { JetBrains_Mono, Plus_Jakarta_Sans } from 'next/font/google';
+import { Commissioner, JetBrains_Mono } from 'next/font/google';
 import type { ReactNode } from 'react';
 import { getLang } from '@/lib/lang';
 import './globals.css';
 
-const jakarta = Plus_Jakarta_Sans({ subsets: ['latin', 'latin-ext'], variable: '--font-jakarta', weight: ['400', '500', '600', '700', '800'] });
+// Commissioner: designed with full Greek support (Plus Jakarta Sans has no Greek glyphs).
+const sans = Commissioner({ subsets: ['latin', 'latin-ext', 'greek'], variable: '--font-sans-greek' });
 const jetbrains = JetBrains_Mono({ subsets: ['latin', 'greek'], variable: '--font-jetbrains', weight: ['500', '700'] });
 
 export const metadata: Metadata = {
@@ -15,7 +16,7 @@ export const metadata: Metadata = {
 export default async function RootLayout({ children }: { children: ReactNode }) {
   const lang = await getLang();
   return (
-    <html lang={lang} className={`${jakarta.variable} ${jetbrains.variable}`}>
+    <html lang={lang} className={`${sans.variable} ${jetbrains.variable}`}>
       <body className="min-h-dvh bg-paper font-sans text-ink">{children}</body>
     </html>
   );

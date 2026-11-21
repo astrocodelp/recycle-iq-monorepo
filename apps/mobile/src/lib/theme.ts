@@ -13,17 +13,17 @@ export const r = {
   pill: 999,
 };
 
-// Plus Jakarta Sans has no Greek glyphs: phones fall back to the system sans per glyph,
-// browsers need an explicit sans stack or they fall back to serif.
+// Commissioner has full Greek support (Plus Jakarta Sans, the original brand face, has none).
+// The web build keeps a sans stack as a safety net while the font loads.
 const sans = (f: string) => (Platform.OS === 'web' ? `${f}, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", sans-serif` : f);
 const mono = (f: string) => (Platform.OS === 'web' ? `${f}, ui-monospace, Menlo, monospace` : f);
 
 export const font = {
-  regular: sans('PlusJakartaSans_400Regular'),
-  medium: sans('PlusJakartaSans_500Medium'),
-  semibold: sans('PlusJakartaSans_600SemiBold'),
-  bold: sans('PlusJakartaSans_700Bold'),
-  extrabold: sans('PlusJakartaSans_800ExtraBold'),
+  regular: sans('Commissioner_400Regular'),
+  medium: sans('Commissioner_500Medium'),
+  semibold: sans('Commissioner_600SemiBold'),
+  bold: sans('Commissioner_700Bold'),
+  extrabold: sans('Commissioner_800ExtraBold'),
   mono: mono('JetBrainsMono_500Medium'),
   monoBold: mono('JetBrainsMono_700Bold'),
 };
