@@ -34,3 +34,17 @@ export function formatDistance(metres: number, lang: Lang = 'el'): string {
 
 /** Walking minutes at ~80 m/min. */
 export const walkingMinutes = (metres: number) => Math.max(1, Math.round(metres / 80));
+
+/**
+ * Uppercase that follows Greek typography: capitals carry no tonos (ΠΡΟΒΛΗΜΑ, not ΠΡΌΒΛΗΜΑ),
+ * the diaeresis stays (ΑΫΠΝΙΑ). Latin accents are left alone (É stays É).
+ */
+export function upper(s: string): string {
+  return s
+    .normalize('NFD')
+    .replace(/([Ͱ-Ͽἀ-῿])([̀-ͯ]+)/g, (_m, base: string, marks: string) =>
+      base + (marks.includes('̈') ? '̈' : ''),
+    )
+    .toUpperCase()
+    .normalize('NFC');
+}

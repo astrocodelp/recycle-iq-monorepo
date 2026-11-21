@@ -193,3 +193,13 @@ describe('rule impact', () => {
     expect(ruleImpact('ATH-ORG-01', allOn, patisia)).toEqual([]);
   });
 });
+
+describe('upper', () => {
+  it('drops the Greek tonos in capitals, keeps diaeresis and Latin accents', async () => {
+    const { upper } = await import('../src');
+    expect(upper('Το πρόβλημα')).toBe('ΤΟ ΠΡΟΒΛΗΜΑ');
+    expect(upper('Γιατί συμβαίνει')).toBe('ΓΙΑΤΙ ΣΥΜΒΑΙΝΕΙ');
+    expect(upper('αϋπνία')).toBe('ΑΫΠΝΙΑ');
+    expect(upper('café')).toBe('CAFÉ');
+  });
+});

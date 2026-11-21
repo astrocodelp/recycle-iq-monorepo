@@ -1,4 +1,4 @@
-import type { CategoryId } from '@recycleiq/engine';
+import { upper, type CategoryId } from '@recycleiq/engine';
 import { Info } from 'lucide-react-native';
 import type { ReactNode } from 'react';
 import {
@@ -25,7 +25,8 @@ const variants: Record<Variant, TextStyle> = {
   body: { fontFamily: font.medium, fontSize: 13.5, lineHeight: 19.5 },
   caption: { fontFamily: font.semibold, fontSize: 12, lineHeight: 16 },
   micro: { fontFamily: font.bold, fontSize: 10.5, lineHeight: 13 },
-  eyebrow: { fontFamily: font.bold, fontSize: 11, lineHeight: 13, letterSpacing: 1.3, textTransform: 'uppercase' },
+  // Uppercased in T() with upper(): Greek capitals take no tonos, which textTransform cannot guarantee.
+  eyebrow: { fontFamily: font.bold, fontSize: 11, lineHeight: 13, letterSpacing: 1.3 },
   num: { fontFamily: font.monoBold, fontSize: 14, letterSpacing: -0.3 },
   numLg: { fontFamily: font.monoBold, fontSize: 40, lineHeight: 44, letterSpacing: -1 },
 };
@@ -34,9 +35,15 @@ export function T({
   v = 'body',
   color = colors.ink,
   style,
+  children,
   ...rest
 }: TextProps & { v?: Variant; color?: string; style?: StyleProp<TextStyle> }) {
-  return <RNText {...rest} style={[variants[v], { color }, style]} />;
+  const text = v === 'eyebrow' && typeof children === 'string' ? upper(children) : children;
+  return (
+    <RNText {...rest} style={[variants[v], { color }, style]}>
+      {text}
+    </RNText>
+  );
 }
 
 export function Card({ children, style, onPress }: { children: ReactNode; style?: StyleProp<ViewStyle>; onPress?: () => void }) {
