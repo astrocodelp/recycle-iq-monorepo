@@ -100,11 +100,14 @@ export default async function RulesPage({ searchParams }: PageProps<'/rules'>) {
                         className="min-w-0 flex-1 rounded-control border border-line-strong bg-surface px-3 py-2 text-body"
                       />
                       <button className="rounded-control bg-ink px-3 py-2 text-body font-semibold text-white">{t('Αποθήκευση', 'Save')}</button>
-                      {changed && (
-                        <button name="reset" value="1" className="rounded-control border border-line-strong px-3 py-2 text-body">
-                          {t('Επαναφορά', 'Reset')}
-                        </button>
-                      )}
+                      <button
+                        name="op"
+                        value="reset"
+                        disabled={!changed}
+                        className="rounded-control border border-line-strong px-3 py-2 text-body disabled:opacity-40"
+                      >
+                        {t('Επαναφορά', 'Reset')}
+                      </button>
                     </form>
                   </li>
                 );

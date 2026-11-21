@@ -15,7 +15,7 @@ export async function toggleRule(formData: FormData) {
 /** Rename or recolour a bin type. Takes effect on the next decision in the app. */
 export async function updateBin(formData: FormData) {
   const key = String(formData.get('key'));
-  if (formData.get('reset') === '1') await resetBinStyle(key);
+  if (formData.get('op') === 'reset') await resetBinStyle(key);
   else
     await saveBinStyle(key, { el: String(formData.get('nameEl') ?? ''), en: String(formData.get('nameEn') ?? '') }, String(formData.get('color') ?? ''), 'dashboard');
   revalidatePath('/rules');
