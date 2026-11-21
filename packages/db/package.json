@@ -14,7 +14,8 @@
     "seed": "tsx src/seed.ts",
     "studio": "drizzle-kit studio",
     "typecheck": "tsc --noEmit",
-    "lint": "drizzle-kit check"
+    "lint": "drizzle-kit check",
+    "import:osm": "tsx src/import-osm-bins.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "1.2.1",

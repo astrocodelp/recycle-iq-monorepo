@@ -20,6 +20,7 @@ import {
 import { eq, sql } from 'drizzle-orm';
 import { readFileSync } from 'node:fs';
 import { scriptDb, unpooledDatabaseUrl } from './client';
+import type { OsmBin } from './import-osm-bins';
 import {
   binReports,
   collectionPoints,
@@ -106,10 +107,72 @@ if (process.argv.includes('--if-configured') && !unpooledDatabaseUrl()) {
 }
 
 const { db, close } = scriptDb();
+
+// Real bins from OpenStreetMap (seed/osm-bins.json, built by `pnpm import:osm`). © OpenStreetMap
+// contributors, ODbL. Synced on every deploy; a bin's status (set by real reports) is never overwritten.
+async function syncOsmBins(): Promise<number> {
+  let bins: OsmBin[] = [];
+  try {
+    bins = json<OsmBin[]>('osm-bins.json');
+  } catch {
+    return 0;
+  }
+  const label: Record<OsmBin['k'], [string, string]> = {
+    blue_bin: ['Μπλε κάδος', 'Blue bin'],
+    glass_bell: ['Καμπάνα γυαλιού', 'Glass bell'],
+    brown_bin: ['Καφέ κάδος', 'Brown bin'],
+    battery_point: ['Σημείο μπαταριών', 'Battery point'],
+    weee_point: ['Σημείο συσκευών', 'Appliance point'],
+    clothing_bin: ['Κάδος ρούχων', 'Clothing bin'],
+    green_point: ['Κέντρο ανακύκλωσης', 'Recycling centre'],
+    general_bin: ['Κάδος σύμμεικτων', 'Mixed-waste bin'],
+    litter_bin: ['Καλάθι απορριμμάτων', 'Litter bin'],
+  };
+  const rows = bins.map((b) => ({
+    id: b.id,
+    kind: b.k,
+    name: b.n ? { el: b.n[0], en: b.n[1] } : { el: label[b.k][0], en: label[b.k][1] },
+    street: null,
+    districtId: b.d,
+    lng: b.lng,
+    lat: b.lat,
+    categories: b.cat,
+    accepts: b.acc,
+    glassBell: b.k === 'glass_bell',
+    staffed: b.k === 'green_point',
+    hours: null,
+    lastVerifiedAt: b.v ? new Date(`${b.v}T00:00:00Z`) : null,
+    source: 'osm',
+    illustrative: false,
+  }));
+  await insertBatched(rows, (chunk) =>
+    db
+      .insert(collectionPoints)
+      .values(chunk)
+      .onConflictDoUpdate({
+        target: collectionPoints.id,
+        set: {
+          kind: sql`excluded.kind`,
+          name: sql`excluded.name`,
+          districtId: sql`excluded.district_id`,
+          lng: sql`excluded.lng`,
+          lat: sql`excluded.lat`,
+          categories: sql`excluded.categories`,
+          accepts: sql`excluded.accepts`,
+          glassBell: sql`excluded.glass_bell`,
+          staffed: sql`excluded.staffed`,
+          lastVerifiedAt: sql`excluded.last_verified_at`,
+          source: sql`excluded.source`,
+          illustrative: sql`excluded.illustrative`,
+        },
+      }),
+  );
+  return rows.length;
+}
 if (process.argv.includes('--if-empty')) {
   const existing = await db.select({ n: sql<number>`count(*)::int` }).from(communities);
   if ((existing[0]?.n ?? 0) > 0) {
-    console.log('database already has data: skipping seed');
+    console.log(`database already has data: skipping seed; synced ${await syncOsmBins()} OpenStreetMap bins`);
     await close();
     process.exit(0);
   }
@@ -235,8 +298,9 @@ try {
       },
     });
 
+  const osmCount = await syncOsmBins();
   console.log(
-    `reference: ${rawCommunities.length} communities, ${rawDistricts.length} districts, ${pointRows.length} points, ${DEFAULT_RULES.length} rules`,
+    `reference: ${rawCommunities.length} communities, ${rawDistricts.length} districts, ${pointRows.length} synthetic + ${osmCount} OpenStreetMap points, ${DEFAULT_RULES.length} rules`,
   );
 
   // --- synthetic activity ---------------------------------------------------------------------

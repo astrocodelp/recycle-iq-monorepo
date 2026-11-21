@@ -29,6 +29,13 @@
       "when": 1795257257066,
       "tag": "0003_players",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1795264721578,
+      "tag": "0004_point_kinds_osm",
+      "breakpoints": true
     }
   ]
 }

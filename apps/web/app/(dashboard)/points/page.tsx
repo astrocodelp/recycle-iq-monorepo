@@ -1,5 +1,6 @@
 import { Badge, Card, DemoBadge } from '@/components/ui';
 import { getDistricts, getPoints } from '@/lib/data';
+import { getBinSource } from '@/lib/bins';
 import { daysSince, fmt } from '@/lib/format';
 import { getLang, tr } from '@/lib/lang';
 
@@ -14,6 +15,8 @@ const KINDS = {
   weee_point: ['Ηλεκτρικές συσκευές', 'WEEE'],
   clothing_bin: ['Ρούχα', 'Clothes'],
   green_point: ['Πράσινο σημείο', 'Green point'],
+  general_bin: ['Σύμμεικτα', 'Mixed waste'],
+  litter_bin: ['Καλάθι απορριμμάτων', 'Litter bin'],
 } as const;
 
 export default async function PointsPage({ searchParams }: PageProps<'/points'>) {
@@ -23,7 +26,8 @@ export default async function PointsPage({ searchParams }: PageProps<'/points'>)
   const lang = await getLang();
   const t = tr(lang);
   const f = fmt(lang);
-  const [points, districts] = await Promise.all([getPoints(), getDistricts()]);
+  const source = await getBinSource();
+  const [points, districts] = await Promise.all([getPoints(source), getDistricts()]);
   const dName = new Map(districts.map((d) => [d.id, d.name]));
   const counts = new Map<string, number>();
   for (const p of points) counts.set(p.kind, (counts.get(p.kind) ?? 0) + 1);
@@ -59,7 +63,11 @@ export default async function PointsPage({ searchParams }: PageProps<'/points'>)
           {t('Εκτύπωση QR αυτοκόλλητων για κάδους', 'Print QR stickers for bins')} →
         </a>
         <div className="mt-2">
-          <DemoBadge>{t('Ενδεικτικά σημεία για την παρουσίαση — όχι επίσημα δημοτικά δεδομένα', 'Illustrative locations — not official municipal data')}</DemoBadge>
+          {source === 'osm' ? (
+            <Badge tone="neutral">{t('Πραγματικοί κάδοι · © OpenStreetMap (ODbL)', 'Real bins · © OpenStreetMap (ODbL)')}</Badge>
+          ) : (
+            <DemoBadge>{t('Ενδεικτικά σημεία για την παρουσίαση — όχι επίσημα δημοτικά δεδομένα', 'Illustrative locations — not official municipal data')}</DemoBadge>
+          )}
         </div>
       </header>
 

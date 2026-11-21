@@ -21,3 +21,7 @@ Environmental estimates
 Third-party
 - Lucide icons (ISC). Plus Jakarta Sans and JetBrains Mono fonts (SIL Open Font License 1.1).
 - Optional on-device vision model: google/siglip2-base-patch16-224 (Apache-2.0), see docs/VISION.md.
+
+Real bin locations (packages/db/seed/osm-bins.json) are derived from OpenStreetMap.
+© OpenStreetMap contributors, available under the Open Database License (ODbL) 1.0:
+https://www.openstreetmap.org/copyright

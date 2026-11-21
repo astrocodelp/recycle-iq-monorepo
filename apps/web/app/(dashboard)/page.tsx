@@ -5,6 +5,7 @@ import { ImpactCard } from '@/components/impact-card';
 import { TrendChart } from '@/components/trend-chart';
 import { Badge, Card, CategoryLabel, DemoBadge, Kpi, Segmented } from '@/components/ui';
 import { fmt } from '@/lib/format';
+import { getBinSource } from '@/lib/bins';
 import { getLang, tr } from '@/lib/lang';
 import {
   getCategoryMix,
@@ -29,7 +30,7 @@ export default async function Overview({ searchParams }: PageProps<'/'>) {
     getDailySeries(range),
     getCategoryMix(range),
     getTopItems(range),
-    getDistrictStats(range),
+    getBinSource().then((src) => getDistrictStats(range, src)),
     getRecentDecisions(8),
     getObjectCategoryCounts(range),
   ]);

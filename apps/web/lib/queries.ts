@@ -1,4 +1,5 @@
 import 'server-only';
+import { dbSource, type BinSource } from './bins';
 import { getDb, sql } from '@recycleiq/db';
 import type { CategoryId, L10n, OrganicService } from '@recycleiq/engine';
 
@@ -103,7 +104,7 @@ export interface DistrictRow {
   points: number;
 }
 
-export async function getDistrictStats(days: number): Promise<DistrictRow[]> {
+export async function getDistrictStats(days: number, source: BinSource = 'synthetic'): Promise<DistrictRow[]> {
   const rows = (
     await getDb().execute(sql`
       with dec as (
@@ -115,7 +116,7 @@ export async function getDistrictStats(days: number): Promise<DistrictRow[]> {
       req as (
         select district_id, count(*) as n from service_requests
         where kind = 'brown_bin' and created_at >= ${since(days)} group by district_id),
-      pts as (select district_id, count(*) as n from collection_points group by district_id)
+      pts as (select district_id, count(*) as n from collection_points where source = ${dbSource(source)} group by district_id)
       select d.id, d.name, d.community_id, d.organic_service, d.svg_path, d.svg_centroid,
              coalesce(dec.n,0) as requests, dec.conf, dec.clar, dec.top,
              coalesce(req.n,0) as brown, coalesce(pts.n,0) as points
@@ -187,11 +188,15 @@ export const BIN_KINDS = {
   weee_point: { el: 'Σημεία συσκευών', en: 'WEEE points', category: 'special' },
   clothing_bin: { el: 'Κάδοι ρούχων', en: 'Clothing bins', category: 'special' },
   green_point: { el: 'Πράσινα σημεία', en: 'Green points', category: 'bulky' },
+  general_bin: { el: 'Κάδοι σύμμεικτων', en: 'Mixed-waste bins', category: 'general' },
+  litter_bin: { el: 'Καλάθια απορριμμάτων', en: 'Litter bins', category: 'general' },
 } as const satisfies Record<string, { el: string; en: string; category: CategoryId }>;
 
 /** Bins and points by type, for one district or the whole city. */
-export async function getBinsByKind(districtId?: string) {
-  const d = districtId ? sql`where district_id = ${districtId}` : sql``;
+export async function getBinsByKind(districtId?: string, source: BinSource = 'synthetic') {
+  const d = districtId
+    ? sql`where source = ${dbSource(source)} and district_id = ${districtId}`
+    : sql`where source = ${dbSource(source)}`;
   const rows = (
     await getDb().execute(sql`
       select kind, count(*) as n, count(*) filter (where status <> 'available') as issues

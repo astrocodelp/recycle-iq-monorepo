@@ -76,6 +76,7 @@ export default function LeafletAthensMap({
       bounds={bounds}
       scrollWheelZoom={false}
       zoomSnap={0.25}
+      preferCanvas
       className="riq-map h-[560px] w-full rounded-control"
       attributionControl
     >

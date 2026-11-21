@@ -1,4 +1,5 @@
 import 'server-only';
+import { dbSource, type BinSource } from '@/lib/bins';
 import {
   collectionPoints,
   decisions,
@@ -55,8 +56,8 @@ export async function getDistrictContext(districtId?: string | null) {
   return { ctx, centre, known: !!d };
 }
 
-export async function getPoints(): Promise<(CollectionPoint & { street: unknown; hours: unknown; lastVerifiedAt: Date | null })[]> {
-  const rows = await getDb().select().from(collectionPoints);
+export async function getPoints(source: BinSource = 'synthetic'): Promise<(CollectionPoint & { street: unknown; hours: unknown; lastVerifiedAt: Date | null; source: string })[]> {
+  const rows = await getDb().select().from(collectionPoints).where(eq(collectionPoints.source, dbSource(source)));
   return rows.map((p) => ({
     id: p.id,
     kind: p.kind,
@@ -71,6 +72,7 @@ export async function getPoints(): Promise<(CollectionPoint & { street: unknown;
     status: p.status,
     hours: p.hours,
     lastVerifiedAt: p.lastVerifiedAt,
+    source: p.source,
   }));
 }
 

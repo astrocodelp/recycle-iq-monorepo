@@ -1,13 +1,14 @@
 import { BarChart3, Bell, BookOpen, Map, MapPin, Scale } from 'lucide-react';
 import type { ReactNode } from 'react';
-import { setLanguage } from '../actions';
+import { setBinSource, setLanguage } from '../actions';
+import { getBinSource } from '@/lib/bins';
 import { Logo } from '@/components/logo';
 import { NavLink } from '@/components/nav-link';
 import { getLang, tr } from '@/lib/lang';
 import { getOpenAlertCount } from '@/lib/queries';
 
 export default async function DashboardLayout({ children }: { children: ReactNode }) {
-  const lang = await getLang();
+  const [lang, bins] = await Promise.all([getLang(), getBinSource()]);
   const t = tr(lang);
   const openAlerts = await getOpenAlertCount().catch(() => 0);
   const nav = [
@@ -42,6 +43,22 @@ export default async function DashboardLayout({ children }: { children: ReactNod
           ))}
         </nav>
         <div className="mt-auto hidden flex-col gap-3 lg:flex">
+          <div className="flex flex-col gap-1.5">
+            <p className="text-[11px] font-semibold tracking-wide text-muted uppercase">{t('Δεδομένα κάδων', 'Bin data')}</p>
+            <form action={setBinSource} className="inline-flex w-fit rounded-pill bg-surface-2 p-1">
+              {(['synthetic', 'osm'] as const).map((b) => (
+                <button
+                  key={b}
+                  name="bins"
+                  value={b}
+                  aria-pressed={bins === b}
+                  className={`rounded-pill px-3 py-1 text-caption ${bins === b ? 'bg-ink text-white' : 'text-muted'}`}
+                >
+                  {b === 'synthetic' ? t('Συνθετικά', 'Synthetic') : 'OpenStreetMap'}
+                </button>
+              ))}
+            </form>
+          </div>
           <form action={setLanguage} className="inline-flex w-fit rounded-pill bg-surface-2 p-1">
             {(['el', 'en'] as const).map((l) => (
               <button

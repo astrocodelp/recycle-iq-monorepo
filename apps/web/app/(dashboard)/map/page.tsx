@@ -4,6 +4,7 @@ import { AthensMap } from '@/components/athens-map';
 import { BarList } from '@/components/bar-list';
 import { Badge, Card, CategoryLabel, DemoBadge, Segmented } from '@/components/ui';
 import { getPoints } from '@/lib/data';
+import { getBinSource } from '@/lib/bins';
 import { fmt } from '@/lib/format';
 import { getLang, tr } from '@/lib/lang';
 import { BIN_KINDS, getBinsByKind, getCategoryMix, getDistrictStats, getKpis, getObjectCategoryCounts, getTopItems } from '@/lib/queries';
@@ -21,10 +22,11 @@ export default async function MapPage({ searchParams }: PageProps<'/map'>) {
   const lang = await getLang();
   const t = tr(lang);
   const f = fmt(lang);
-  const [districts, points] = await Promise.all([getDistrictStats(range), getPoints()]);
+  const source = await getBinSource();
+  const [districts, points] = await Promise.all([getDistrictStats(range, source), getPoints(source)]);
   const sel = districts.find((d) => d.id === districtId);
   const [kpis, mix, items, bins, impactRows] = sel
-    ? await Promise.all([getKpis(range, sel.id), getCategoryMix(range, sel.id), getTopItems(range, sel.id), getBinsByKind(sel.id), getObjectCategoryCounts(range, sel.id)])
+    ? await Promise.all([getKpis(range, sel.id), getCategoryMix(range, sel.id), getTopItems(range, sel.id), getBinsByKind(sel.id, source), getObjectCategoryCounts(range, sel.id)])
     : [null, [], [], [], []];
   const avoidedKg = totalAvoidedKg(impactRows);
   const service = { full: t('πλήρης κάλυψη', 'full coverage'), partial: t('μερική κάλυψη', 'partial coverage'), none: t('χωρίς κάλυψη', 'no coverage') };
@@ -47,7 +49,12 @@ export default async function MapPage({ searchParams }: PageProps<'/map'>) {
           <h1 className="mt-1 text-h1">{t('Ερωτήματα ανά συνοικία', 'Requests by district')}</h1>
           <div className="mt-2 flex flex-wrap gap-2">
             <DemoBadge>{t('Συνθετικά δεδομένα επίδειξης', 'Synthetic demo data')}</DemoBadge>
-            {showPoints && <DemoBadge>{t('Ενδεικτικά σημεία — όχι επίσημα δημοτικά δεδομένα', 'Illustrative points — not official data')}</DemoBadge>}
+            {showPoints &&
+              (source === 'osm' ? (
+                <Badge tone="neutral">{t('Πραγματικοί κάδοι · © OpenStreetMap (ODbL)', 'Real bins · © OpenStreetMap (ODbL)')}</Badge>
+              ) : (
+                <DemoBadge>{t('Ενδεικτικά σημεία — όχι επίσημα δημοτικά δεδομένα', 'Illustrative points — not official data')}</DemoBadge>
+              ))}
           </div>
         </div>
         <div className="flex flex-wrap gap-2">

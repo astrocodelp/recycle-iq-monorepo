@@ -1,5 +1,6 @@
 import { LogoMark } from '@/components/logo';
 import { getDistricts, getPoints } from '@/lib/data';
+import { getBinSource } from '@/lib/bins';
 import { getLang, tr } from '@/lib/lang';
 import { qrSvg } from '@/lib/qr';
 import { siteUrl } from '@/lib/site';
@@ -12,7 +13,7 @@ export const metadata = { title: 'QR αυτοκόλλητα' };
 export default async function QrSheet({ searchParams }: PageProps<'/points/qr'>) {
   const sp = await searchParams;
   const t = tr(await getLang());
-  const [districts, points, base] = await Promise.all([getDistricts(), getPoints(), siteUrl()]);
+  const [districts, points, base] = await Promise.all([getDistricts(), getBinSource().then(getPoints), siteUrl()]);
   const districtId = typeof sp.district === 'string' ? sp.district : districts[0]?.id;
   const district = districts.find((d) => d.id === districtId);
   const bins = points.filter((p) => p.districtId === districtId).sort((a, b) => a.kind.localeCompare(b.kind));

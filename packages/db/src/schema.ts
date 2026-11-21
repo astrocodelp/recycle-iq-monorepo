@@ -31,6 +31,10 @@ export const pointKind = pgEnum('point_kind', [
   'battery_point',
   'weee_point',
   'clothing_bin',
+  /** Mixed-waste street container (OSM amenity=waste_disposal). */
+  'general_bin',
+  /** Small street litter basket (OSM amenity=waste_basket). */
+  'litter_bin',
 ]);
 export const pointStatus = pgEnum('point_status', ['available', 'full', 'closed']);
 
