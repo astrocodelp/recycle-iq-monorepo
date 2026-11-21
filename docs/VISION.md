@@ -61,3 +61,7 @@ These photos are not Athens bins. Measure on real photos from the pilot before r
 
 When an item is added to the catalogue, add its prompts to `labels.json`, rebuild, and ship the new JSON. The
 vision model on phones does not change.
+
+## Same model on the sorting line
+
+RecycleIQ Delta Sort (the robotic sorting line at the recycling centre, [Mike17K/recycleiq-delta-sort](https://github.com/Mike17K/recycleiq-delta-sort)) uses the same SigLIP 2 model for its vision cell. One model and one label set serve both: the phone tells residents which bin an item goes in, and the line recognises the same materials on the conveyor. Labels improved for one improve the other.

@@ -45,11 +45,7 @@
           "backgroundColor": "#0F1915",
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 220,
-          "resizeMode": "contain",
-          "dark": {
-            "backgroundColor": "#0F1915",
-            "image": "./assets/images/splash-icon.png"
-          }
+          "resizeMode": "contain"
         }
       ],
       [
@@ -67,7 +63,8 @@
         }
       ],
       "expo-localization",
-      "onnxruntime-react-native"
+      "onnxruntime-react-native",
+      "./plugins/with-onnxruntime-local-pod.js"
     ],
     "experiments": {
       "typedRoutes": false,

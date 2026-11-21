@@ -18,8 +18,8 @@ export default async function DeltaSort() {
       <h1 className="text-[28px] leading-tight font-extrabold tracking-[-0.02em]">{t('Υποδομή διαλογής με ρομπότ', 'Robotic sorting infrastructure')}</h1>
       <p className="text-body text-muted">
         {t(
-          'Ρομπότ delta πάνω σε ταινία ξεχωρίζουν τα ανακυκλώσιμα στο κέντρο διαλογής, και κινητά ρομπότ μεταφέρουν τους γεμάτους κάδους. Προσομοίωση: οι τύποι των αντικειμένων δίνονται, η όραση δεν περιλαμβάνεται.',
-          'Delta robots on a conveyor sort recyclables at the sorting centre, and mobile robots haul the full bins. Simulation: item types are given, vision is not included.',
+          'Ρομπότ delta πάνω σε ταινία ξεχωρίζουν τα ανακυκλώσιμα στο κέντρο διαλογής, και κινητά ρομπότ μεταφέρουν τους γεμάτους κάδους. Η αναγνώριση χρησιμοποιεί το ίδιο ανοιχτό μοντέλο (SigLIP 2) με την εφαρμογή. Στο βίντεο, προσομοίωση με δεδομένους τύπους αντικειμένων.',
+          'Delta robots on a conveyor sort recyclables at the sorting centre, and mobile robots haul the full bins. Recognition uses the same open model (SigLIP 2) as the app. The video is a simulation with given item types.',
         )}
       </p>
       <video className="w-full rounded-card bg-ink" src="/media/delta-sort-demo.mp4" poster="/media/delta-sort-poster.jpg" controls playsInline muted loop autoPlay />

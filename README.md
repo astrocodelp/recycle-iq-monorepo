@@ -54,4 +54,4 @@ activity is synthetic (rows marked `synthetic`), and the app and dashboard label
 - [On-device recognition with SigLIP 2](docs/VISION.md)
 - [Architecture](docs/ARCHITECTURE.md)
 
-RecycleIQ Delta Sort, the sorting infrastructure for recycling centres (delta robots on a conveyor, mobile robots hauling bins), lives in its own repository as a simulation: [Mike17K/recycleiq-delta-sort](https://github.com/Mike17K/recycleiq-delta-sort). It is not a street bin, and its hardware is out of scope here.
+RecycleIQ Delta Sort, the sorting infrastructure for recycling centres (delta robots on a conveyor, mobile robots hauling bins), lives in its own repository as a simulation: [Mike17K/recycleiq-delta-sort](https://github.com/Mike17K/recycleiq-delta-sort). It is not a street bin, and its hardware is out of scope here. Its vision cell uses the same open model as the app's scan screen (SigLIP 2, see [docs/VISION.md](docs/VISION.md)), so a material learned once is recognised on the phone and on the sorting line.
