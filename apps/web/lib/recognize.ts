@@ -8,9 +8,10 @@ import { z } from 'zod';
  * Vercel AI Gateway picks the catalogue item and says whether it looks greasy or still holds liquid
  * (16/16 each on the condition bench). The photo is not stored or logged.
  *
- *   VISION_MODEL   gateway model id (default google/gemini-3.1-flash-lite: 30/30 on the TrashNet bench)
+ *   VISION_MODEL   gateway model id (default google/gemini-3.5-flash-lite: 94.3% material, 96.3% right Athens bin on
+ *                  3,170 photos, see docs/BENCHMARK.md)
  */
-export const visionModel = () => process.env.VISION_MODEL?.trim() || 'google/gemini-3.1-flash-lite';
+export const visionModel = () => process.env.VISION_MODEL?.trim() || 'google/gemini-3.5-flash-lite';
 
 /** What each catalogue item covers, in the words the model sees. */
 const HINTS: Record<string, string> = {

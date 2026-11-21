@@ -12,7 +12,7 @@ suggests, it never decides alone.
    (`apps/web/lib/recognize.ts`), which asks a vision model on the Vercel AI Gateway and answers
    `{ item, confidence, seen }`, `item` being a catalogue id or `other` (with `seen`, a few Greek words, so
    the screen can say what it saw). The photo is not stored or logged. Model: `VISION_MODEL`, default
-   `google/gemini-3.1-flash-lite`. Client: `apps/mobile/src/lib/cloud-vision.ts`.
+   `google/gemini-3.5-flash-lite` (the newest Flash-Lite; benchmark on 3,170 photos in [BENCHMARK.md](BENCHMARK.md)). Client: `apps/mobile/src/lib/cloud-vision.ts`.
 2. **On the phone (no network).** SigLIP 2 below. Only in the native apps.
 3. **Neither.** The normal pick list.
 
@@ -25,8 +25,8 @@ TrashNet photos (not Athens bins), 6 per class, the same prompt as the route:
 
 | Model | Right (plastic, glass, metal, paper, cardboard) | Avg time |
 | --- | --- | --- |
-| google/gemini-3.1-flash-lite (default) | 30/30 | 1.7 s |
-| google/gemini-3.5-flash-lite | 29/30 | 1.9 s |
+| google/gemini-3.1-flash-lite (older) | 30/30 | 1.7 s |
+| google/gemini-3.5-flash-lite (default since 22/11/2026) | 29/30 | 1.9 s |
 | google/gemini-2.5-flash-lite | 28/30 | 1.5 s |
 | google/gemini-3.8-flash | 29/30 | 4.3 s |
 | SigLIP 2 on the phone (app scoring, plastic + glass only) | 9/16 | ~0.1 s on a Mac |
@@ -43,7 +43,7 @@ can, clothes). They are synthetic and clearer than real life, so read them as a 
 
 | Model | Item | Greasy box | Liquid in can | Avg time |
 | --- | --- | --- | --- | --- |
-| google/gemini-3.1-flash-lite (server default) | 40/40 | 16/16 | 16/16 | 1.6 s |
+| google/gemini-3.1-flash-lite (the default then) | 40/40 | 16/16 | 16/16 | 1.6 s |
 | google/gemini-decision-1 (decision model) | 40/40 | 16/16 | 16/16 | 0.9 s |
 | meta/llama-4-scout (open weights) | 40/40 | 16/16 | 16/16 | 2.2 s |
 | alibaba/qwen3-vl-instruct (open weights) | 40/40 | 16/16 | 16/16 | 4.6 s |
