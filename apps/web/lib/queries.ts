@@ -206,3 +206,60 @@ export async function getBinsByKind(districtId?: string) {
   ).rows;
   return rows.map((r) => ({ kind: String(r.kind) as keyof typeof BIN_KINDS, n: num(r.n), issues: num(r.issues) }));
 }
+
+export interface AlertRow {
+  pointId: string;
+  pointName: L10n;
+  pointKind: string;
+  district: L10n | null;
+  reports: number;
+  kinds: string[];
+  firstAt: Date;
+  lastAt: Date;
+  status: 'open' | 'acknowledged';
+}
+
+/** Open full-bin alerts, one row per bin, oldest problem first. */
+export async function getOpenAlerts(): Promise<AlertRow[]> {
+  const rows = (
+    await getDb().execute(sql`
+      select r.point_id, p.name as point_name, p.kind as point_kind, d.name as district,
+             count(*) as reports, array_agg(distinct r.kind) as kinds,
+             min(r.created_at) as first_at, max(r.created_at) as last_at,
+             case when bool_or(r.status = 'open') then 'open' else 'acknowledged' end as status
+      from bin_reports r
+      join collection_points p on p.id = r.point_id
+      left join districts d on d.id = r.district_id
+      where r.status in ('open', 'acknowledged')
+      group by r.point_id, p.name, p.kind, d.name
+      order by status desc, first_at asc`)
+  ).rows;
+  return rows.map((r) => ({
+    pointId: String(r.point_id),
+    pointName: r.point_name as L10n,
+    pointKind: String(r.point_kind),
+    district: (r.district as L10n | null) ?? null,
+    reports: num(r.reports),
+    kinds: (r.kinds as string[]) ?? [],
+    firstAt: new Date(String(r.first_at)),
+    lastAt: new Date(String(r.last_at)),
+    status: r.status as 'open' | 'acknowledged',
+  }));
+}
+
+export async function getAlertStats() {
+  const [r] = (
+    await getDb().execute(sql`
+      select count(*) filter (where status = 'open') as open,
+             count(*) filter (where status = 'acknowledged') as acknowledged,
+             count(*) filter (where status = 'resolved' and resolved_at >= now() - interval '7 days') as resolved7,
+             avg(extract(epoch from (resolved_at - created_at)) / 3600) filter (where status = 'resolved' and resolved_at >= now() - interval '7 days') as hours
+      from bin_reports`)
+  ).rows;
+  return { open: num(r?.open), acknowledged: num(r?.acknowledged), resolved7: num(r?.resolved7), avgHoursToResolve: num(r?.hours) };
+}
+
+export async function getOpenAlertCount() {
+  const [r] = (await getDb().execute(sql`select count(distinct point_id) as n from bin_reports where status = 'open'`)).rows;
+  return num(r?.n);
+}

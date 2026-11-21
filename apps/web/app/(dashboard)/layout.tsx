@@ -1,16 +1,19 @@
-import { BarChart3, BookOpen, Map, MapPin, Scale } from 'lucide-react';
+import { BarChart3, Bell, BookOpen, Map, MapPin, Scale } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { setLanguage } from '../actions';
 import { Logo } from '@/components/logo';
 import { NavLink } from '@/components/nav-link';
 import { getLang, tr } from '@/lib/lang';
+import { getOpenAlertCount } from '@/lib/queries';
 
 export default async function DashboardLayout({ children }: { children: ReactNode }) {
   const lang = await getLang();
   const t = tr(lang);
+  const openAlerts = await getOpenAlertCount().catch(() => 0);
   const nav = [
     { href: '/', label: t('Επισκόπηση', 'Overview'), icon: BarChart3 },
     { href: '/map', label: t('Χάρτης Αθήνας', 'Athens map'), icon: Map },
+    { href: '/alerts', label: t('Γεμάτοι κάδοι', 'Full bins'), icon: Bell, badge: openAlerts },
     { href: '/rules', label: t('Κανόνες Δήμου', 'Municipal rules'), icon: Scale },
     { href: '/points', label: t('Σημεία συλλογής', 'Collection points'), icon: MapPin },
     { href: '/developers', label: t('API για την εφαρμογή', 'App API'), icon: BookOpen },
@@ -23,10 +26,18 @@ export default async function DashboardLayout({ children }: { children: ReactNod
           aria-label={t('Κύριο μενού', 'Main menu')}
           className="flex gap-1 overflow-x-auto lg:flex-col"
         >
-          {nav.map(({ href, label, icon: Icon }) => (
+          {nav.map(({ href, label, icon: Icon, badge }) => (
             <NavLink key={href} href={href}>
               <Icon size={18} strokeWidth={2} aria-hidden />
-              {label}
+              <span className="flex-1">{label}</span>
+              {!!badge && (
+                <span
+                  className="num rounded-pill bg-danger px-2 py-0.5 text-[11px] text-white"
+                  aria-label={t(`${badge} νέες αναφορές`, `${badge} new reports`)}
+                >
+                  {badge}
+                </span>
+              )}
             </NavLink>
           ))}
         </nav>

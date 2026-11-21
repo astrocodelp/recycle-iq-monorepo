@@ -1,5 +1,5 @@
 import { router, useLocalSearchParams } from 'expo-router';
-import { MapPin, QrCode, ScanLine, Smile } from 'lucide-react-native';
+import { MapPin, QrCode, ScanLine, Smile, TriangleAlert } from 'lucide-react-native';
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import Animated from 'react-native-reanimated';
@@ -63,6 +63,7 @@ export default function Bin() {
           <Animated.View entering={enter(2)} style={{ gap: 10 }}>
             <Button label={t('Τι θέλεις να πετάξεις;', 'What do you want to throw away?')} icon={<ScanLine size={18} color="#fff" />} onPress={() => router.replace('/scan')} />
             <Button label={t('Selfie σε αυτόν τον κάδο', 'Selfie at this bin')} variant="secondary" icon={<Smile size={18} color={colors.ink} />} onPress={() => router.push('/checkin')} />
+            <Button label={t('Ο κάδος είναι γεμάτος', 'This bin is full')} variant="ghost" icon={<TriangleAlert size={18} color={colors['forest-700']} />} onPress={() => router.push({ pathname: '/report', params: { bin: point.id } })} />
           </Animated.View>
           <DemoBadge label={t('Ενδεικτικά σημεία — όχι επίσημα δημοτικά δεδομένα', 'Illustrative points — not official data')} />
         </>

@@ -1,6 +1,6 @@
 import { CATEGORIES, PICKABLE_OBJECTS, getObject, searchObjects } from '@recycleiq/engine';
 import { router, useFocusEffect } from 'expo-router';
-import { ArrowRight, Camera, ChevronDown, ChevronRight, Gift, MapPin, ScanLine, Search, Settings, Smile, X } from 'lucide-react-native';
+import { ArrowRight, Camera, ChevronDown, ChevronRight, Gift, MapPin, ScanLine, Search, Settings, Smile, TriangleAlert, X } from 'lucide-react-native';
 import { useCallback, useMemo, useState } from 'react';
 import { ScrollView, TextInput, View } from 'react-native';
 import Animated from 'react-native-reanimated';
@@ -100,6 +100,19 @@ export default function Home() {
           <View style={{ flex: 1 }}>
             <T v="h3">{t('Selfie στον κάδο', 'Bin selfie')}</T>
             <T v="caption" color={colors.muted}>{t('Κέρδισε κουπόνια κάθε μέρα', 'Earn coupons every day')}</T>
+          </View>
+          <ChevronRight size={20} color={colors.muted} />
+        </Card>
+      </Animated.View>
+
+      <Animated.View entering={enter(3)}>
+        <Card onPress={() => router.push('/report')} style={{ flexDirection: 'row', alignItems: 'center', gap: 14 }}>
+          <View style={{ width: 44, height: 44, borderRadius: 12, backgroundColor: colors['danger-soft'], alignItems: 'center', justifyContent: 'center' }}>
+            <TriangleAlert size={22} color={colors.danger} />
+          </View>
+          <View style={{ flex: 1 }}>
+            <T v="h3">{t('Γεμάτος κάδος;', 'Full bin?')}</T>
+            <T v="caption" color={colors.muted}>{t('Φωτογράφισέ τον και ενημερώνεται ο Δήμος', 'Snap it and the municipality is notified')}</T>
           </View>
           <ChevronRight size={20} color={colors.muted} />
         </Card>

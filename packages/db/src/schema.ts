@@ -173,3 +173,29 @@ export const serviceRequests = pgTable('service_requests', {
   kind: text('kind').notNull().default('brown_bin'),
   synthetic: boolean('synthetic').notNull().default(false),
 });
+
+export const binReportKind = pgEnum('bin_report_kind', ['full', 'overflowing', 'damaged']);
+export const binReportStatus = pgEnum('bin_report_status', ['open', 'acknowledged', 'resolved']);
+
+/**
+ * A resident reports a bin as full, overflowing or damaged. Shown to the municipality as an alert.
+ * The photo is checked on the phone and never uploaded; only the bin, the kind and the time are sent.
+ */
+export const binReports = pgTable(
+  'bin_reports',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    pointId: text('point_id')
+      .notNull()
+      .references(() => collectionPoints.id),
+    districtId: text('district_id').references(() => districts.id),
+    kind: binReportKind('kind').notNull(),
+    status: binReportStatus('status').notNull().default('open'),
+    deviceId: text('device_id'),
+    acknowledgedAt: timestamp('acknowledged_at', { withTimezone: true }),
+    resolvedAt: timestamp('resolved_at', { withTimezone: true }),
+    synthetic: boolean('synthetic').notNull().default(false),
+  },
+  (t) => [index('bin_reports_status_idx').on(t.status, t.createdAt), index('bin_reports_point_idx').on(t.pointId)],
+);

@@ -104,6 +104,8 @@ export const api = {
       { method: 'POST', body: JSON.stringify(body) },
     ),
   wallet: (deviceId: string) => request<Wallet>(`/api/v1/wallet?deviceId=${encodeURIComponent(deviceId)}`),
+  reportBin: (body: { pointId: string; kind: 'full' | 'overflowing' | 'damaged'; deviceId: string }) =>
+    request<{ report: { id: string }; openForBin: number }>('/api/v1/bin-reports', { method: 'POST', body: JSON.stringify(body) }),
   requestBrownBin: (body: { districtId: string; deviceId: string }) =>
     request<unknown>('/api/v1/service-requests', { method: 'POST', body: JSON.stringify(body) }),
 };

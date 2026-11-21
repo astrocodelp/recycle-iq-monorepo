@@ -21,6 +21,7 @@ import { eq, sql } from 'drizzle-orm';
 import { readFileSync } from 'node:fs';
 import { scriptDb } from './client';
 import {
+  binReports,
   checkins,
   collectionPoints,
   communities,
@@ -225,6 +226,7 @@ try {
   );
 
   // --- synthetic activity ---------------------------------------------------------------------
+  await db.delete(binReports).where(eq(binReports.synthetic, true));
   await db.delete(checkins).where(eq(checkins.synthetic, true));
   await db.delete(serviceRequests).where(eq(serviceRequests.synthetic, true));
   await db.delete(decisions).where(eq(decisions.synthetic, true));
@@ -344,6 +346,31 @@ try {
     });
     await insertBatched(requestRows, (chunk) => db.insert(serviceRequests).values(chunk));
 
+    // Full-bin reports: a week of history, mostly handled, a few still open from the last day.
+    const reportable = pointRows.filter((p) => ['blue_bin', 'glass_bell', 'brown_bin', 'clothing_bin'].includes(p.kind));
+    const reportRows: (typeof binReports.$inferInsert)[] = [];
+    for (let i = 0; i < 70; i++) {
+      const p = reportable[Math.floor(rand() * reportable.length)]!;
+      const ageH = i < 12 ? rand() * 20 : 20 + rand() * 150;
+      const createdAt = new Date(now - ageH * 3_600_000);
+      const status = i < 9 ? ('open' as const) : i < 12 ? ('acknowledged' as const) : ('resolved' as const);
+      reportRows.push({
+        createdAt,
+        pointId: p.id,
+        districtId: p.districtId,
+        kind: weighted([['full', 6], ['overflowing', 3], ['damaged', 1]] as const),
+        status,
+        deviceId: devices[Math.floor(rand() * devices.length)]!,
+        acknowledgedAt: status === 'open' ? null : new Date(createdAt.getTime() + 40 * 60_000),
+        resolvedAt: status === 'resolved' ? new Date(createdAt.getTime() + (3 + rand() * 9) * 3_600_000) : null,
+        synthetic: true,
+      });
+    }
+    await insertBatched(reportRows, (chunk) => db.insert(binReports).values(chunk));
+
+    console.log(
+      `synthetic: ${reportRows.length} bin reports,`,
+    );
     console.log(
       `synthetic: ${decisionRows.length} decisions, ${checkinRows.length} check-ins, ${requestRows.length} brown-bin requests`,
     );
