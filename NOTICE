@@ -25,3 +25,12 @@ Third-party
 Real bin locations (packages/db/seed/osm-bins.json) are derived from OpenStreetMap.
 © OpenStreetMap contributors, available under the Open Database License (ODbL) 1.0:
 https://www.openstreetmap.org/copyright
+
+RecycleIQ Delta Sort (fleet and sorting pages, docs/OPS.md)
+- Code ported or copied from github.com/Mike17K/recycleiq-delta-sort (commit ab878ba): the headless sorter in
+  packages/sortsim/src (core, scenes), its plant summary (packages/sortsim/scripts/summarize.mjs, from
+  ops/server/plant-sim.js and config.js), and the fleet routing and simulation in apps/web/lib/ops (from
+  ops/server/router.js, geo.js, fleet-sim.js, store.js) and the Sankey (from ops/web/sankey.js). That repository has no
+  licence file; each copied file names its source, and its terms should be confirmed with its author.
+- apps/web/public/ops/roads.json (Athens road network) is derived from OpenStreetMap, © OpenStreetMap contributors, ODbL 1.0.
+- Fleet, bin fill and sorting-plant figures are simulated; plant locations are demo coordinates.

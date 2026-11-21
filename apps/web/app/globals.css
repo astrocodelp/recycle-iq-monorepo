@@ -46,3 +46,13 @@
 .riq-map, .riq-map .leaflet-tooltip { font-family: var(--font-sans); }
 .riq-map .leaflet-tooltip { border-radius: 10px; border: 0; box-shadow: 0 6px 20px rgb(23 33 29 / 0.18); padding: 8px 10px; font-size: 13px; }
 .riq-map { z-index: 0; }
+
+/* Fleet map: citizen reports pulse (not with reduced motion). */
+@keyframes riq-pulse {
+  0% { box-shadow: 0 0 0 0 rgb(220 38 38 / 0.55); }
+  70% { box-shadow: 0 0 0 14px rgb(220 38 38 / 0); }
+  100% { box-shadow: 0 0 0 0 rgb(220 38 38 / 0); }
+}
+.riq-pulse { animation: riq-pulse 1.6s ease-out infinite; }
+@media (prefers-reduced-motion: reduce) { .riq-pulse { animation: none; } }
+.riq-truck, .riq-site { background: transparent; border: 0; }
