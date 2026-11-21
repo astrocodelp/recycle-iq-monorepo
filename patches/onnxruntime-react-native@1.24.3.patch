@@ -1,0 +1,16 @@
+diff --git a/android/build.gradle b/android/build.gradle
+index 41b43599a9af6ef1c170047d39db1f3baa6ca682..a7db1c4b981ce3462b4c0e2fec3330bf9419e300 100644
+--- a/android/build.gradle
++++ b/android/build.gradle
+@@ -247,10 +247,7 @@ dependencies {
+     extractLibs "com.microsoft.onnxruntime:onnxruntime-android:latest.integration@aar"
+   }
+ 
+-  if (VersionNumber.parse(REACT_NATIVE_VERSION) < VersionNumber.parse("0.71")) {
+-    extractLibs "com.facebook.fbjni:fbjni:+:headers"
+-    extractLibs "com.facebook.fbjni:fbjni:+"
+-  }
++  // RecycleIQ patch: Gradle 9 removed VersionNumber; this block only applied to React Native < 0.71.
+ 
+   // By default it will just include onnxruntime full aar package
+   if (ortExtensionsEnabled) {
