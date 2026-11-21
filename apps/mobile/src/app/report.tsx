@@ -9,7 +9,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { BackButton } from '@/components/back-button';
 import { PressableScale } from '@/components/pressable-scale';
 import { Button, Card, T } from '@/components/ui';
-import { api, ApiError, type Point } from '@/lib/api';
+import { api, ApiError, CITY_STATUS, type CityRef, type Point } from '@/lib/api';
 import { enter, fade } from '@/lib/motion';
 import { useApp } from '@/lib/store';
 import { categoryColors, colors, font, r } from '@/lib/theme';
@@ -31,6 +31,7 @@ export default function Report() {
   const [points, setPoints] = useState<Point[] | null>(null);
   const [pointId, setPointId] = useState<string | null>(bin ?? null);
   const [kind, setKind] = useState<Kind>('full');
+  const [city, setCity] = useState<CityRef | null>(null);
 
   useEffect(() => {
     api.points({ near: district?.id ?? null, source: binSource, limit: 2000 }).then((res) => setPoints(res.points), () => setPoints([]));
@@ -56,7 +57,8 @@ export default function Report() {
     if (!pointId) return;
     setStep('sending');
     try {
-      await api.reportBin({ pointId, kind, deviceId });
+      const res = await api.reportBin({ pointId, kind, deviceId });
+      setCity(res.city ?? null);
       setStep('done');
     } catch (e) {
       setStep(e instanceof ApiError && e.status === 409 ? 'duplicate' : 'error');
@@ -117,6 +119,13 @@ export default function Report() {
             <T v="body" color={colors.muted} style={{ textAlign: 'center' }}>
               {step === 'done' ? t('Ευχαριστούμε. Η αναφορά σου φαίνεται τώρα στο dashboard του Δήμου.', 'Thank you. Your report is now on the municipal dashboard.') : t('Μία αναφορά ανά κάδο κάθε 6 ώρες.', 'One report per bin every 6 hours.')}
             </T>
+            {step === 'done' && city && (
+              <T v="caption" color={colors['forest-700']} style={{ textAlign: 'center' }}>
+                {city.upvoted
+                  ? t(`Προστέθηκε στο αίτημα ${city.id} που ήδη υπάρχει στο σύστημα αιτημάτων του Δήμου.`, `Added to the existing city request ${city.id}.`)
+                  : t(`Καταχωρήθηκε και στο σύστημα αιτημάτων του Δήμου: ${city.id} · ${CITY_STATUS[city.status].el}`, `Also filed in the city's request system: ${city.id} · ${CITY_STATUS[city.status].en}`)}
+              </T>
+            )}
           </Animated.View>
           <View style={{ alignSelf: 'stretch', marginTop: 12 }}>
             <Button label={t('Τέλος', 'Done')} onPress={() => (router.canGoBack() ? router.back() : router.replace('/'))} />

@@ -215,6 +215,9 @@ export interface AlertRow {
   firstAt: Date;
   lastAt: Date;
   status: 'open' | 'acknowledged';
+  /** The matching request in the city's system (AthensGov), if one was filed. */
+  cityRequestId: string | null;
+  cityStatus: string | null;
 }
 
 /**
@@ -234,7 +237,8 @@ export async function getOpenAlerts(): Promise<AlertRow[]> {
       select r.point_id, p.name as point_name, p.kind as point_kind, d.name as district,
              count(*) as reports, array_agg(distinct r.kind::text) as kinds,
              min(r.created_at) as first_at, max(r.created_at) as last_at,
-             case when bool_or(r.status = 'open') then 'open' else 'acknowledged' end as status
+             case when bool_or(r.status = 'open') then 'open' else 'acknowledged' end as status,
+             max(r.city_request_id) as city_id, max(r.city_status) as city_status
       from bin_reports r
       join collection_points p on p.id = r.point_id
       left join districts d on d.id = r.district_id
@@ -252,6 +256,25 @@ export async function getOpenAlerts(): Promise<AlertRow[]> {
     firstAt: new Date(String(r.first_at)),
     lastAt: new Date(String(r.last_at)),
     status: r.status as 'open' | 'acknowledged',
+    cityRequestId: (r.city_id as string | null) ?? null,
+    cityStatus: (r.city_status as string | null) ?? null,
+  }));
+}
+
+/** Bulky-item pickups filed with the city (AthensGov "bulky_waste" requests), newest first. */
+export async function getBulkyRequests(limit = 20) {
+  const rows = (
+    await getDb().execute(sql`
+      select s.id, s.created_at, s.city_request_id, s.city_status, d.name as district
+      from service_requests s left join districts d on d.id = s.district_id
+      where s.kind = 'bulky_pickup' order by s.created_at desc limit ${limit}`)
+  ).rows;
+  return rows.map((r) => ({
+    id: String(r.id),
+    createdAt: new Date(String(r.created_at)),
+    cityRequestId: (r.city_request_id as string | null) ?? null,
+    cityStatus: (r.city_status as string | null) ?? null,
+    district: (r.district as L10n | null) ?? null,
   }));
 }
 

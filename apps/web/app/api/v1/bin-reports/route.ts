@@ -1,4 +1,5 @@
-import { and, binReports, collectionPoints, eq, getDb, gte, inArray, sql } from '@recycleiq/db';
+import { and, binReports, collectionPoints, desc, districts, eq, getDb, gte, inArray, isNull, sql } from '@recycleiq/db';
+import { cityDistrict, createCityRequest, tryCity, upvoteCityRequest } from '@/lib/athens';
 import { z } from 'zod';
 import { deviceIdFrom, error, parseBody } from '@/lib/api';
 
@@ -49,5 +50,54 @@ export async function POST(req: Request) {
   if (kind !== 'damaged' && open >= MARK_FULL_AT && point.status === 'available')
     await db.update(collectionPoints).set({ status: 'full' }).where(eq(collectionPoints.id, pointId));
 
-  return Response.json({ report, openForBin: open }, { status: 201 });
+  const city = await fileWithCity(report!.id, point, kind);
+  return Response.json({ report, openForBin: open, city }, { status: 201 });
+}
+
+const TITLE = { full: 'Γεμάτος κάδος', overflowing: 'Ξεχειλισμένος κάδος', damaged: 'Χαλασμένος κάδος' } as const;
+
+/**
+ * File the report in the city's request system (AthensGov, category "garbage"). If this bin already
+ * has an open city request, upvote it instead of opening a duplicate. Only the bin is described:
+ * its location and street, never the resident's.
+ */
+async function fileWithCity(reportId: string, point: typeof collectionPoints.$inferSelect, kind: keyof typeof TITLE) {
+  const db = getDb();
+  const [existing] = await db
+    .select({ cityRequestId: binReports.cityRequestId })
+    .from(binReports)
+    .where(
+      and(
+        eq(binReports.pointId, point.id),
+        inArray(binReports.status, ['open', 'acknowledged']),
+        sql`${binReports.cityRequestId} is not null`,
+      ),
+    )
+    .orderBy(desc(binReports.createdAt))
+    .limit(1);
+  const [district] = point.districtId ? await db.select().from(districts).where(eq(districts.id, point.districtId)) : [];
+  const where = point.street?.el ?? `${point.name.el}${district ? ` · ${district.name.el}` : ''}`;
+  const res = await tryCity(() =>
+    existing?.cityRequestId
+      ? upvoteCityRequest(existing.cityRequestId)
+      : createCityRequest({
+          category: 'garbage',
+          title: `${TITLE[kind]}: ${point.name.el}`.slice(0, 200),
+          description: [
+            'Αναφορά από την εφαρμογή RecycleIQ.',
+            `Κάδος: ${point.name.el} (κωδικός ${point.id}).`,
+            'Η φωτογραφία ελέγχθηκε στο κινητό του κατοίκου και δεν στάλθηκε.',
+          ].join(' '),
+          address: `${where}, Αθήνα`,
+          lat: point.lat,
+          lng: point.lng,
+          district: cityDistrict(district?.communityId),
+        }),
+  );
+  if (!res) return null;
+  await db
+    .update(binReports)
+    .set({ cityRequestId: res.id, cityStatus: res.status, citySyncedAt: new Date() })
+    .where(and(eq(binReports.id, reportId), isNull(binReports.cityRequestId)));
+  return { id: res.id, status: res.status, upvoted: !!existing?.cityRequestId };
 }

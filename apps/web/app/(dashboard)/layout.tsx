@@ -54,10 +54,13 @@ export default async function DashboardLayout({ children }: { children: ReactNod
                   aria-pressed={bins === b}
                   className={`rounded-pill px-3 py-1 text-caption ${bins === b ? 'bg-ink text-white' : 'text-muted'}`}
                 >
-                  {b === 'synthetic' ? t('Συνθετικά', 'Synthetic') : 'OpenStreetMap'}
+                  {b === 'synthetic' ? t('Συνθετικά', 'Synthetic') : t('Πραγματικά', 'Real')}
                 </button>
               ))}
             </form>
+            {bins === 'osm' && (
+              <p className="text-[11px] leading-snug text-muted">{t('Πηγή σήμερα: © OpenStreetMap (ODbL)', 'Source today: © OpenStreetMap (ODbL)')}</p>
+            )}
           </div>
           <form action={setLanguage} className="inline-flex w-fit rounded-pill bg-surface-2 p-1">
             {(['el', 'en'] as const).map((l) => (

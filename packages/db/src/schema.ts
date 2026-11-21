@@ -164,8 +164,13 @@ export const serviceRequests = pgTable('service_requests', {
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
   deviceId: text('device_id'),
   districtId: text('district_id').references(() => districts.id),
+  /** brown_bin (ask for a brown bin) | bulky_pickup (bulky item collection, sent to the city). */
   kind: text('kind').notNull().default('brown_bin'),
   synthetic: boolean('synthetic').notNull().default(false),
+  /** The matching citizen request in the city's system (AthensGov), when one was created. */
+  cityRequestId: text('city_request_id'),
+  cityStatus: text('city_status'),
+  citySyncedAt: timestamp('city_synced_at', { withTimezone: true }),
 });
 
 export const binReportKind = pgEnum('bin_report_kind', ['full', 'overflowing', 'damaged']);
@@ -190,6 +195,10 @@ export const binReports = pgTable(
     acknowledgedAt: timestamp('acknowledged_at', { withTimezone: true }),
     resolvedAt: timestamp('resolved_at', { withTimezone: true }),
     synthetic: boolean('synthetic').notNull().default(false),
+    /** The matching citizen request in the city's system (AthensGov): created, or upvoted if one was open. */
+    cityRequestId: text('city_request_id'),
+    cityStatus: text('city_status'),
+    citySyncedAt: timestamp('city_synced_at', { withTimezone: true }),
   },
   (t) => [index('bin_reports_status_idx').on(t.status, t.createdAt), index('bin_reports_point_idx').on(t.pointId)],
 );

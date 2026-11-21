@@ -3,7 +3,8 @@ import { AutoRefresh } from '@/components/auto-refresh';
 import { Badge, Card, DemoBadge, Kpi } from '@/components/ui';
 import { fmt } from '@/lib/format';
 import { getLang, tr } from '@/lib/lang';
-import { getAlertStats, getOpenAlerts } from '@/lib/queries';
+import { athensEnabled, CITY_STATUS_LABEL, syncCityStatuses, type CityStatus } from '@/lib/athens';
+import { getAlertStats, getBulkyRequests, getOpenAlerts } from '@/lib/queries';
 import { acknowledgeBin, resolveBin } from './actions';
 
 export const dynamic = 'force-dynamic';
@@ -13,7 +14,12 @@ export default async function Alerts() {
   const lang = await getLang();
   const t = tr(lang);
   const f = fmt(lang);
-  const [alerts, stats] = await Promise.all([getOpenAlerts(), getAlertStats()]);
+  // Pull the city's latest status for the requests we filed (AthensGov), then read.
+  const before = await Promise.all([getOpenAlerts(), getBulkyRequests()]);
+  await syncCityStatuses([...before[0], ...before[1]].map((x) => x.cityRequestId).filter((x): x is string => !!x)).catch(() => {});
+  const [alerts, stats, bulky] = await Promise.all([getOpenAlerts(), getAlertStats(), getBulkyRequests()]);
+  const city = athensEnabled();
+  const cityLabel = (s: string | null) => (s && s in CITY_STATUS_LABEL ? t(CITY_STATUS_LABEL[s as CityStatus]) : '—');
   const kindLabel: Record<string, string> = {
     full: t('Γεμάτος', 'Full'),
     overflowing: t('Ξεχειλίζει', 'Overflowing'),
@@ -75,6 +81,11 @@ export default async function Alerts() {
                 <span className="flex w-28 items-center gap-1 text-caption text-muted">
                   <Clock size={13} aria-hidden /> {f.ago(a.firstAt)}
                 </span>
+                {city && (
+                  <span className="w-36 text-caption text-muted" title={a.cityRequestId ?? undefined}>
+                    {t('Δήμος:', 'City:')} <span className="font-semibold text-ink">{a.cityRequestId ? cityLabel(a.cityStatus) : t('δεν στάλθηκε', 'not sent')}</span>
+                  </span>
+                )}
                 <span className="w-28">
                   {a.status === 'open' ? <Badge tone="danger">{t('Νέα', 'New')}</Badge> : <Badge tone="warn">{t('Σε εξέλιξη', 'In progress')}</Badge>}
                 </span>
@@ -98,6 +109,33 @@ export default async function Alerts() {
             ))}
           </ul>
         )}
+      </Card>
+
+      <Card
+        title={t('Παραλαβές ογκωδών', 'Bulky item pickups')}
+        subtitle={
+          city
+            ? t('Αιτήματα κατοίκων από την εφαρμογή, καταχωρημένα στο σύστημα αιτημάτων του Δήμου', 'Requests from the app, filed in the city request system')
+            : t('Η σύνδεση με το σύστημα αιτημάτων του Δήμου δεν είναι ενεργή (ATHENS_API_KEY).', 'The city request system is not connected (ATHENS_API_KEY).')
+        }
+      >
+        {bulky.length === 0 ? (
+          <p className="text-body text-muted">{t('Κανένα αίτημα ακόμη.', 'No requests yet.')}</p>
+        ) : (
+          <ul className="divide-y divide-line">
+            {bulky.map((b) => (
+              <li key={b.id} className="flex flex-wrap items-center gap-x-5 gap-y-1 py-2.5 text-body">
+                <span className="flex-1 font-semibold">{b.district ? t(b.district) : t('Χωρίς γειτονιά', 'No neighbourhood')}</span>
+                <span className="num text-caption text-muted">{b.cityRequestId}</span>
+                <span className="w-28 text-caption text-muted">{f.ago(b.createdAt)}</span>
+                <Badge tone={b.cityStatus === 'resolved' ? 'neutral' : 'warn'}>{cityLabel(b.cityStatus)}</Badge>
+              </li>
+            ))}
+          </ul>
+        )}
+        <p className="mt-3 text-caption text-muted">
+          {t('Η διεύθυνση παραλαβής πηγαίνει μόνο στον Δήμο· το RecycleIQ κρατά τη γειτονιά και την κατάσταση.', 'The pickup address goes only to the city; RecycleIQ keeps the neighbourhood and the status.')}
+        </p>
       </Card>
     </div>
   );

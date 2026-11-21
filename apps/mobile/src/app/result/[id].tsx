@@ -20,6 +20,7 @@ import {
   MapPin,
   ScanLine,
   Sparkles,
+  Truck,
 } from 'lucide-react-native';
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, Linking, ScrollView, View } from 'react-native';
@@ -269,6 +270,12 @@ export default function Result() {
       <View style={{ position: 'absolute', left: 0, right: 0, bottom: 0, padding: 18, paddingBottom: insets.bottom + 12, gap: 8, backgroundColor: 'rgba(248,249,246,0.96)', borderTopWidth: 1, borderTopColor: colors.line }}>
         {decision.uncertain ? (
           <Button label={t('Διάλεξε τι είναι', 'Pick what it is')} icon={<ScanLine size={18} color="#fff" />} onPress={() => router.replace('/scan')} />
+        ) : decision.category === 'bulky' ? (
+          <Button
+            label={t('Ζήτα παραλαβή από τον Δήμο', 'Ask the city to collect it')}
+            icon={<Truck size={18} color="#fff" />}
+            onPress={() => router.push({ pathname: '/bulky', params: { objectId: decision.objectId } })}
+          />
         ) : (
           <Button label={t('Βρες πού να το πετάξεις', 'Find where to drop it off')} icon={<MapPin size={18} color="#fff" />} onPress={() => router.push('/points')} />
         )}

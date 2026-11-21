@@ -45,8 +45,8 @@ export default function Settings() {
     },
     {
       value: 'osm',
-      label: t('Πραγματικοί κάδοι (OpenStreetMap)', 'Real bins (OpenStreetMap)'),
-      sub: t('1.167 κάδοι στην Αθήνα · © OpenStreetMap contributors', '1,167 bins in Athens · © OpenStreetMap contributors'),
+      label: t('Πραγματικοί κάδοι', 'Real bins'),
+      sub: t('1.167 κάδοι στην Αθήνα · πηγή σήμερα: © OpenStreetMap', '1,167 bins in Athens · source today: © OpenStreetMap'),
     },
   ];
 

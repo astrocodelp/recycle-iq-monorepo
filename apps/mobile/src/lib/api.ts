@@ -98,6 +98,22 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   return body as T;
 }
 
+/** A citizen request in the city's own system (AthensGov). */
+export type CityStatus = 'submitted' | 'received' | 'in_progress' | 'resolved' | 'rejected';
+export interface CityRef {
+  id: string;
+  status: CityStatus;
+  /** True when the bin already had an open city request and this report was added to it. */
+  upvoted?: boolean;
+}
+export const CITY_STATUS: Record<CityStatus, L10n> = {
+  submitted: { el: 'Υποβλήθηκε', en: 'Submitted' },
+  received: { el: 'Παραλήφθηκε', en: 'Received' },
+  in_progress: { el: 'Σε εξέλιξη', en: 'In progress' },
+  resolved: { el: 'Επιλύθηκε', en: 'Resolved' },
+  rejected: { el: 'Απορρίφθηκε', en: 'Rejected' },
+};
+
 export const api = {
   catalog: () => request<Catalog>('/api/v1/catalog'),
   search: (q: string) =>
@@ -133,7 +149,14 @@ export const api = {
   setNickname: (deviceId: string, nickname: string) =>
     request<{ nickname: string; custom: boolean }>('/api/v1/profile', { method: 'POST', body: JSON.stringify({ deviceId, nickname }) }),
   reportBin: (body: { pointId: string; kind: 'full' | 'overflowing' | 'damaged'; deviceId: string }) =>
-    request<{ report: { id: string }; openForBin: number }>('/api/v1/bin-reports', { method: 'POST', body: JSON.stringify(body) }),
+    request<{ report: { id: string }; openForBin: number; city: CityRef | null }>('/api/v1/bin-reports', { method: 'POST', body: JSON.stringify(body) }),
+  /** Ask the city to collect a bulky item. The address goes to the city only; RecycleIQ does not keep it. */
+  bulkyRequest: (body: { objectId: string; districtId: string | null; address: string; note?: string; deviceId: string }) =>
+    request<{ id: string; city: CityRef }>('/api/v1/bulky-requests', { method: 'POST', body: JSON.stringify(body) }),
+  cityRequest: (id: string) =>
+    request<{ id: string; status: CityStatus; updatedAt: string | null; history: { status?: string; note?: string; at?: string }[] }>(
+      `/api/v1/city-requests/${encodeURIComponent(id)}`,
+    ),
   requestBrownBin: (body: { districtId: string; deviceId: string }) =>
     request<unknown>('/api/v1/service-requests', { method: 'POST', body: JSON.stringify(body) }),
 };

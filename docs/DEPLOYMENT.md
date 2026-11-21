@@ -19,7 +19,9 @@
    ```
 
    Re-running the seed never touches real activity or rule toggles made in the dashboard.
-5. **Optional:** set `NEXT_PUBLIC_SITE_URL` to your public domain so bin QR codes use it.
+5. **Optional:** set `ATHENS_API_KEY` to file full-bin reports and bulky pickups in the city's request
+   system (see [ATHENSGOV.md](ATHENSGOV.md)).
+6. **Optional:** set `NEXT_PUBLIC_SITE_URL` to your public domain so bin QR codes use it.
 
 At runtime the web app talks to Neon over its serverless HTTP driver (fast cold starts). Scripts and
 migrations use a normal Postgres connection.
