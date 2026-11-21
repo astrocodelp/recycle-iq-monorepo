@@ -98,8 +98,8 @@ export default function Home() {
             <TriangleAlert size={22} color={colors.danger} />
           </View>
           <View style={{ flex: 1 }}>
-            <T v="h3">{t('Γεμάτος κάδος;', 'Full bin?')}</T>
-            <T v="caption" color={colors.muted}>{t('Φωτογράφισέ τον και ενημερώνεται ο Δήμος', 'Snap it and the municipality is notified')}</T>
+            <T v="h3">{t('Γεμάτος ή χαλασμένος κάδος;', 'Full or damaged bin?')}</T>
+            <T v="caption" color={colors.muted}>{t('Φωτογράφισέ τον: η αναφορά πάει στο dashboard του Δήμου', 'Snap it: the report goes to the municipal dashboard')}</T>
           </View>
           <ChevronRight size={20} color={colors.muted} />
         </Card>
