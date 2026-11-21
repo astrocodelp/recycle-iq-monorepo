@@ -1,6 +1,6 @@
 import { CATEGORIES, PICKABLE_OBJECTS, getObject, searchObjects } from '@recycleiq/engine';
 import { router, useFocusEffect } from 'expo-router';
-import { ArrowRight, Camera, ChevronDown, ChevronRight, Gift, MapPin, ScanLine, Search, Settings, Smile, TriangleAlert, X } from 'lucide-react-native';
+import { ArrowRight, Camera, ChevronDown, ChevronRight, MapPin, ScanLine, Search, Settings, TriangleAlert, Trophy, X } from 'lucide-react-native';
 import { useCallback, useMemo, useState } from 'react';
 import { ScrollView, TextInput, View } from 'react-native';
 import Animated from 'react-native-reanimated';
@@ -15,9 +15,9 @@ import { useApp } from '@/lib/store';
 import { colors, font, r, shadow } from '@/lib/theme';
 
 export default function Home() {
-  const { t, district, deviceId, history, walletVersion } = useApp();
+  const { t, lang, district, deviceId, history } = useApp();
   const [q, setQ] = useState('');
-  const [balance, setBalance] = useState<number | null>(null);
+  const [rank, setRank] = useState<{ rank: number | null; score: number } | null>(null);
   const hits = useMemo(() => searchObjects(q).slice(0, 5), [q]);
   const fact = useMemo(() => {
     const withFacts = PICKABLE_OBJECTS.filter((o) => o.fact);
@@ -27,8 +27,8 @@ export default function Home() {
   useFocusEffect(
     useCallback(() => {
       if (!deviceId) return;
-      api.wallet(deviceId).then((w) => setBalance(w.balance), () => setBalance(null));
-    }, [deviceId, walletVersion]),
+      api.leaderboard({ period: 'week', deviceId, lang }).then((l) => setRank(l.me), () => setRank(null));
+    }, [deviceId, lang]),
   );
 
   const hour = new Date().getHours();
@@ -63,13 +63,13 @@ export default function Home() {
           <T v="h1">{t('Δεν ξέρεις πού να το πετάξεις;', "Don't know where it goes?")}</T>
           <T v="body" color={colors.muted}>{t('Φωτογράφισέ το και μάθε αμέσως.', 'Snap it and find out instantly.')}</T>
         </View>
-        <PressableScale onPress={() => router.push('/coupons')} accessibilityLabel={t('Τα κουπόνια μου', 'My coupons')}>
+        <PressableScale onPress={() => router.push('/leaderboard')} accessibilityLabel={t('Η θέση μου στην κατάταξη', 'My leaderboard rank')}>
           <View style={{ alignItems: 'center', backgroundColor: colors.surface, borderRadius: r.card, borderWidth: 1, borderColor: colors.line, paddingHorizontal: 12, paddingVertical: 8, ...shadow.soft }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
-              <Gift size={14} color={colors['forest-700']} />
-              <T v="num" style={{ fontSize: 16 }}>{balance ?? '—'}</T>
+              <Trophy size={14} color={colors['forest-700']} />
+              <T v="num" style={{ fontSize: 16 }}>{rank?.rank ? `#${rank.rank}` : '—'}</T>
             </View>
-            <T v="micro" color={colors.muted}>{t('ΚΟΥΠΟΝΙΑ', 'COUPONS')}</T>
+            <T v="micro" color={colors.muted}>{t(`${rank?.score ?? 0} ΣΑΡΩΣΕΙΣ`, `${rank?.score ?? 0} SCANS`)}</T>
           </View>
         </PressableScale>
       </Animated.View>
@@ -90,19 +90,6 @@ export default function Home() {
             <ArrowRight size={20} color={colors.lime} />
           </View>
         </PressableScale>
-      </Animated.View>
-
-      <Animated.View entering={enter(3)}>
-        <Card onPress={() => router.push('/checkin')} style={{ flexDirection: 'row', alignItems: 'center', gap: 14 }}>
-          <View style={{ width: 44, height: 44, borderRadius: 12, backgroundColor: colors.lime, alignItems: 'center', justifyContent: 'center' }}>
-            <Smile size={24} color={colors['forest-900']} />
-          </View>
-          <View style={{ flex: 1 }}>
-            <T v="h3">{t('Selfie στον κάδο', 'Bin selfie')}</T>
-            <T v="caption" color={colors.muted}>{t('Κέρδισε κουπόνια κάθε μέρα', 'Earn coupons every day')}</T>
-          </View>
-          <ChevronRight size={20} color={colors.muted} />
-        </Card>
       </Animated.View>
 
       <Animated.View entering={enter(3)}>

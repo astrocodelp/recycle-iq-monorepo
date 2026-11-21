@@ -1,5 +1,5 @@
 // Seeds reference data (communities, districts, collection points, rules) and synthetic activity
-// (decisions, check-ins, brown-bin requests) so the municipal dashboard has something to show.
+// (decisions, brown-bin requests, full-bin reports) so the municipal dashboard has something to show.
 //
 // Safe to re-run: reference data is upserted, rule `enabled` flags set by staff are preserved,
 // and only rows marked `synthetic` are replaced. Real user activity is never touched.
@@ -10,7 +10,6 @@ import './env';
 import {
   CATEGORY_IDS,
   DEFAULT_RULES,
-  checkinReward,
   evaluate,
   type CategoryId,
   type DistrictContext,
@@ -22,7 +21,6 @@ import { readFileSync } from 'node:fs';
 import { scriptDb } from './client';
 import {
   binReports,
-  checkins,
   collectionPoints,
   communities,
   decisions,
@@ -227,7 +225,6 @@ try {
 
   // --- synthetic activity ---------------------------------------------------------------------
   await db.delete(binReports).where(eq(binReports.synthetic, true));
-  await db.delete(checkins).where(eq(checkins.synthetic, true));
   await db.delete(serviceRequests).where(eq(serviceRequests.synthetic, true));
   await db.delete(decisions).where(eq(decisions.synthetic, true));
 
@@ -314,25 +311,6 @@ try {
     }
     await insertBatched(decisionRows, (chunk) => db.insert(decisions).values(chunk));
 
-    const checkinRows: (typeof checkins.$inferInsert)[] = [];
-    for (let i = 0; i < 2_600; i++) {
-      const age = Math.floor(30 * Math.pow(rand(), 1.2));
-      const reward = checkinReward({
-        streakBefore: weighted([[0, 4], [1, 2], [2, 1.5], [3, 1], [5, 0.7], [8, 0.4]] as const),
-        matchesScan: rand() < 0.7,
-        specialDropOff: rand() < 0.08,
-      });
-      checkinRows.push({
-        createdAt: new Date(now - age * DAY - Math.floor(rand() * DAY)),
-        deviceId: devices[Math.floor(rand() * devices.length)]!,
-        districtId: rand() < 0.1 ? null : weighted(districtWeights),
-        earned: reward.earned,
-        breakdown: reward.breakdown,
-        synthetic: true,
-      });
-    }
-    await insertBatched(checkinRows, (chunk) => db.insert(checkins).values(chunk));
-
     const noBrownBin = rawDistricts.filter((d) => d.organic !== 'full');
     const requestRows = Array.from({ length: 420 }, () => {
       const d = weighted(noBrownBin.map((x) => [x, x.organic === 'none' ? 2 : 1] as const));
@@ -372,7 +350,7 @@ try {
       `synthetic: ${reportRows.length} bin reports,`,
     );
     console.log(
-      `synthetic: ${decisionRows.length} decisions, ${checkinRows.length} check-ins, ${requestRows.length} brown-bin requests`,
+      `synthetic: ${decisionRows.length} decisions, ${requestRows.length} brown-bin requests`,
     );
   } else {
     console.log('synthetic activity removed');

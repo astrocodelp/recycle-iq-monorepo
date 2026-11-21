@@ -1,15 +1,32 @@
 import { router } from 'expo-router';
-import { Check, ChevronRight, Globe, MapPin, ShieldCheck, Smartphone } from 'lucide-react-native';
-import { View } from 'react-native';
+import { Check, ChevronRight, Globe, MapPin, ShieldCheck, Smartphone, Trophy } from 'lucide-react-native';
+import { useEffect, useState } from 'react';
+import { TextInput, View } from 'react-native';
 import { BackButton } from '@/components/back-button';
 import { PressableScale } from '@/components/pressable-scale';
 import { Screen } from '@/components/screen';
-import { Card, T } from '@/components/ui';
+import { Button, Card, T } from '@/components/ui';
+import { api } from '@/lib/api';
 import { deviceLang, useApp, type LangPref } from '@/lib/store';
 import { colors, font } from '@/lib/theme';
 
 export default function Settings() {
-  const { t, langPref, setLangPref, district } = useApp();
+  const { t, lang, langPref, setLangPref, district, deviceId } = useApp();
+  const [nickname, setNickname] = useState('');
+  const [saved, setSaved] = useState<'idle' | 'saving' | 'saved' | 'invalid'>('idle');
+  useEffect(() => {
+    if (deviceId) api.profile(deviceId, lang).then((p) => setNickname(p.nickname), () => {});
+  }, [deviceId, lang]);
+  const save = async () => {
+    setSaved('saving');
+    try {
+      const p = await api.setNickname(deviceId, nickname);
+      setNickname(p.nickname);
+      setSaved('saved');
+    } catch {
+      setSaved('invalid');
+    }
+  };
   const device = deviceLang();
   const options: { value: LangPref; label: string; sub?: string }[] = [
     {
@@ -50,6 +67,33 @@ export default function Settings() {
               </View>
             </PressableScale>
           ))}
+        </Card>
+      </View>
+
+      <View style={{ gap: 8 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+          <Trophy size={16} color={colors.muted} />
+          <T v="eyebrow" color={colors.muted}>{t('Ψευδώνυμο στην κατάταξη', 'Leaderboard nickname')}</T>
+        </View>
+        <Card style={{ gap: 10 }}>
+          <TextInput
+            value={nickname}
+            onChangeText={(v) => {
+              setNickname(v);
+              setSaved('idle');
+            }}
+            maxLength={24}
+            placeholder={t('Ψευδώνυμο', 'Nickname')}
+            placeholderTextColor={colors.faint}
+            accessibilityLabel={t('Ψευδώνυμο στην κατάταξη', 'Leaderboard nickname')}
+            style={{ fontFamily: font.semibold, fontSize: 16, color: colors.ink, borderWidth: 1, borderColor: colors.line, borderRadius: 12, paddingHorizontal: 12, height: 46 }}
+          />
+          <T v="caption" color={saved === 'invalid' ? colors.danger : colors.muted}>
+            {saved === 'invalid'
+              ? t('2–24 γράμματα, αριθμοί ή κενά.', '2–24 letters, digits or spaces.')
+              : t('Μόνο αυτό φαίνεται στους άλλους. Όχι το πραγματικό σου όνομα.', 'Only this is shown to others. Not your real name.')}
+          </T>
+          <Button label={saved === 'saved' ? t('Αποθηκεύτηκε', 'Saved') : t('Αποθήκευση', 'Save')} variant={saved === 'saved' ? 'secondary' : 'primary'} loading={saved === 'saving'} onPress={save} />
         </Card>
       </View>
 

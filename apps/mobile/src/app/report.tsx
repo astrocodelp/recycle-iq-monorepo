@@ -118,7 +118,9 @@ export default function Report() {
               {step === 'done' ? t('Ευχαριστούμε. Η αναφορά σου φαίνεται τώρα στο dashboard του Δήμου.', 'Thank you. Your report is now on the municipal dashboard.') : t('Μία αναφορά ανά κάδο κάθε 6 ώρες.', 'One report per bin every 6 hours.')}
             </T>
           </Animated.View>
-          <Button label={t('Τέλος', 'Done')} onPress={() => (router.canGoBack() ? router.back() : router.replace('/'))} style={{ alignSelf: 'stretch', marginTop: 12 }} />
+          <View style={{ alignSelf: 'stretch', marginTop: 12 }}>
+            <Button label={t('Τέλος', 'Done')} onPress={() => (router.canGoBack() ? router.back() : router.replace('/'))} />
+          </View>
         </View>
       ) : (
         <>

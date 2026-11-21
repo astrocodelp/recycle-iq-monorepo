@@ -1,7 +1,8 @@
 # @recycleiq/mobile
 
 The RecycleIQ citizen app (Expo SDK 58, Expo Router, React Native). Scan or search an item, answer at most
-one question, get the bin, the reason and the nearest point. Earn κουπόνια (coupons) with a daily bin selfie.
+one question, get the bin, the reason and the nearest point. Climb the scanning leaderboard; report full bins
+to the municipality with a photo. Greek or English, following the phone (changeable in Settings).
 
 ## Run it
 
@@ -34,5 +35,6 @@ builds store binaries. Update `EXPO_PUBLIC_API_URL` in `eas.json` to your produc
 
 - GPS is turned into a neighbourhood on the device (`src/lib/location.ts`); only the neighbourhood id is sent.
 - The bin QR code (`recycleiq://bin/<id>`) gives the neighbourhood without any location permission.
-- Scan and selfie photos stay on the phone; the server only records that a check-in happened.
+- Scan and bin photos stay on the phone; the server receives only the item, or the bin and the problem.
+- The leaderboard shows nicknames only (automatic, or one you choose in Settings).
 - History is stored only on the phone; the device id is a random install id.

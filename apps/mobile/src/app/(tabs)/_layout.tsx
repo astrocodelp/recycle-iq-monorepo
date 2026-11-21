@@ -1,5 +1,5 @@
 import { Tabs } from 'expo-router';
-import { Clock, Gift, House, MapPin } from 'lucide-react-native';
+import { Clock, House, MapPin, Trophy } from 'lucide-react-native';
 import { View } from 'react-native';
 import { useApp } from '@/lib/store';
 import { colors, font } from '@/lib/theme';
@@ -36,7 +36,7 @@ export default function TabsLayout() {
     >
       <Tabs.Screen name="index" options={{ title: t('Αρχική', 'Home'), tabBarIcon: ({ focused }) => <TabIcon Icon={House} focused={focused} /> }} />
       <Tabs.Screen name="points" options={{ title: t('Σημεία', 'Points'), tabBarIcon: ({ focused }) => <TabIcon Icon={MapPin} focused={focused} /> }} />
-      <Tabs.Screen name="coupons" options={{ title: t('Κουπόνια', 'Coupons'), tabBarIcon: ({ focused }) => <TabIcon Icon={Gift} focused={focused} /> }} />
+      <Tabs.Screen name="leaderboard" options={{ title: t('Κατάταξη', 'Leaderboard'), tabBarIcon: ({ focused }) => <TabIcon Icon={Trophy} focused={focused} /> }} />
       <Tabs.Screen name="history" options={{ title: t('Ιστορικό', 'History'), tabBarIcon: ({ focused }) => <TabIcon Icon={Clock} focused={focused} /> }} />
     </Tabs>
   );

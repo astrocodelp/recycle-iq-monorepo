@@ -3,7 +3,8 @@ import {
   CATALOG,
   DEFAULT_RULES,
   RULE_CODES,
-  checkinReward,
+  defaultNickname,
+  isValidNickname,
   cityContext,
   decide,
   evaluate,
@@ -167,10 +168,16 @@ describe('points and context', () => {
   });
 });
 
-describe('rewards', () => {
-  it('adds base, match, capped streak and special drop-off', () => {
-    expect(checkinReward({ streakBefore: 0, matchesScan: false, specialDropOff: false }).earned).toBe(20);
-    expect(checkinReward({ streakBefore: 10, matchesScan: true, specialDropOff: true }).earned).toBe(20 + 10 + 30 + 40);
+describe('leaderboard', () => {
+  it('gives every install a stable nickname in both languages', () => {
+    expect(defaultNickname('app-abc')).toBe(defaultNickname('app-abc'));
+    expect(defaultNickname('app-abc')).not.toBe(defaultNickname('app-xyz'));
+    expect(defaultNickname('app-abc', 'en')).toMatch(/^[A-Z][a-z]+ [A-Z][a-z]+ \d{2}$/);
+  });
+  it('validates custom nicknames', () => {
+    expect(isValidNickname('Μαρία 7')).toBe(true);
+    expect(isValidNickname('x')).toBe(false);
+    expect(isValidNickname('<script>')).toBe(false);
   });
 });
 

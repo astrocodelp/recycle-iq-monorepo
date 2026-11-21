@@ -4,7 +4,6 @@ import {
   boolean,
   doublePrecision,
   index,
-  integer,
   jsonb,
   pgEnum,
   pgTable,
@@ -148,21 +147,12 @@ export const decisions = pgTable(
   ],
 );
 
-/** Daily bin-selfie check-ins that earn κουπόνια. Photos are not stored. */
-export const checkins = pgTable(
-  'checkins',
-  {
-    id: uuid('id').primaryKey().defaultRandom(),
-    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
-    deviceId: text('device_id').notNull(),
-    decisionId: uuid('decision_id').references(() => decisions.id),
-    districtId: text('district_id').references(() => districts.id),
-    earned: integer('earned').notNull(),
-    breakdown: jsonb('breakdown').$type<{ label: L10n; amount: number }[]>().notNull(),
-    synthetic: boolean('synthetic').notNull().default(false),
-  },
-  (t) => [index('checkins_device_idx').on(t.deviceId, t.createdAt)],
-);
+/** Leaderboard profile: an optional custom nickname per anonymous install. No other personal data. */
+export const players = pgTable('players', {
+  deviceId: text('device_id').primaryKey(),
+  nickname: text('nickname').notNull(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+});
 
 /** Residents asking for a service (e.g. a brown bin) in their neighbourhood. */
 export const serviceRequests = pgTable('service_requests', {

@@ -43,11 +43,13 @@ export interface DecisionResponse {
   nearby: Point[];
 }
 
-export interface Wallet {
-  balance: number;
-  checkins: number;
-  couponsPerEuro: number;
-  history: { id: string; createdAt: string; earned: number; breakdown: { label: L10n; amount: number }[] }[];
+export interface Leaderboard {
+  period: 'week' | 'month';
+  dailyCap: number;
+  players: number;
+  top: { rank: number; nickname: string; score: number; isMe: boolean }[];
+  me: { rank: number | null; nickname: string; score: number } | null;
+  neighbourhoods: { id: string; name: L10n; scans: number; people: number }[];
 }
 
 export class ApiError extends Error {
@@ -98,12 +100,15 @@ export const api = {
     via: 'search' | 'scan';
   }) => request<DecisionResponse>('/api/v1/decisions', { method: 'POST', body: JSON.stringify(body) }),
   decision: (id: string) => request<{ id: string; decision: Decision }>(`/api/v1/decisions/${id}`),
-  checkin: (body: { deviceId: string; decisionId?: string; districtId?: string | null }) =>
-    request<{ reward: { earned: number; breakdown: { label: L10n; amount: number }[] }; streak: number }>(
-      '/api/v1/checkins',
-      { method: 'POST', body: JSON.stringify(body) },
-    ),
-  wallet: (deviceId: string) => request<Wallet>(`/api/v1/wallet?deviceId=${encodeURIComponent(deviceId)}`),
+  leaderboard: (p: { period: 'week' | 'month'; district?: string | null; deviceId: string; lang: 'el' | 'en' }) => {
+    const qs = new URLSearchParams({ period: p.period, deviceId: p.deviceId, lang: p.lang });
+    if (p.district) qs.set('district', p.district);
+    return request<Leaderboard>(`/api/v1/leaderboard?${qs}`);
+  },
+  profile: (deviceId: string, lang: 'el' | 'en') =>
+    request<{ nickname: string; custom: boolean }>(`/api/v1/profile?deviceId=${encodeURIComponent(deviceId)}&lang=${lang}`),
+  setNickname: (deviceId: string, nickname: string) =>
+    request<{ nickname: string; custom: boolean }>('/api/v1/profile', { method: 'POST', body: JSON.stringify({ deviceId, nickname }) }),
   reportBin: (body: { pointId: string; kind: 'full' | 'overflowing' | 'damaged'; deviceId: string }) =>
     request<{ report: { id: string }; openForBin: number }>('/api/v1/bin-reports', { method: 'POST', body: JSON.stringify(body) }),
   requestBrownBin: (body: { districtId: string; deviceId: string }) =>

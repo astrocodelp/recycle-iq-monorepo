@@ -45,7 +45,8 @@ export default async function BinLanding({ params }: PageProps<'/b/[id]'>) {
         <p className="font-bold">{t('Δεν έχεις την εφαρμογή;', "Don't have the app?")}</p>
         <ul className="mt-2 list-disc space-y-1 pl-5 text-muted">
           <li>{t('Φωτογράφισε ό,τι θες να πετάξεις και μάθε σε ποιον κάδο πάει.', 'Snap what you want to throw away and learn which bin it goes in.')}</li>
-          <li>{t('Βγάλε selfie στον κάδο και κέρδισε κουπόνια.', 'Take a bin selfie and earn coupons.')}</li>
+          <li>{t('Ανέβα στην κατάταξη της γειτονιάς σου όσο περισσότερο σκανάρεις.', 'Climb your neighbourhood leaderboard as you scan.')}</li>
+          <li>{t('Γεμάτος κάδος; Φωτογράφισέ τον και ενημερώνεται ο Δήμος.', 'Full bin? Snap it and the municipality is notified.')}</li>
           <li>{t('Δεν ζητάμε τη διεύθυνσή σου: ο κάδος μάς λέει τη γειτονιά.', "We never ask for your address: the bin tells us the neighbourhood.")}</li>
         </ul>
         <p className="mt-3 text-caption text-muted">{t('Η πιλοτική έκδοση διατίθεται σύντομα στο App Store και στο Google Play.', 'The pilot app is coming soon to the App Store and Google Play.')}</p>

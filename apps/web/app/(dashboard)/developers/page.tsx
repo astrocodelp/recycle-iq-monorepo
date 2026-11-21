@@ -12,8 +12,9 @@ const ENDPOINTS = [
   ['POST', '/api/v1/decisions', '{ objectId, answers?, districtId?, deviceId?, via? } → explained decision + nearby points. Neighbourhood only, never coordinates.'],
   ['GET', '/api/v1/decisions/:id', 'A stored decision'],
   ['GET', '/api/v1/rules', 'Municipal rule registry and on/off state'],
-  ['POST', '/api/v1/checkins', '{ deviceId, decisionId?, districtId? } → κουπόνια (coupons) reward (one per 24 h)'],
-  ['GET', '/api/v1/wallet?deviceId=…', 'κουπόνια (coupons) balance and history'],
+  ['GET', '/api/v1/leaderboard?period=week&district=…&deviceId=…', 'Top 20 scanners (nicknames only), your rank, top neighbourhoods. Max 20 scans a day count.'],
+  ['GET/POST', '/api/v1/profile', '{ deviceId, nickname } → leaderboard nickname (empty clears it)'],
+  ['POST', '/api/v1/bin-reports', '{ pointId, kind: full | overflowing | damaged, deviceId } → alert on the dashboard'],
   ['POST', '/api/v1/service-requests', '{ districtId, deviceId? } → request a brown bin'],
 ] as const;
 

@@ -14,8 +14,6 @@ export interface Kpis {
   clarificationRate: number;
   avgConfidence: number;
   uncertainRate: number;
-  checkins: number;
-  coupons: number;
   brownBinRequests: number;
   activeDevices: number;
 }
@@ -35,9 +33,6 @@ export async function getKpis(days: number, districtId?: string): Promise<Kpis> 
   const [prev] = (
     await db.execute(sql`select count(*) as n from decisions where ${between(days * 2, days)} ${d}`)
   ).rows;
-  const [chk] = (
-    await db.execute(sql`select count(*) as n, coalesce(sum(earned),0) as coupons from checkins where created_at >= ${since(days)} ${d}`)
-  ).rows;
   const [req] = (
     await db.execute(sql`select count(*) as n from service_requests where kind = 'brown_bin' and created_at >= ${since(days)} ${d}`)
   ).rows;
@@ -48,8 +43,6 @@ export async function getKpis(days: number, districtId?: string): Promise<Kpis> 
     avgConfidence: num(cur?.conf),
     uncertainRate: num(cur?.unc),
     activeDevices: num(cur?.devices),
-    checkins: num(chk?.n),
-    coupons: num(chk?.coupons),
     brownBinRequests: num(req?.n),
   };
 }

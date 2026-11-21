@@ -5,7 +5,7 @@ export * from './catalog';
 export * from './rules';
 export * from './points';
 export * from './decide';
-export * from './rewards';
+export * from './leaderboard';
 export * from './impact';
 export * from './geo';
 export { DEFAULT_ANSWERS } from './evaluators';

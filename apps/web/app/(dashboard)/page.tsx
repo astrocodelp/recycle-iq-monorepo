@@ -65,9 +65,9 @@ export default async function Overview({ searchParams }: PageProps<'/'>) {
         />
         <Kpi label={t('Μέση βεβαιότητα', 'Avg confidence')} value={f.pct(kpis.avgConfidence)} hint={t('της μηχανής', 'of the engine')} />
         <Kpi
-          label={t('Επιβεβαιώσεις', 'Check-ins')}
-          value={f.compact(kpis.checkins)}
-          hint={t(`${f.compact(kpis.coupons)} κουπόνια`, `${f.compact(kpis.coupons)} coupons`)}
+          label={t('Ενεργοί χρήστες', 'Active users')}
+          value={f.compact(kpis.activeDevices)}
+          hint={t('ανώνυμες εγκαταστάσεις', 'anonymous installs')}
         />
         <Kpi
           label={t('Αιτήματα καφέ κάδου', 'Brown-bin requests')}

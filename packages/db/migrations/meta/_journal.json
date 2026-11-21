@@ -15,6 +15,20 @@
       "when": 1795256957270,
       "tag": "0001_bin_reports",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1795257256397,
+      "tag": "0002_drop_checkins",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1795257257066,
+      "tag": "0003_players",
+      "breakpoints": true
     }
   ]
 }

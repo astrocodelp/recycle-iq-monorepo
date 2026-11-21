@@ -17,7 +17,6 @@ import {
   ListChecks,
   MapPin,
   ScanLine,
-  Smile,
   Sparkles,
 } from 'lucide-react-native';
 import { useEffect, useState } from 'react';
@@ -235,7 +234,7 @@ export default function Result() {
         {decision.uncertain ? (
           <Button label={t('Διάλεξε τι είναι', 'Pick what it is')} icon={<ScanLine size={18} color="#fff" />} onPress={() => router.replace('/scan')} />
         ) : (
-          <Button label={t('Selfie στον κάδο · κέρδισε κουπόνια', 'Bin selfie · earn coupons')} icon={<Smile size={18} color="#fff" />} onPress={() => router.push({ pathname: '/checkin', params: { decision: id } })} />
+          <Button label={t('Βρες πού να το πετάξεις', 'Find where to drop it off')} icon={<MapPin size={18} color="#fff" />} onPress={() => router.push('/points')} />
         )}
         <Button label={t('Σάρωση νέου αντικειμένου', 'Scan a new item')} variant="ghost" icon={<ScanLine size={18} color={colors['forest-700']} />} onPress={() => router.replace('/scan')} />
       </View>

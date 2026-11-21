@@ -57,7 +57,7 @@ export default async function QrSheet({ searchParams }: PageProps<'/points/qr'>)
             </div>
             <div className="w-40" dangerouslySetInnerHTML={{ __html: svg }} />
             <p className="text-[15px] leading-tight font-extrabold">{t('Σκάναρε πριν το πετάξεις', 'Scan before you throw')}</p>
-            <p className="text-caption text-muted">{t('Μάθε σε ποιον κάδο πάει · κέρδισε κουπόνια', 'Learn which bin · earn coupons')}</p>
+            <p className="text-caption text-muted">{t('Μάθε σε ποιον κάδο πάει · ανέφερε αν είναι γεμάτος', 'Learn which bin · report it if full')}</p>
             <p className="text-[11px] text-muted">{t(p.name)}</p>
             <p className="num text-[9px] break-all text-faint">{url}</p>
           </div>

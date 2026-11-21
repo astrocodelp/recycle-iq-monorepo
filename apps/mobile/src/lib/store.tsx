@@ -36,9 +36,6 @@ interface AppState {
   /** Last GPS fix, memory only: never persisted or sent. */
   coords: { lng: number; lat: number } | null;
   setCoords: (c: { lng: number; lat: number } | null) => void;
-  /** Bump to refresh the wallet after earning coupons. */
-  walletVersion: number;
-  bumpWallet: () => void;
   /** Decisions fetched this session, by id (avoids a refetch when opening a result). */
   remember: (r: DecisionResponse) => void;
   recall: (id: string) => DecisionResponse | undefined;
@@ -75,7 +72,6 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [history, setHistory] = useState<HistoryEntry[]>([]);
   const cache = useRef(new Map<string, DecisionResponse>());
   const [coords, setCoords] = useState<{ lng: number; lat: number } | null>(null);
-  const [walletVersion, setWalletVersion] = useState(0);
 
   useEffect(() => {
     (async () => {
@@ -154,10 +150,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
       recall: (id) => cache.current.get(id),
       coords,
       setCoords,
-      walletVersion,
-      bumpWallet: () => setWalletVersion((v) => v + 1),
     };
-  }, [ready, lang, langPref, deviceId, districtId, districts, catalog, catalogError, loadRemote, history, coords, walletVersion]);
+  }, [ready, lang, langPref, deviceId, districtId, districts, catalog, catalogError, loadRemote, history, coords]);
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }
