@@ -21,12 +21,12 @@ npm install                                         # onnxruntime-node, @hugging
 node siglip.mjs <cache_dir> <vision_model_quantized.onnx>
 AI_GATEWAY_API_KEY=… node llm.mjs google/gemini-3.5-flash-lite <cache_dir>
 AI_GATEWAY_API_KEY=… node llm.mjs google/gemma-4-26b-a4b-it <cache_dir>
-AI_GATEWAY_API_KEY=… node llm.mjs google/gemini-3.1-flash-lite <cache_dir>
+AI_GATEWAY_API_KEY=… node llm.mjs google/gemini-decision-1 <cache_dir>   # Decisions API, one choice question
 python3 score.py                                    # writes results/summary.json and REPORT.md
 ```
 
 `llm.mjs` resumes where it stopped and halts when the run spends more than `BUDGET_USD` (default 6).
-The runs cost $2.60 in total (Gemini 3.5 $1.36, Gemini 3.1 $1.07, Gemma $0.17).
+The runs cost about $3 in total (Gemini 3.5 Flash-Lite $1.36, Gemini Decision $0.39, Gemma $0.17, plus a run of the older 3.1 Flash-Lite that was dropped).
 
 ## Method
 

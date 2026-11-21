@@ -1,29 +1,34 @@
 # Vision benchmark: which model should recognise the item?
 
-3,170 photos, three models, the same prompt and scoring. Full tables: [tools/vision-bench/REPORT.md](../tools/vision-bench/REPORT.md);
-method and reproduction: [tools/vision-bench/README.md](../tools/vision-bench/README.md). Run on 21 Nov 2026; total model cost $2.60 (four runs).
+3,170 photos, four models, the same prompt and scoring (Gemini Decision through the Decisions API, one choice question). Full tables: [tools/vision-bench/REPORT.md](../tools/vision-bench/REPORT.md);
+method and reproduction: [tools/vision-bench/README.md](../tools/vision-bench/README.md). Run on 21–22 Nov 2026; total model cost about $3.
 
 | Model | Runs | Material accuracy (95% CI) | Athens bin accuracy | Severity / 100 items | Batteries missed (of 210) | Latency p50 | Cost / 1,000 scans |
 |---|---|---|---|---|---|---|---|
 | SigLIP 2 (quantized, zero-shot) | on the phone | 75.9% (74.4–77.4) | 83.4% | 34.8 | 11 | ~0.1 s on a server CPU | $0 |
 | Gemma 4 26B-A4B (open weights) | cloud via AI Gateway | 92.4% (91.4–93.2) | 95.6% | 14.7 | 13 | 0.66 s | $0.05 |
-| Gemini 3.5 Flash-Lite | cloud via AI Gateway | 94.3% (93.5–95.1) | 96.3% | 10.7 | **1** | 1.22 s | $0.43 |
-| **Gemini 3.1 Flash-Lite** (production default) | cloud via AI Gateway | **94.4% (93.6–95.2)** | **96.4%** | **10.1** | 2 | 1.21 s | $0.34 |
-| SigLIP → Gemini 3.1 when confidence < 0.7 | phone first, 39% to cloud | 92.5% | 95.0% | 12.0 | | 0.12 s (p95 1.7 s) | $0.13 |
+| Gemini Decision 1 (decision model) | cloud via AI Gateway | 90.1% (89.0–91.1) | 92.4% | 22.0 | **1** | 0.79 s | $0.12 |
+| **Gemini 3.5 Flash-Lite** (production) | cloud via AI Gateway | **94.3% (93.5–95.1)** | **96.3%** | **10.7** | **1** | 1.22 s | $0.43 |
+| SigLIP → Gemini 3.5 when confidence < 0.7 | phone first, 39% to cloud | 92.2% | 94.9% | 12.3 | | 0.12 s (p95 1.5 s) | $0.17 |
+| Decision → Gemini 3.5 when confidence < 0.9 | cloud, 30% to Flash-Lite | 94.3% | 96.2% | 10.8 | | | $0.25 |
 | SigLIP → Gemma when confidence < 0.8 | phone first, 49% to cloud | 92.0% | 95.1% | 13.9 | | 0.14 s (p95 0.95 s) | $0.03 |
 
 ## What it says
 
-- **Gemini Flash-Lite is the most accurate.** 3.1 (what production runs) and 3.5 are statistically tied
-  (94.4% vs 94.3%), and 3.1 is 22% cheaper: $0.34 per 1,000 scans. 3.5 missed 1 battery in 210, 3.1 missed 2.
+- **Gemini 3.5 Flash-Lite is the most accurate** and the safest (one battery missed in 210, the lowest severity),
+  at $0.43 per 1,000 scans. It is the production model.
+- **Gemini Decision 1 is cheaper and faster but less accurate** (90.1%, $0.12, 0.8 s). It fails on mixed rubbish
+  (31% right, mostly read as plastic). Its confidence is the best calibrated of all: at 0.9 or more it is right
+  98–99% of the time. So **Decision first, Flash-Lite when Decision is below 0.9** matches Flash-Lite (94.3%) at
+  58% of its cost.
 - **Gemma 4 is close** (92.4%) at an eighth of Gemini's price and about twice as fast, and its weights are open
   (it could run on a municipal server), but it missed 13 of 210 batteries.
 - **SigLIP 2 on the phone is free, private and instant but not good enough alone** (75.9%). Its confidence is
   honest: above 0.9 it is right 97–99% of the time, below 0.5 only 36%. That makes it a good first stage.
-- **Phone first, cloud when unsure** keeps most of Gemini's accuracy (92.5% vs 94.4%, 95.0% right bin) at 39%
-  of its cost ($0.13 per 1,000 scans), and the 61% of scans answered on the phone never leave it.
-- **"General" (mixed, non-recyclable rubbish) is the weak class for every model** (SigLIP 10%, Gemma 67%,
-  Gemini 65%): it is usually read as plastic or paper. That error puts rubbish into the blue bin, which is
+- **Phone first, cloud when unsure** keeps most of Gemini's accuracy (92.2% vs 94.3%, 94.9% right bin) at 39%
+  of its cost ($0.17 per 1,000 scans), and the 61% of scans answered on the phone never leave it.
+- **"General" (mixed, non-recyclable rubbish) is the weak class for every model** (SigLIP 10%, Gemini Decision 31%,
+  Gemma 67%, Gemini Flash-Lite 65%): it is usually read as plastic or paper. That error puts rubbish into the blue bin, which is
   exactly the contamination the municipality wants to cut. The app's clarifying question should target it.
 
 ## Limits (read before quoting a number)
@@ -42,5 +47,5 @@ labelled by two people with the municipality's rules (see the plan in the review
 ## Safe headline
 
 > On 3,170 public waste photos, the phone-first set-up (on-device recognition, cloud check when unsure) chose
-> the right Athens bin 95% of the time, at about €0.12 per 1,000 scans; the Athens pilot will measure it on
+> the right Athens bin 95% of the time, at about €0.15 per 1,000 scans; the Athens pilot will measure it on
 > real local waste.

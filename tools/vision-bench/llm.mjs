@@ -7,7 +7,8 @@ import { appendFileSync, existsSync, readFileSync } from 'node:fs';
 const [model, cache, limitArg] = process.argv.slice(2);
 const { classes } = JSON.parse(readFileSync('./classes.json', 'utf8'));
 const { items } = JSON.parse(readFileSync('./manifest.json', 'utf8'));
-const out = `./results/${model.split('/').join('__')}.jsonl`;
+const OUT = `./results/${model.split('/').join('__')}.jsonl`;
+const out = OUT;
 const done = new Set(
   existsSync(out)
     ? readFileSync(out, 'utf8')
@@ -66,8 +67,60 @@ function parse(text) {
 let spent = 0;
 let n = 0;
 let stop = false;
+// Decision models (e.g. google/gemini-decision-1) use the Decisions API: one "choice" question over the classes.
+const DECISION = model.includes('decision');
+const DESCRIBE = {
+  food: 'food or organic scraps',
+  textile: 'clothes, shoes, fabric',
+  general: 'non-recyclable or mixed rubbish',
+};
+async function runDecision(item, img) {
+  const body = {
+    model,
+    input: [{ role: 'user', content: [{ type: 'input_text', text: 'Photo of household waste in Athens, Greece.' }, { type: 'input_image', image_url: `data:image/jpeg;base64,${img}` }] }],
+    questions: [
+      {
+        type: 'choice',
+        name: 'material',
+        instructions: 'What material is the main item in the photo?',
+        choices: classes.map((c) => (DESCRIBE[c] ? { value: c, description: DESCRIBE[c] } : { value: c })),
+      },
+    ],
+  };
+  const t0 = performance.now();
+  const res = await fetch('https://ai-gateway.vercel.sh/v1/decisions', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${KEY}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+    signal: AbortSignal.timeout(60_000),
+  });
+  const ms = performance.now() - t0;
+  if (res.status === 429 || res.status >= 500) throw new Error(`HTTP ${res.status}`);
+  const r = await res.json();
+  if (!res.ok) throw new Error(JSON.stringify(r).slice(0, 200));
+  const a = r.answers?.[0] ?? {};
+  const cost = Number(r.provider_metadata?.gateway?.cost ?? 0);
+  return { pred: classes.includes(a.choice) ? a.choice : null, confidence: a.confidence ?? null, raw: JSON.stringify(a).slice(0, 200), ms: Math.round(ms), cost, inTok: r.usage?.input_tokens, outTok: r.usage?.output_tokens };
+}
+
 async function run(item) {
   const img = readFileSync(`${cache}/${item.id.split('/').join('__')}.jpg`).toString('base64');
+  if (DECISION) {
+    for (let attempt = 0; attempt < 4; attempt++) {
+      try {
+        const out = await runDecision(item, img);
+        spent += out.cost;
+        appendFileSync(OUT, JSON.stringify({ id: item.id, ...out }) + '\n');
+        return;
+      } catch (e) {
+        if (attempt === 3) {
+          appendFileSync(OUT, JSON.stringify({ id: item.id, pred: null, error: String(e).slice(0, 200) }) + '\n');
+          return;
+        }
+        await new Promise((r) => setTimeout(r, 1500 * 2 ** attempt));
+      }
+    }
+  }
   const body = {
     model,
     messages: [{ role: 'user', content: [{ type: 'text', text: PROMPT }, { type: 'image_url', image_url: { url: `data:image/jpeg;base64,${img}` } }] }],
