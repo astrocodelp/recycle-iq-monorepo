@@ -1,0 +1,2206 @@
+{
+ "n_common": 3170,
+ "models": {
+  "siglip2-on-device": {
+   "label": "SigLIP 2 · on device (quantized ONNX)",
+   "all": {
+    "n": 3170,
+    "material": [
+     0.7589905362776025,
+     0.7437938996360139,
+     0.7735602115458421
+    ],
+    "macro": 0.7516048572812272,
+    "bin": [
+     0.8337539432176656,
+     0.8203910377629207,
+     0.8463089008855613
+    ],
+    "severity_per_100": 34.76340694006309,
+    "severity_ci": [
+     31.34069400630915,
+     38.47003154574132
+    ],
+    "severe_errors": [
+     0.08990536277602523,
+     0.08043761598969262,
+     0.10036586204147313
+    ],
+    "battery_missed": 11,
+    "invalid": 0,
+    "per_class": {
+     "plastic": {
+      "n": 320,
+      "acc": [
+       0.7375,
+       0.6866778356928731,
+       0.782687434241564
+      ]
+     },
+     "paper": {
+      "n": 330,
+      "acc": [
+       0.7272727272727273,
+       0.6768111236741058,
+       0.7725037609897588
+      ]
+     },
+     "cardboard": {
+      "n": 320,
+      "acc": [
+       0.94375,
+       0.9128452535442355,
+       0.9641266981753704
+      ]
+     },
+     "metal": {
+      "n": 320,
+      "acc": [
+       0.8375,
+       0.7931175039309907,
+       0.8738752480811042
+      ]
+     },
+     "glass": {
+      "n": 730,
+      "acc": [
+       0.7972602739726027,
+       0.7665738415715087,
+       0.8248344405427785
+      ]
+     },
+     "food": {
+      "n": 200,
+      "acc": [
+       0.71,
+       0.6436239464268834,
+       0.7684607310874219
+      ]
+     },
+     "battery": {
+      "n": 210,
+      "acc": [
+       0.9476190476190476,
+       0.9086523067849005,
+       0.9705031054454606
+      ]
+     },
+     "textile": {
+      "n": 420,
+      "acc": [
+       0.9666666666666667,
+       0.9448316430564929,
+       0.9800421777293855
+      ]
+     },
+     "general": {
+      "n": 320,
+      "acc": [
+       0.096875,
+       0.06908826722855449,
+       0.13422594564588783
+      ]
+     }
+    },
+    "top_confusions": [
+     {
+      "true": "general",
+      "pred": "plastic",
+      "count": 118
+     },
+     {
+      "true": "general",
+      "pred": "paper",
+      "count": 75
+     },
+     {
+      "true": "glass",
+      "pred": "plastic",
+      "count": 62
+     },
+     {
+      "true": "paper",
+      "pred": "cardboard",
+      "count": 40
+     },
+     {
+      "true": "general",
+      "pred": "battery",
+      "count": 36
+     }
+    ],
+    "confusion": {
+     "battery->battery": 199,
+     "battery->general": 1,
+     "battery->cardboard": 6,
+     "textile->textile": 406,
+     "textile->plastic": 2,
+     "glass->plastic": 62,
+     "glass->general": 4,
+     "paper->paper": 240,
+     "paper->general": 6,
+     "textile->general": 2,
+     "textile->paper": 7,
+     "battery->paper": 3,
+     "battery->metal": 1,
+     "food->textile": 19,
+     "food->metal": 5,
+     "food->food": 142,
+     "food->general": 9,
+     "food->plastic": 15,
+     "food->paper": 6,
+     "food->glass": 1,
+     "food->cardboard": 2,
+     "food->battery": 1,
+     "glass->battery": 32,
+     "glass->glass": 582,
+     "glass->cardboard": 4,
+     "glass->metal": 33,
+     "glass->paper": 10,
+     "glass->textile": 3,
+     "cardboard->cardboard": 302,
+     "cardboard->glass": 1,
+     "cardboard->paper": 15,
+     "textile->cardboard": 2,
+     "metal->metal": 268,
+     "metal->paper": 8,
+     "metal->battery": 28,
+     "metal->cardboard": 8,
+     "metal->general": 1,
+     "metal->glass": 5,
+     "metal->plastic": 2,
+     "paper->cardboard": 40,
+     "paper->battery": 19,
+     "paper->textile": 15,
+     "paper->metal": 1,
+     "paper->plastic": 5,
+     "paper->food": 3,
+     "plastic->plastic": 236,
+     "plastic->glass": 20,
+     "plastic->battery": 28,
+     "plastic->metal": 7,
+     "plastic->paper": 9,
+     "plastic->cardboard": 5,
+     "plastic->general": 12,
+     "plastic->textile": 2,
+     "textile->metal": 1,
+     "general->textile": 24,
+     "general->paper": 75,
+     "general->plastic": 118,
+     "general->general": 31,
+     "general->cardboard": 20,
+     "general->battery": 36,
+     "general->glass": 2,
+     "general->metal": 10,
+     "cardboard->metal": 1,
+     "cardboard->textile": 1,
+     "paper->glass": 1,
+     "plastic->food": 1,
+     "general->food": 4
+    }
+   },
+   "by_dataset": {
+    "complex": {
+     "n": 50,
+     "material": [
+      0.66,
+      0.5215356854148285,
+      0.7756323036493895
+     ],
+     "macro": 0.625,
+     "bin": [
+      0.84,
+      0.7148551903823401,
+      0.9166267863791231
+     ],
+     "severity_per_100": 64.0,
+     "severity_ci": [
+      14.000000000000002,
+      126.0
+     ],
+     "severe_errors": [
+      0.1,
+      0.04347512399157111,
+      0.2136049033478839
+     ],
+     "battery_missed": 2,
+     "invalid": 0,
+     "per_class": {
+      "paper": {
+       "n": 10,
+       "acc": [
+        0.9,
+        0.5958436145024278,
+        0.9821242504842788
+       ]
+      },
+      "glass": {
+       "n": 10,
+       "acc": [
+        0.0,
+        0.0,
+        0.2775401687666166
+       ]
+      },
+      "battery": {
+       "n": 10,
+       "acc": [
+        0.8,
+        0.49015684672072335,
+        0.9433190520193067
+       ]
+      },
+      "textile": {
+       "n": 20,
+       "acc": [
+        0.8,
+        0.5839782779742401,
+        0.9193436467288
+       ]
+      }
+     },
+     "top_confusions": [
+      {
+       "true": "glass",
+       "pred": "plastic",
+       "count": 9
+      },
+      {
+       "true": "textile",
+       "pred": "plastic",
+       "count": 2
+      },
+      {
+       "true": "textile",
+       "pred": "paper",
+       "count": 1
+      },
+      {
+       "true": "textile",
+       "pred": "general",
+       "count": 1
+      },
+      {
+       "true": "paper",
+       "pred": "general",
+       "count": 1
+      }
+     ],
+     "confusion": {
+      "battery->battery": 8,
+      "battery->general": 1,
+      "battery->cardboard": 1,
+      "textile->textile": 16,
+      "textile->plastic": 2,
+      "glass->plastic": 9,
+      "glass->general": 1,
+      "paper->paper": 9,
+      "paper->general": 1,
+      "textile->general": 1,
+      "textile->paper": 1
+     }
+    },
+    "garbage12": {
+     "n": 2400,
+     "material": [
+      0.7925,
+      0.7758147394991977,
+      0.80825036695374
+     ],
+     "macro": 0.7624074074074074,
+     "bin": [
+      0.85625,
+      0.8416439779310823,
+      0.8697173696718545
+     ],
+     "severity_per_100": 32.791666666666664,
+     "severity_ci": [
+      28.729166666666668,
+      37.166666666666664
+     ],
+     "severe_errors": [
+      0.085,
+      0.074494833248485,
+      0.09683159691230432
+     ],
+     "battery_missed": 9,
+     "invalid": 0,
+     "per_class": {
+      "plastic": {
+       "n": 200,
+       "acc": [
+        0.78,
+        0.7176107720803744,
+        0.8318354646053661
+       ]
+      },
+      "paper": {
+       "n": 200,
+       "acc": [
+        0.765,
+        0.7015850701327535,
+        0.8184265467305365
+       ]
+      },
+      "cardboard": {
+       "n": 200,
+       "acc": [
+        0.94,
+        0.8980673646931491,
+        0.9653481500987285
+       ]
+      },
+      "metal": {
+       "n": 200,
+       "acc": [
+        0.84,
+        0.7828581380609876,
+        0.8843265779145542
+       ]
+      },
+      "glass": {
+       "n": 600,
+       "acc": [
+        0.8366666666666667,
+        0.8049616451343083,
+        0.8640879864246965
+       ]
+      },
+      "food": {
+       "n": 200,
+       "acc": [
+        0.71,
+        0.6436239464268834,
+        0.7684607310874219
+       ]
+      },
+      "battery": {
+       "n": 200,
+       "acc": [
+        0.955,
+        0.9167024063390322,
+        0.9761477282752958
+       ]
+      },
+      "textile": {
+       "n": 400,
+       "acc": [
+        0.975,
+        0.9545979351700657,
+        0.9863650562602375
+       ]
+      },
+      "general": {
+       "n": 200,
+       "acc": [
+        0.06,
+        0.0346518499012715,
+        0.10193263530685089
+       ]
+      }
+     },
+     "top_confusions": [
+      {
+       "true": "general",
+       "pred": "plastic",
+       "count": 105
+      },
+      {
+       "true": "glass",
+       "pred": "plastic",
+       "count": 46
+      },
+      {
+       "true": "general",
+       "pred": "paper",
+       "count": 44
+      },
+      {
+       "true": "general",
+       "pred": "textile",
+       "count": 23
+      },
+      {
+       "true": "glass",
+       "pred": "metal",
+       "count": 22
+      }
+     ],
+     "confusion": {
+      "battery->battery": 191,
+      "battery->paper": 3,
+      "battery->cardboard": 5,
+      "battery->metal": 1,
+      "food->textile": 19,
+      "food->metal": 5,
+      "food->food": 142,
+      "food->general": 9,
+      "food->plastic": 15,
+      "food->paper": 6,
+      "food->glass": 1,
+      "food->cardboard": 2,
+      "food->battery": 1,
+      "glass->battery": 15,
+      "glass->glass": 502,
+      "glass->cardboard": 3,
+      "glass->metal": 22,
+      "glass->plastic": 46,
+      "glass->paper": 6,
+      "glass->textile": 3,
+      "glass->general": 3,
+      "cardboard->cardboard": 188,
+      "cardboard->glass": 1,
+      "cardboard->paper": 11,
+      "textile->textile": 390,
+      "textile->paper": 6,
+      "textile->cardboard": 2,
+      "metal->metal": 168,
+      "metal->paper": 8,
+      "metal->battery": 14,
+      "metal->cardboard": 4,
+      "metal->general": 1,
+      "metal->glass": 3,
+      "metal->plastic": 2,
+      "paper->paper": 153,
+      "paper->cardboard": 18,
+      "paper->battery": 9,
+      "paper->textile": 12,
+      "paper->general": 3,
+      "paper->metal": 1,
+      "paper->plastic": 3,
+      "paper->food": 1,
+      "plastic->plastic": 156,
+      "plastic->glass": 12,
+      "plastic->battery": 10,
+      "plastic->metal": 3,
+      "plastic->paper": 6,
+      "plastic->cardboard": 4,
+      "plastic->general": 7,
+      "plastic->textile": 2,
+      "textile->metal": 1,
+      "textile->general": 1,
+      "general->textile": 23,
+      "general->paper": 44,
+      "general->plastic": 105,
+      "general->general": 12,
+      "general->cardboard": 3,
+      "general->battery": 9,
+      "general->glass": 2,
+      "general->metal": 2
+     }
+    },
+    "trashnet": {
+     "n": 720,
+     "material": [
+      0.6541666666666667,
+      0.6186881151394737,
+      0.688008819659521
+     ],
+     "macro": 0.6541666666666667,
+     "bin": [
+      0.7583333333333333,
+      0.7257452355825391,
+      0.788179357864425
+     ],
+     "severity_per_100": 39.30555555555556,
+     "severity_ci": [
+      32.84722222222222,
+      46.18055555555556
+     ],
+     "severe_errors": [
+      0.10555555555555556,
+      0.0851665786184308,
+      0.1301313539679251
+     ],
+     "battery_missed": 0,
+     "invalid": 0,
+     "per_class": {
+      "plastic": {
+       "n": 120,
+       "acc": [
+        0.6666666666666666,
+        0.5783093452093498,
+        0.744683897772007
+       ]
+      },
+      "paper": {
+       "n": 120,
+       "acc": [
+        0.65,
+        0.5612115776488139,
+        0.7294823410344072
+       ]
+      },
+      "cardboard": {
+       "n": 120,
+       "acc": [
+        0.95,
+        0.8951958053541377,
+        0.9768859506955258
+       ]
+      },
+      "metal": {
+       "n": 120,
+       "acc": [
+        0.8333333333333334,
+        0.756545606089762,
+        0.8894408798729518
+       ]
+      },
+      "glass": {
+       "n": 120,
+       "acc": [
+        0.6666666666666666,
+        0.5783093452093498,
+        0.744683897772007
+       ]
+      },
+      "general": {
+       "n": 120,
+       "acc": [
+        0.15833333333333333,
+        0.10376896007675636,
+        0.2340948918114622
+       ]
+      }
+     },
+     "top_confusions": [
+      {
+       "true": "general",
+       "pred": "paper",
+       "count": 31
+      },
+      {
+       "true": "general",
+       "pred": "battery",
+       "count": 27
+      },
+      {
+       "true": "paper",
+       "pred": "cardboard",
+       "count": 22
+      },
+      {
+       "true": "plastic",
+       "pred": "battery",
+       "count": 18
+      },
+      {
+       "true": "glass",
+       "pred": "battery",
+       "count": 17
+      }
+     ],
+     "confusion": {
+      "cardboard->cardboard": 114,
+      "cardboard->metal": 1,
+      "cardboard->paper": 4,
+      "cardboard->textile": 1,
+      "glass->glass": 80,
+      "glass->metal": 11,
+      "glass->paper": 4,
+      "glass->battery": 17,
+      "glass->plastic": 7,
+      "glass->cardboard": 1,
+      "metal->battery": 14,
+      "metal->glass": 2,
+      "metal->metal": 100,
+      "metal->cardboard": 4,
+      "paper->cardboard": 22,
+      "paper->paper": 78,
+      "paper->general": 2,
+      "paper->textile": 3,
+      "paper->food": 2,
+      "paper->glass": 1,
+      "paper->battery": 10,
+      "paper->plastic": 2,
+      "plastic->battery": 18,
+      "plastic->plastic": 80,
+      "plastic->glass": 8,
+      "plastic->general": 5,
+      "plastic->metal": 4,
+      "plastic->paper": 3,
+      "plastic->cardboard": 1,
+      "plastic->food": 1,
+      "general->cardboard": 17,
+      "general->battery": 27,
+      "general->paper": 31,
+      "general->food": 4,
+      "general->plastic": 13,
+      "general->general": 19,
+      "general->metal": 8,
+      "general->textile": 1
+     }
+    }
+   },
+   "latency_cost": {
+    "p50_ms": 104.2,
+    "p95_ms": 129.4,
+    "max_ms": 189.7,
+    "cost_per_1000_usd": 0.0
+   },
+   "calibration": [
+    {
+     "range": "0.00–0.50",
+     "n": 698,
+     "acc": 0.3638968481375358
+    },
+    {
+     "range": "0.50–0.70",
+     "n": 541,
+     "acc": 0.6118299445471349
+    },
+    {
+     "range": "0.70–0.90",
+     "n": 773,
+     "acc": 0.8809831824062095
+    },
+    {
+     "range": "0.90–0.97",
+     "n": 525,
+     "acc": 0.9733333333333334
+    },
+    {
+     "range": "0.97–1.00",
+     "n": 633,
+     "acc": 0.9936808846761453
+    }
+   ]
+  },
+  "google__gemma-4-26b-a4b-it": {
+   "label": "Gemma 4 26B-A4B · open weights, via gateway",
+   "all": {
+    "n": 3170,
+    "material": [
+     0.9236593059936908,
+     0.9138938766415534,
+     0.9323991456693268
+    ],
+    "macro": 0.9172223334124019,
+    "bin": [
+     0.9555205047318612,
+     0.9477756028432203,
+     0.962162687712931
+    ],
+    "severity_per_100": 14.684542586750789,
+    "severity_ci": [
+     12.034700315457414,
+     17.69716088328076
+    ],
+    "severe_errors": [
+     0.03690851735015773,
+     0.03088578904774893,
+     0.044052292298213655
+    ],
+    "battery_missed": 13,
+    "invalid": 0,
+    "per_class": {
+     "plastic": {
+      "n": 320,
+      "acc": [
+       0.925,
+       0.8908313520059404,
+       0.9490854468241049
+      ]
+     },
+     "paper": {
+      "n": 330,
+      "acc": [
+       0.906060606060606,
+       0.8697450970420921,
+       0.9330308302240125
+      ]
+     },
+     "cardboard": {
+      "n": 320,
+      "acc": [
+       0.934375,
+       0.9017641103527031,
+       0.9566802649221225
+      ]
+     },
+     "metal": {
+      "n": 320,
+      "acc": [
+       0.95,
+       0.920331421287444,
+       0.9689922480620154
+      ]
+     },
+     "glass": {
+      "n": 730,
+      "acc": [
+       0.9698630136986301,
+       0.954791413798948,
+       0.9800152256720224
+      ]
+     },
+     "food": {
+      "n": 200,
+      "acc": [
+       0.97,
+       0.9361048802675267,
+       0.9861798741692518
+      ]
+     },
+     "battery": {
+      "n": 210,
+      "acc": [
+       0.9380952380952381,
+       0.8969804867058564,
+       0.9634694912217312
+      ]
+     },
+     "textile": {
+      "n": 420,
+      "acc": [
+       0.9928571428571429,
+       0.9792120899433189,
+       0.9975679146621753
+      ]
+     },
+     "general": {
+      "n": 320,
+      "acc": [
+       0.66875,
+       0.6154466394912161,
+       0.7180497365148311
+      ]
+     }
+    },
+    "top_confusions": [
+     {
+      "true": "general",
+      "pred": "plastic",
+      "count": 65
+     },
+     {
+      "true": "general",
+      "pred": "paper",
+      "count": 27
+     },
+     {
+      "true": "plastic",
+      "pred": "glass",
+      "count": 19
+     },
+     {
+      "true": "glass",
+      "pred": "plastic",
+      "count": 18
+     },
+     {
+      "true": "paper",
+      "pred": "cardboard",
+      "count": 16
+     }
+    ],
+    "confusion": {
+     "battery->battery": 197,
+     "battery->metal": 2,
+     "textile->textile": 417,
+     "glass->glass": 708,
+     "paper->paper": 299,
+     "paper->cardboard": 16,
+     "battery->cardboard": 1,
+     "battery->general": 8,
+     "battery->plastic": 2,
+     "food->food": 194,
+     "food->general": 5,
+     "food->glass": 1,
+     "glass->plastic": 18,
+     "glass->paper": 1,
+     "cardboard->cardboard": 299,
+     "cardboard->plastic": 4,
+     "cardboard->paper": 14,
+     "cardboard->general": 2,
+     "cardboard->glass": 1,
+     "glass->metal": 3,
+     "metal->metal": 304,
+     "metal->plastic": 9,
+     "metal->glass": 5,
+     "metal->battery": 1,
+     "metal->general": 1,
+     "paper->plastic": 7,
+     "paper->food": 1,
+     "paper->textile": 3,
+     "paper->general": 4,
+     "plastic->plastic": 296,
+     "plastic->glass": 19,
+     "plastic->general": 1,
+     "plastic->cardboard": 1,
+     "textile->general": 3,
+     "general->food": 5,
+     "general->general": 214,
+     "general->textile": 4,
+     "general->plastic": 65,
+     "plastic->metal": 2,
+     "plastic->paper": 1,
+     "general->paper": 27,
+     "general->metal": 4,
+     "general->cardboard": 1
+    }
+   },
+   "by_dataset": {
+    "complex": {
+     "n": 50,
+     "material": [
+      0.94,
+      0.8378265662912299,
+      0.9793854036353695
+     ],
+     "macro": 0.925,
+     "bin": [
+      0.96,
+      0.8653966212204534,
+      0.9889613473391734
+     ],
+     "severity_per_100": 40.0,
+     "severity_ci": [
+      0.0,
+      100.0
+     ],
+     "severe_errors": [
+      0.04,
+      0.011038652660826577,
+      0.13460337877954667
+     ],
+     "battery_missed": 2,
+     "invalid": 0,
+     "per_class": {
+      "paper": {
+       "n": 10,
+       "acc": [
+        0.9,
+        0.5958436145024278,
+        0.9821242504842788
+       ]
+      },
+      "glass": {
+       "n": 10,
+       "acc": [
+        1.0,
+        0.7224598312333834,
+        1.0
+       ]
+      },
+      "battery": {
+       "n": 10,
+       "acc": [
+        0.8,
+        0.49015684672072335,
+        0.9433190520193067
+       ]
+      },
+      "textile": {
+       "n": 20,
+       "acc": [
+        1.0,
+        0.8388698745050667,
+        1.0
+       ]
+      }
+     },
+     "top_confusions": [
+      {
+       "true": "battery",
+       "pred": "metal",
+       "count": 2
+      },
+      {
+       "true": "paper",
+       "pred": "cardboard",
+       "count": 1
+      }
+     ],
+     "confusion": {
+      "battery->battery": 8,
+      "battery->metal": 2,
+      "textile->textile": 20,
+      "glass->glass": 10,
+      "paper->paper": 9,
+      "paper->cardboard": 1
+     }
+    },
+    "garbage12": {
+     "n": 2400,
+     "material": [
+      0.9575,
+      0.94867148357155,
+      0.964866247034327
+     ],
+     "macro": 0.9508333333333333,
+     "bin": [
+      0.9808333333333333,
+      0.9745301278054765,
+      0.9855996910644524
+     ],
+     "severity_per_100": 7.1875,
+     "severity_ci": [
+      4.541666666666667,
+      10.1875
+     ],
+     "severe_errors": [
+      0.010416666666666666,
+      0.007065586354380965,
+      0.015332561676670665
+     ],
+     "battery_missed": 11,
+     "invalid": 0,
+     "per_class": {
+      "plastic": {
+       "n": 200,
+       "acc": [
+        0.94,
+        0.8980673646931491,
+        0.9653481500987285
+       ]
+      },
+      "paper": {
+       "n": 200,
+       "acc": [
+        0.935,
+        0.8919799625008207,
+        0.9616240123502404
+       ]
+      },
+      "cardboard": {
+       "n": 200,
+       "acc": [
+        0.94,
+        0.8980673646931491,
+        0.9653481500987285
+       ]
+      },
+      "metal": {
+       "n": 200,
+       "acc": [
+        0.945,
+        0.9042120755340645,
+        0.9690149791986299
+       ]
+      },
+      "glass": {
+       "n": 600,
+       "acc": [
+        0.97,
+        0.953078882410505,
+        0.980940900260977
+       ]
+      },
+      "food": {
+       "n": 200,
+       "acc": [
+        0.97,
+        0.9361048802675267,
+        0.9861798741692518
+       ]
+      },
+      "battery": {
+       "n": 200,
+       "acc": [
+        0.945,
+        0.9042120755340645,
+        0.9690149791986299
+       ]
+      },
+      "textile": {
+       "n": 400,
+       "acc": [
+        0.9925,
+        0.9781838919722998,
+        0.9974461570370148
+       ]
+      },
+      "general": {
+       "n": 200,
+       "acc": [
+        0.92,
+        0.8740095102048769,
+        0.9501598448237337
+       ]
+      }
+     },
+     "top_confusions": [
+      {
+       "true": "glass",
+       "pred": "plastic",
+       "count": 16
+      },
+      {
+       "true": "general",
+       "pred": "plastic",
+       "count": 11
+      },
+      {
+       "true": "plastic",
+       "pred": "glass",
+       "count": 10
+      },
+      {
+       "true": "battery",
+       "pred": "general",
+       "count": 8
+      },
+      {
+       "true": "metal",
+       "pred": "plastic",
+       "count": 6
+      }
+     ],
+     "confusion": {
+      "battery->battery": 189,
+      "battery->cardboard": 1,
+      "battery->general": 8,
+      "battery->plastic": 2,
+      "food->food": 194,
+      "food->general": 5,
+      "food->glass": 1,
+      "glass->glass": 582,
+      "glass->plastic": 16,
+      "glass->paper": 1,
+      "cardboard->cardboard": 188,
+      "cardboard->plastic": 3,
+      "cardboard->paper": 6,
+      "cardboard->general": 2,
+      "cardboard->glass": 1,
+      "textile->textile": 397,
+      "glass->metal": 1,
+      "metal->metal": 189,
+      "metal->plastic": 6,
+      "metal->glass": 3,
+      "metal->battery": 1,
+      "metal->general": 1,
+      "paper->paper": 187,
+      "paper->plastic": 4,
+      "paper->cardboard": 4,
+      "paper->food": 1,
+      "paper->textile": 2,
+      "paper->general": 2,
+      "plastic->plastic": 188,
+      "plastic->glass": 10,
+      "plastic->general": 1,
+      "plastic->cardboard": 1,
+      "textile->general": 3,
+      "general->food": 1,
+      "general->general": 184,
+      "general->textile": 4,
+      "general->plastic": 11
+     }
+    },
+    "trashnet": {
+     "n": 720,
+     "material": [
+      0.8097222222222222,
+      0.7794358339752047,
+      0.8367210710714242
+     ],
+     "macro": 0.8097222222222222,
+     "bin": [
+      0.8708333333333333,
+      0.8443530800633832,
+      0.8933773847233879
+     ],
+     "severity_per_100": 37.916666666666664,
+     "severity_ci": [
+      30.555555555555557,
+      45.0
+     ],
+     "severe_errors": [
+      0.125,
+      0.10281501715818286,
+      0.15116541170912728
+     ],
+     "battery_missed": 0,
+     "invalid": 0,
+     "per_class": {
+      "plastic": {
+       "n": 120,
+       "acc": [
+        0.9,
+        0.8333168001483641,
+        0.9418669830068925
+       ]
+      },
+      "paper": {
+       "n": 120,
+       "acc": [
+        0.8583333333333333,
+        0.7848035127258367,
+        0.9096319596840804
+       ]
+      },
+      "cardboard": {
+       "n": 120,
+       "acc": [
+        0.925,
+        0.8635894316089088,
+        0.9600433379935513
+       ]
+      },
+      "metal": {
+       "n": 120,
+       "acc": [
+        0.9583333333333334,
+        0.9061578707045692,
+        0.9820735474941622
+       ]
+      },
+      "glass": {
+       "n": 120,
+       "acc": [
+        0.9666666666666667,
+        0.9174184205147198,
+        0.9869626598330794
+       ]
+      },
+      "general": {
+       "n": 120,
+       "acc": [
+        0.25,
+        0.1810971138452223,
+        0.33441302168274245
+       ]
+      }
+     },
+     "top_confusions": [
+      {
+       "true": "general",
+       "pred": "plastic",
+       "count": 54
+      },
+      {
+       "true": "general",
+       "pred": "paper",
+       "count": 27
+      },
+      {
+       "true": "paper",
+       "pred": "cardboard",
+       "count": 11
+      },
+      {
+       "true": "plastic",
+       "pred": "glass",
+       "count": 9
+      },
+      {
+       "true": "cardboard",
+       "pred": "paper",
+       "count": 8
+      }
+     ],
+     "confusion": {
+      "cardboard->cardboard": 111,
+      "cardboard->paper": 8,
+      "cardboard->plastic": 1,
+      "glass->glass": 116,
+      "glass->metal": 2,
+      "glass->plastic": 2,
+      "metal->metal": 115,
+      "metal->plastic": 3,
+      "metal->glass": 2,
+      "paper->paper": 103,
+      "paper->cardboard": 11,
+      "paper->plastic": 3,
+      "paper->textile": 1,
+      "paper->general": 2,
+      "plastic->plastic": 108,
+      "plastic->glass": 9,
+      "plastic->metal": 2,
+      "plastic->paper": 1,
+      "general->plastic": 54,
+      "general->general": 30,
+      "general->food": 4,
+      "general->paper": 27,
+      "general->metal": 4,
+      "general->cardboard": 1
+     }
+    }
+   },
+   "latency_cost": {
+    "p50_ms": 661,
+    "p95_ms": 1107,
+    "max_ms": 27416,
+    "cost_per_1000_usd": 0.052631238170347004
+   },
+   "calibration": [
+    {
+     "range": "0.50–0.70",
+     "n": 2,
+     "acc": 0.0
+    },
+    {
+     "range": "0.70–0.90",
+     "n": 43,
+     "acc": 0.32558139534883723
+    },
+    {
+     "range": "0.90–0.97",
+     "n": 701,
+     "acc": 0.760342368045649
+    },
+    {
+     "range": "0.97–1.00",
+     "n": 2424,
+     "acc": 0.9822607260726073
+    }
+   ]
+  },
+  "google__gemini-3.5-flash-lite": {
+   "label": "Gemini 3.5 Flash-Lite · cloud",
+   "all": {
+    "n": 3170,
+    "material": [
+     0.943217665615142,
+     0.9346118590736283,
+     0.950750535823458
+    ],
+    "macro": 0.9406432104805392,
+    "bin": [
+     0.9627760252365931,
+     0.9556058689092429,
+     0.9688258985740493
+    ],
+    "severity_per_100": 10.709779179810726,
+    "severity_ci": [
+     8.738170347003155,
+     12.53943217665615
+    ],
+    "severe_errors": [
+     0.03406940063091483,
+     0.028296916020576025,
+     0.04096980478867924
+    ],
+    "battery_missed": 1,
+    "invalid": 0,
+    "per_class": {
+     "plastic": {
+      "n": 320,
+      "acc": [
+       0.953125,
+       0.9241089775292091,
+       0.9713905506351774
+      ]
+     },
+     "paper": {
+      "n": 330,
+      "acc": [
+       0.9333333333333333,
+       0.9011278955197595,
+       0.9555658179060089
+      ]
+     },
+     "cardboard": {
+      "n": 320,
+      "acc": [
+       0.978125,
+       0.9555420481102652,
+       0.9893643505735357
+      ]
+     },
+     "metal": {
+      "n": 320,
+      "acc": [
+       0.9875,
+       0.9683053480913877,
+       0.9951286270371937
+      ]
+     },
+     "glass": {
+      "n": 730,
+      "acc": [
+       0.9753424657534246,
+       0.9613610729680584,
+       0.9843471016570924
+      ]
+     },
+     "food": {
+      "n": 200,
+      "acc": [
+       0.99,
+       0.9642775148038205,
+       0.9972533993962251
+      ]
+     },
+     "battery": {
+      "n": 210,
+      "acc": [
+       0.9952380952380953,
+       0.9735236503748348,
+       0.9991589333693947
+      ]
+     },
+     "textile": {
+      "n": 420,
+      "acc": [
+       1.0,
+       0.9909362365562984,
+       1.0
+      ]
+     },
+     "general": {
+      "n": 320,
+      "acc": [
+       0.653125,
+       0.5994356035443021,
+       0.7031814783871112
+      ]
+     }
+    },
+    "top_confusions": [
+     {
+      "true": "general",
+      "pred": "plastic",
+      "count": 68
+     },
+     {
+      "true": "general",
+      "pred": "paper",
+      "count": 32
+     },
+     {
+      "true": "paper",
+      "pred": "cardboard",
+      "count": 17
+     },
+     {
+      "true": "glass",
+      "pred": "plastic",
+      "count": 16
+     },
+     {
+      "true": "plastic",
+      "pred": "glass",
+      "count": 9
+     }
+    ],
+    "confusion": {
+     "battery->battery": 209,
+     "textile->textile": 420,
+     "glass->glass": 712,
+     "paper->paper": 308,
+     "paper->cardboard": 17,
+     "battery->metal": 1,
+     "food->food": 198,
+     "food->general": 1,
+     "food->glass": 1,
+     "glass->plastic": 16,
+     "glass->general": 1,
+     "cardboard->cardboard": 313,
+     "cardboard->plastic": 2,
+     "cardboard->paper": 4,
+     "cardboard->metal": 1,
+     "metal->metal": 316,
+     "metal->glass": 2,
+     "metal->plastic": 1,
+     "metal->paper": 1,
+     "paper->plastic": 2,
+     "paper->general": 2,
+     "plastic->plastic": 305,
+     "plastic->glass": 9,
+     "plastic->metal": 3,
+     "plastic->general": 1,
+     "plastic->cardboard": 1,
+     "general->general": 209,
+     "general->textile": 2,
+     "general->battery": 3,
+     "general->plastic": 68,
+     "glass->metal": 1,
+     "paper->glass": 1,
+     "plastic->paper": 1,
+     "general->paper": 32,
+     "general->food": 4,
+     "general->cardboard": 1,
+     "general->metal": 1
+    }
+   },
+   "by_dataset": {
+    "complex": {
+     "n": 50,
+     "material": [
+      0.94,
+      0.8378265662912299,
+      0.9793854036353695
+     ],
+     "macro": 0.925,
+     "bin": [
+      1.0,
+      0.9286499658256813,
+      1.0
+     ],
+     "severity_per_100": 0.0,
+     "severity_ci": [
+      0.0,
+      0.0
+     ],
+     "severe_errors": [
+      0.0,
+      0.0,
+      0.07135003417431873
+     ],
+     "battery_missed": 0,
+     "invalid": 0,
+     "per_class": {
+      "paper": {
+       "n": 10,
+       "acc": [
+        0.7,
+        0.39677321997956516,
+        0.892210712513788
+       ]
+      },
+      "glass": {
+       "n": 10,
+       "acc": [
+        1.0,
+        0.7224598312333834,
+        1.0
+       ]
+      },
+      "battery": {
+       "n": 10,
+       "acc": [
+        1.0,
+        0.7224598312333834,
+        1.0
+       ]
+      },
+      "textile": {
+       "n": 20,
+       "acc": [
+        1.0,
+        0.8388698745050667,
+        1.0
+       ]
+      }
+     },
+     "top_confusions": [
+      {
+       "true": "paper",
+       "pred": "cardboard",
+       "count": 3
+      }
+     ],
+     "confusion": {
+      "battery->battery": 10,
+      "textile->textile": 20,
+      "glass->glass": 10,
+      "paper->paper": 7,
+      "paper->cardboard": 3
+     }
+    },
+    "garbage12": {
+     "n": 2400,
+     "material": [
+      0.9791666666666666,
+      0.9726401168256533,
+      0.9841616957397004
+     ],
+     "macro": 0.9777777777777777,
+     "bin": [
+      0.99375,
+      0.9897131071813251,
+      0.9962087605490612
+     ],
+     "severity_per_100": 1.3541666666666667,
+     "severity_ci": [
+      0.5416666666666667,
+      2.4375
+     ],
+     "severe_errors": [
+      0.0025,
+      0.0011462448877386272,
+      0.005443873196581071
+     ],
+     "battery_missed": 1,
+     "invalid": 0,
+     "per_class": {
+      "plastic": {
+       "n": 200,
+       "acc": [
+        0.955,
+        0.9167024063390322,
+        0.9761477282752958
+       ]
+      },
+      "paper": {
+       "n": 200,
+       "acc": [
+        0.97,
+        0.9361048802675267,
+        0.9861798741692518
+       ]
+      },
+      "cardboard": {
+       "n": 200,
+       "acc": [
+        0.975,
+        0.9428208558483829,
+        0.9892754385292123
+       ]
+      },
+      "metal": {
+       "n": 200,
+       "acc": [
+        0.985,
+        0.9568335194437211,
+        0.9948858548155076
+       ]
+      },
+      "glass": {
+       "n": 600,
+       "acc": [
+        0.975,
+        0.9591638663098296,
+        0.9847922970283705
+       ]
+      },
+      "food": {
+       "n": 200,
+       "acc": [
+        0.99,
+        0.9642775148038205,
+        0.9972533993962251
+       ]
+      },
+      "battery": {
+       "n": 200,
+       "acc": [
+        0.995,
+        0.9722256001302286,
+        0.999116854010634
+       ]
+      },
+      "textile": {
+       "n": 400,
+       "acc": [
+        1.0,
+        0.9904873594003194,
+        1.0
+       ]
+      },
+      "general": {
+       "n": 200,
+       "acc": [
+        0.955,
+        0.9167024063390322,
+        0.9761477282752958
+       ]
+      }
+     },
+     "top_confusions": [
+      {
+       "true": "glass",
+       "pred": "plastic",
+       "count": 14
+      },
+      {
+       "true": "plastic",
+       "pred": "glass",
+       "count": 5
+      },
+      {
+       "true": "general",
+       "pred": "plastic",
+       "count": 4
+      },
+      {
+       "true": "paper",
+       "pred": "cardboard",
+       "count": 3
+      },
+      {
+       "true": "general",
+       "pred": "battery",
+       "count": 3
+      }
+     ],
+     "confusion": {
+      "battery->battery": 199,
+      "battery->metal": 1,
+      "food->food": 198,
+      "food->general": 1,
+      "food->glass": 1,
+      "glass->glass": 585,
+      "glass->plastic": 14,
+      "glass->general": 1,
+      "cardboard->cardboard": 195,
+      "cardboard->plastic": 2,
+      "cardboard->paper": 2,
+      "cardboard->metal": 1,
+      "textile->textile": 400,
+      "metal->metal": 197,
+      "metal->glass": 1,
+      "metal->plastic": 1,
+      "metal->paper": 1,
+      "paper->paper": 194,
+      "paper->cardboard": 3,
+      "paper->plastic": 2,
+      "paper->general": 1,
+      "plastic->plastic": 191,
+      "plastic->glass": 5,
+      "plastic->metal": 2,
+      "plastic->general": 1,
+      "plastic->cardboard": 1,
+      "general->general": 191,
+      "general->textile": 2,
+      "general->battery": 3,
+      "general->plastic": 4
+     }
+    },
+    "trashnet": {
+     "n": 720,
+     "material": [
+      0.8236111111111111,
+      0.7940734335348608,
+      0.8497138259981639
+     ],
+     "macro": 0.8236111111111111,
+     "bin": [
+      0.8569444444444444,
+      0.829472592433278,
+      0.880627517867097
+     ],
+     "severity_per_100": 42.638888888888886,
+     "severity_ci": [
+      35.0,
+      50.416666666666664
+     ],
+     "severe_errors": [
+      0.14166666666666666,
+      0.11809369158482719,
+      0.16904316266615804
+     ],
+     "battery_missed": 0,
+     "invalid": 0,
+     "per_class": {
+      "plastic": {
+       "n": 120,
+       "acc": [
+        0.95,
+        0.8951958053541377,
+        0.9768859506955258
+       ]
+      },
+      "paper": {
+       "n": 120,
+       "acc": [
+        0.8916666666666667,
+        0.8234449199472613,
+        0.9355892010589275
+       ]
+      },
+      "cardboard": {
+       "n": 120,
+       "acc": [
+        0.9833333333333333,
+        0.9412628731870861,
+        0.9954175314588486
+       ]
+      },
+      "metal": {
+       "n": 120,
+       "acc": [
+        0.9916666666666667,
+        0.9543025846256777,
+        0.9985274821693252
+       ]
+      },
+      "glass": {
+       "n": 120,
+       "acc": [
+        0.975,
+        0.9290687625956524,
+        0.9914619799012145
+       ]
+      },
+      "general": {
+       "n": 120,
+       "acc": [
+        0.15,
+        0.09703734033668816,
+        0.22467684940246252
+       ]
+      }
+     },
+     "top_confusions": [
+      {
+       "true": "general",
+       "pred": "plastic",
+       "count": 64
+      },
+      {
+       "true": "general",
+       "pred": "paper",
+       "count": 32
+      },
+      {
+       "true": "paper",
+       "pred": "cardboard",
+       "count": 11
+      },
+      {
+       "true": "plastic",
+       "pred": "glass",
+       "count": 4
+      },
+      {
+       "true": "general",
+       "pred": "food",
+       "count": 4
+      }
+     ],
+     "confusion": {
+      "cardboard->cardboard": 118,
+      "cardboard->paper": 2,
+      "glass->glass": 117,
+      "glass->metal": 1,
+      "glass->plastic": 2,
+      "metal->metal": 119,
+      "metal->glass": 1,
+      "paper->paper": 107,
+      "paper->cardboard": 11,
+      "paper->glass": 1,
+      "paper->general": 1,
+      "plastic->plastic": 114,
+      "plastic->metal": 1,
+      "plastic->glass": 4,
+      "plastic->paper": 1,
+      "general->plastic": 64,
+      "general->paper": 32,
+      "general->food": 4,
+      "general->general": 18,
+      "general->cardboard": 1,
+      "general->metal": 1
+     }
+    }
+   },
+   "latency_cost": {
+    "p50_ms": 1221,
+    "p95_ms": 1562,
+    "max_ms": 8594,
+    "cost_per_1000_usd": 0.43071574132492113
+   },
+   "calibration": [
+    {
+     "range": "0.70–0.90",
+     "n": 15,
+     "acc": 0.3333333333333333
+    },
+    {
+     "range": "0.90–0.97",
+     "n": 505,
+     "acc": 0.7524752475247525
+    },
+    {
+     "range": "0.97–1.00",
+     "n": 2650,
+     "acc": 0.9830188679245283
+    }
+   ]
+  }
+ },
+ "cascade": {
+  "google__gemini-3.5-flash-lite": [
+   {
+    "tau": 0,
+    "escalated": 0.0,
+    "material": [
+     0.7589905362776025,
+     0.7437938996360139,
+     0.7735602115458421
+    ],
+    "bin": [
+     0.8337539432176656,
+     0.8203910377629207,
+     0.8463089008855613
+    ],
+    "severity_per_100": 34.76340694006309,
+    "cost_per_1000_usd": 0.0,
+    "p50_ms": 104.2,
+    "p95_ms": 129.4
+   },
+   {
+    "tau": 0.3,
+    "escalated": 0.045425867507886436,
+    "material": [
+     0.7858044164037855,
+     0.7711809381467835,
+     0.7997360225484195
+    ],
+    "bin": [
+     0.8545741324921136,
+     0.8418726886028126,
+     0.8664172273148564
+    ],
+    "severity_per_100": 30.709779179810724,
+    "cost_per_1000_usd": 0.019583564668769687,
+    "p50_ms": 104.7,
+    "p95_ms": 156.3
+   },
+   {
+    "tau": 0.4,
+    "escalated": 0.1252365930599369,
+    "material": [
+     0.8302839116719243,
+     0.8168181683003715,
+     0.8429501074699126
+    ],
+    "bin": [
+     0.8867507886435331,
+     0.875247651920363,
+     0.8973176834133222
+    ],
+    "severity_per_100": 23.706624605678233,
+    "cost_per_1000_usd": 0.05384511041009502,
+    "p50_ms": 106,
+    "p95_ms": 1370.5
+   },
+   {
+    "tau": 0.5,
+    "escalated": 0.22018927444794953,
+    "material": [
+     0.8719242902208202,
+     0.8598392448197468,
+     0.8831089854889113
+    ],
+    "bin": [
+     0.916403785488959,
+     0.9062571701153533,
+     0.9255423752683859
+    ],
+    "severity_per_100": 18.59621451104101,
+    "cost_per_1000_usd": 0.09459309148265083,
+    "p50_ms": 107.6,
+    "p95_ms": 1431.9
+   },
+   {
+    "tau": 0.6,
+    "escalated": 0.30189274447949527,
+    "material": [
+     0.8993690851735016,
+     0.8884081147476038,
+     0.9093632674158917
+    ],
+    "bin": [
+     0.9334384858044164,
+     0.9242260268181542,
+     0.9416016817858289
+    ],
+    "severity_per_100": 14.542586750788644,
+    "cost_per_1000_usd": 0.12967908517350338,
+    "p50_ms": 109.9,
+    "p95_ms": 1480.9
+   },
+   {
+    "tau": 0.7,
+    "escalated": 0.39085173501577286,
+    "material": [
+     0.9220820189274448,
+     0.9122317580262466,
+     0.9309105084309074
+    ],
+    "bin": [
+     0.9492113564668769,
+     0.9410094531724172,
+     0.9563258139688288
+    ],
+    "severity_per_100": 12.302839116719243,
+    "cost_per_1000_usd": 0.16789851735016034,
+    "p50_ms": 115,
+    "p95_ms": 1517.9
+   },
+   {
+    "tau": 0.8,
+    "escalated": 0.4914826498422713,
+    "material": [
+     0.9337539432176656,
+     0.924560156679533,
+     0.9418977030951956
+    ],
+    "bin": [
+     0.9561514195583596,
+     0.9484542497776723,
+     0.9627443431199693
+    ],
+    "severity_per_100": 11.072555205047319,
+    "cost_per_1000_usd": 0.21117227129337895,
+    "p50_ms": 137.5,
+    "p95_ms": 1545.2
+   },
+   {
+    "tau": 0.9,
+    "escalated": 0.6347003154574132,
+    "material": [
+     0.9413249211356467,
+     0.9325969519508301,
+     0.9489845359217846
+    ],
+    "bin": [
+     0.961198738170347,
+     0.9538985359570435,
+     0.9673824756725222
+    ],
+    "severity_per_100": 10.488958990536277,
+    "cost_per_1000_usd": 0.27290457413249575,
+    "p50_ms": 1232.3,
+    "p95_ms": 1600
+   },
+   {
+    "tau": 0.95,
+    "escalated": 0.7384858044164038,
+    "material": [
+     0.9429022082018927,
+     0.9342758710915638,
+     0.9504563726347771
+    ],
+    "bin": [
+     0.9621451104100947,
+     0.9549225679696268,
+     0.9682488971721749
+    ],
+    "severity_per_100": 10.662460567823343,
+    "cost_per_1000_usd": 0.31774230283912014,
+    "p50_ms": 1271.2,
+    "p95_ms": 1614.2
+   },
+   {
+    "tau": 0.99,
+    "escalated": 0.8892744479495268,
+    "material": [
+     0.9429022082018927,
+     0.9342758710915638,
+     0.9504563726347771
+    ],
+    "bin": [
+     0.9624605678233439,
+     0.9552641561691061,
+     0.9685374601434408
+    ],
+    "severity_per_100": 10.725552050473187,
+    "cost_per_1000_usd": 0.382813596214513,
+    "p50_ms": 1305.8,
+    "p95_ms": 1644.3
+   },
+   {
+    "tau": 1.01,
+    "escalated": 1.0,
+    "material": [
+     0.943217665615142,
+     0.9346118590736283,
+     0.950750535823458
+    ],
+    "bin": [
+     0.9627760252365931,
+     0.9556058689092429,
+     0.9688258985740493
+    ],
+    "severity_per_100": 10.709779179810726,
+    "cost_per_1000_usd": 0.4307157413249179,
+    "p50_ms": 1326,
+    "p95_ms": 1670.4
+   }
+  ],
+  "google__gemma-4-26b-a4b-it": [
+   {
+    "tau": 0,
+    "escalated": 0.0,
+    "material": [
+     0.7589905362776025,
+     0.7437938996360139,
+     0.7735602115458421
+    ],
+    "bin": [
+     0.8337539432176656,
+     0.8203910377629207,
+     0.8463089008855613
+    ],
+    "severity_per_100": 34.76340694006309,
+    "cost_per_1000_usd": 0.0,
+    "p50_ms": 104.2,
+    "p95_ms": 129.4
+   },
+   {
+    "tau": 0.3,
+    "escalated": 0.045425867507886436,
+    "material": [
+     0.783596214511041,
+     0.7689222757444788,
+     0.7975836267555073
+    ],
+    "bin": [
+     0.8517350157728707,
+     0.8389386328413967,
+     0.8636799225395649
+    ],
+    "severity_per_100": 31.687697160883282,
+    "cost_per_1000_usd": 0.0023645236593059908,
+    "p50_ms": 104.7,
+    "p95_ms": 156.3
+   },
+   {
+    "tau": 0.4,
+    "escalated": 0.1252365930599369,
+    "material": [
+     0.8252365930599369,
+     0.8116247800134985,
+     0.8380610770248617
+    ],
+    "bin": [
+     0.883596214511041,
+     0.871964574983057,
+     0.8942992486431754
+    ],
+    "severity_per_100": 25.173501577287066,
+    "cost_per_1000_usd": 0.006539351735015759,
+    "p50_ms": 106,
+    "p95_ms": 789.9
+   },
+   {
+    "tau": 0.5,
+    "escalated": 0.22018927444794953,
+    "material": [
+     0.8637223974763407,
+     0.8513379246043957,
+     0.8752263752648857
+    ],
+    "bin": [
+     0.9126182965299685,
+     0.9022815026248899,
+     0.9219562287099065
+    ],
+    "severity_per_100": 20.48895899053628,
+    "cost_per_1000_usd": 0.01150551577287071,
+    "p50_ms": 107.6,
+    "p95_ms": 839.1
+   },
+   {
+    "tau": 0.6,
+    "escalated": 0.30189274447949527,
+    "material": [
+     0.8886435331230284,
+     0.8772187923694763,
+     0.8991274499886803
+    ],
+    "bin": [
+     0.928391167192429,
+     0.9188872622013853,
+     0.9368580276706737
+    ],
+    "severity_per_100": 16.90851735015773,
+    "cost_per_1000_usd": 0.01582738012618306,
+    "p50_ms": 109.9,
+    "p95_ms": 876.6
+   },
+   {
+    "tau": 0.7,
+    "escalated": 0.39085173501577286,
+    "material": [
+     0.9094637223974763,
+     0.8989726683229979,
+     0.9189635513043457
+    ],
+    "bin": [
+     0.943217665615142,
+     0.9346118590736283,
+     0.950750535823458
+    ],
+    "severity_per_100": 14.700315457413248,
+    "cost_per_1000_usd": 0.020528323343848718,
+    "p50_ms": 115,
+    "p95_ms": 915.5
+   },
+   {
+    "tau": 0.8,
+    "escalated": 0.4914826498422713,
+    "material": [
+     0.919558359621451,
+     0.909574679694812,
+     0.9285263773963798
+    ],
+    "bin": [
+     0.950788643533123,
+     0.942697709562027,
+     0.9577883134329452
+    ],
+    "severity_per_100": 13.943217665615142,
+    "cost_per_1000_usd": 0.025859411671924477,
+    "p50_ms": 137.5,
+    "p95_ms": 950.8
+   },
+   {
+    "tau": 0.9,
+    "escalated": 0.6347003154574132,
+    "material": [
+     0.9236593059936908,
+     0.9138938766415534,
+     0.9323991456693268
+    ],
+    "bin": [
+     0.9545741324921135,
+     0.9467583635234594,
+     0.9612894735204559
+    ],
+    "severity_per_100": 13.89589905362776,
+    "cost_per_1000_usd": 0.03350881230283938,
+    "p50_ms": 703.2,
+    "p95_ms": 1019.6
+   },
+   {
+    "tau": 0.95,
+    "escalated": 0.7384858044164038,
+    "material": [
+     0.9242902208201893,
+     0.9145590439953122,
+     0.9329942806570586
+    ],
+    "bin": [
+     0.9555205047318612,
+     0.9477756028432203,
+     0.962162687712931
+    ],
+    "severity_per_100": 14.006309148264984,
+    "cost_per_1000_usd": 0.03901762302839122,
+    "p50_ms": 729.7,
+    "p95_ms": 1062.8
+   },
+   {
+    "tau": 0.99,
+    "escalated": 0.8892744479495268,
+    "material": [
+     0.9236593059936908,
+     0.9138938766415534,
+     0.9323991456693268
+    ],
+    "bin": [
+     0.9555205047318612,
+     0.9477756028432203,
+     0.962162687712931
+    ],
+    "severity_per_100": 14.384858044164037,
+    "cost_per_1000_usd": 0.04690633911672078,
+    "p50_ms": 753,
+    "p95_ms": 1154.2
+   },
+   {
+    "tau": 1.01,
+    "escalated": 1.0,
+    "material": [
+     0.9236593059936908,
+     0.9138938766415534,
+     0.9323991456693268
+    ],
+    "bin": [
+     0.9555205047318612,
+     0.9477756028432203,
+     0.962162687712931
+    ],
+    "severity_per_100": 14.684542586750789,
+    "cost_per_1000_usd": 0.05263123817034935,
+    "p50_ms": 766.1,
+    "p95_ms": 1207.4
+   }
+  ]
+ }
+}

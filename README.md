@@ -52,6 +52,7 @@ activity is synthetic (rows marked `synthetic`), and the app and dashboard label
 - [Adopt RecycleIQ for your municipality](docs/ADOPT.md)
 - [Finding the bins: geodata plan](docs/GEODATA.md)
 - [On-device recognition with SigLIP 2](docs/VISION.md)
+- [Vision benchmark: SigLIP 2 vs Gemma 4 vs Gemini Flash-Lite](docs/BENCHMARK.md)
 - [Fleet routing and sorting plants (simulation)](docs/OPS.md)
 - [MCP connector: RecycleIQ in the municipality's own AI](docs/MCP.md)
 - [Architecture](docs/ARCHITECTURE.md)

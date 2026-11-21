@@ -1,0 +1,16 @@
+{
+  "name": "@recycleiq/vision-bench",
+  "private": true,
+  "type": "module",
+  "description": "Benchmark: SigLIP 2 on device vs Gemma vs Gemini Flash-Lite for waste material and Athens bin classification",
+  "scripts": {
+    "siglip": "node siglip.mjs",
+    "llm": "node llm.mjs",
+    "score": "python3 score.py"
+  },
+  "dependencies": {
+    "@huggingface/transformers": "3.7.5",
+    "jpeg-js": "0.4.4",
+    "onnxruntime-node": "1.21.0"
+  }
+}

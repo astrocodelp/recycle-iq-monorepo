@@ -1,0 +1,25 @@
+{
+  "classes": ["plastic", "paper", "cardboard", "metal", "glass", "food", "battery", "textile", "general"],
+  "bin": {
+    "plastic": "blue",
+    "paper": "blue",
+    "cardboard": "blue",
+    "metal": "blue",
+    "glass": "blue",
+    "food": "brown",
+    "battery": "battery",
+    "textile": "clothing",
+    "general": "general"
+  },
+  "siglipPrompts": {
+    "plastic": ["a photo of plastic waste", "a photo of a plastic bottle or plastic packaging"],
+    "paper": ["a photo of paper waste", "a photo of newspaper, office paper or a paper bag"],
+    "cardboard": ["a photo of a cardboard box", "a photo of corrugated cardboard"],
+    "metal": ["a photo of a metal can", "a photo of an aluminium or tin can"],
+    "glass": ["a photo of a glass bottle", "a photo of a glass jar"],
+    "food": ["a photo of food waste", "a photo of fruit peels and food scraps"],
+    "battery": ["a photo of a battery", "a photo of used batteries"],
+    "textile": ["a photo of clothes", "a photo of shoes", "a photo of textile waste"],
+    "general": ["a photo of general trash", "a photo of non-recyclable rubbish like wrappers and dirty tissues"]
+  }
+}
