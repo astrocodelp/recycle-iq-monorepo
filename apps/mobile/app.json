@@ -64,6 +64,17 @@
       ],
       "expo-localization",
       "onnxruntime-react-native",
+      [
+        "expo-speech-recognition",
+        {
+          "microphonePermission": "Το RecycleIQ χρησιμοποιεί το μικρόφωνο για να κάνεις ερωτήσεις στον βοηθό με τη φωνή σου.",
+          "speechRecognitionPermission": "Η φωνή σου γίνεται κείμενο στο κινητό, για να ρωτήσεις τον βοηθό του RecycleIQ.",
+          "androidSpeechServicePackages": [
+            "com.google.android.googlequicksearchbox",
+            "com.google.android.as"
+          ]
+        }
+      ],
       "./plugins/with-onnxruntime-local-pod.js"
     ],
     "experiments": {

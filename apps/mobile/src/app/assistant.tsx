@@ -2,7 +2,7 @@ import { useChat } from '@ai-sdk/react';
 import { ASSISTANT_ACTION_TOOLS, ASSISTANT_TOOL_LABELS, type AssistantChart } from '@recycleiq/engine';
 import { DefaultChatTransport, getToolName, isToolUIPart, lastAssistantMessageIsCompleteWithApprovalResponses, type UIMessage } from 'ai';
 import { fetch as expoFetch } from 'expo/fetch';
-import { Check, Send, Sparkles } from 'lucide-react-native';
+import { Check, Mic, Send, Sparkles, Square } from 'lucide-react-native';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, View, type ScrollViewInstance } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -11,6 +11,7 @@ import { BackButton } from '@/components/back-button';
 import { PressableScale } from '@/components/pressable-scale';
 import { Chip, T } from '@/components/ui';
 import { API_URL } from '@/lib/api';
+import { useDictation } from '@/lib/dictation';
 import { useApp } from '@/lib/store';
 import { colors, font, r } from '@/lib/theme';
 
@@ -57,6 +58,8 @@ export default function Assistant() {
     sendMessage({ text: q });
     setInput('');
   };
+  // Speak instead of typing: the transcript fills the box while you talk and is sent when you stop.
+  const mic = useDictation({ lang, onText: setInput, onFinal: send });
 
   const suggestions =
     lang === 'el'
@@ -100,6 +103,13 @@ export default function Assistant() {
           </View>
         )}
         {error && <T v="caption" color={colors.danger}>{t('Κάτι πήγε στραβά. Δοκίμασε ξανά.', 'Something went wrong. Please try again.')}</T>}
+        {mic.error && (
+          <T v="caption" color={colors.danger}>
+            {mic.error === 'not-allowed'
+              ? t('Δώσε άδεια για το μικρόφωνο στις ρυθμίσεις του κινητού.', 'Allow the microphone in the phone settings.')
+              : t('Δεν σε άκουσα καλά. Δοκίμασε ξανά ή γράψε την ερώτηση.', 'I did not catch that. Try again or type the question.')}
+          </T>
+        )}
       </ScrollView>
 
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 14, paddingTop: 10, paddingBottom: insets.bottom + 10, borderTopWidth: 1, borderTopColor: colors.line, backgroundColor: colors.surface }}>
@@ -107,12 +117,23 @@ export default function Assistant() {
           value={input}
           onChangeText={setInput}
           onSubmitEditing={() => send(input)}
-          placeholder={t('Ρώτα κάτι…', 'Ask something…')}
+          placeholder={mic.listening ? t('Σε ακούω…', 'Listening…') : t('Ρώτα κάτι…', 'Ask something…')}
           placeholderTextColor={colors.faint}
           returnKeyType="send"
           accessibilityLabel={t('Ερώτηση', 'Question')}
           style={{ flex: 1, height: 46, borderRadius: r.pill, borderWidth: 1, borderColor: colors.line, paddingHorizontal: 16, fontFamily: font.medium, fontSize: 15, color: colors.ink, backgroundColor: colors.paper }}
         />
+        {mic.supported && !busy && (
+          <PressableScale
+            onPress={() => (mic.listening ? mic.stop() : mic.start())}
+            accessibilityRole="button"
+            accessibilityLabel={mic.listening ? t('Σταμάτα την ακρόαση', 'Stop listening') : t('Ρώτα με τη φωνή σου', 'Ask by voice')}
+          >
+            <View style={{ width: 46, height: 46, borderRadius: 23, backgroundColor: mic.listening ? colors.danger : colors['surface-2'], alignItems: 'center', justifyContent: 'center' }}>
+              {mic.listening ? <Square size={16} color="#fff" fill="#fff" /> : <Mic size={20} color={colors.ink} />}
+            </View>
+          </PressableScale>
+        )}
         <PressableScale onPress={() => (busy ? stop() : send(input))} accessibilityRole="button" accessibilityLabel={busy ? t('Στοπ', 'Stop') : t('Αποστολή', 'Send')}>
           <View style={{ width: 46, height: 46, borderRadius: 23, backgroundColor: busy ? colors['surface-2'] : colors['forest-700'], alignItems: 'center', justifyContent: 'center' }}>
             {busy ? <View style={{ width: 14, height: 14, borderRadius: 3, backgroundColor: colors.ink }} /> : <Send size={19} color="#fff" />}

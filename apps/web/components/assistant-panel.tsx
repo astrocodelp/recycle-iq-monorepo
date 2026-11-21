@@ -3,10 +3,11 @@
 import { useChat } from '@ai-sdk/react';
 import { ASSISTANT_ACTION_TOOLS, ASSISTANT_TOOL_LABELS, type AssistantChart, type AssistantMode } from '@recycleiq/engine';
 import { DefaultChatTransport, getToolName, isToolUIPart, lastAssistantMessageIsCompleteWithApprovalResponses, type UIMessage } from 'ai';
-import { Bot, Check, Loader2, Send, Sparkles, X } from 'lucide-react';
+import { Bot, Check, Loader2, Mic, Send, Sparkles, Square, X } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { AssistantChartView } from '@/components/assistant/chart';
 import { Markdown } from '@/components/assistant/markdown';
+import { useDictation } from '@/components/assistant/use-dictation';
 
 const SUGGESTIONS = {
   municipal: {
@@ -79,6 +80,8 @@ export function AssistantPanel({ lang, binSource, mode = 'municipal' }: { lang: 
     sendMessage({ text: q });
     setInput('');
   };
+  // Speak instead of typing: the transcript fills the box while you talk and is sent when you stop.
+  const mic = useDictation({ lang, onText: setInput, onFinal: send });
 
   return (
     <>
@@ -149,6 +152,13 @@ export function AssistantPanel({ lang, binSource, mode = 'municipal' }: { lang: 
                   </p>
                 )}
                 {error && <p className="text-caption text-danger">{t('Κάτι πήγε στραβά. Δοκίμασε ξανά.', 'Something went wrong. Please try again.')}</p>}
+                {mic.error && (
+                  <p className="text-caption text-danger">
+                    {mic.error === 'not-allowed' || mic.error === 'service-not-allowed'
+                      ? t('Δώσε άδεια για το μικρόφωνο στον browser.', 'Allow the microphone in the browser.')
+                      : t('Δεν σε άκουσα καλά. Δοκίμασε ξανά ή γράψε την ερώτηση.', 'I did not catch that. Try again or type the question.')}
+                  </p>
+                )}
                 <div ref={end} />
               </div>
             </div>
@@ -168,10 +178,22 @@ export function AssistantPanel({ lang, binSource, mode = 'municipal' }: { lang: 
               <input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder={t('Ρώτα κάτι…', 'Ask something…')}
-                className="flex-1 rounded-control border border-line bg-surface px-3 py-2 text-body outline-none focus:border-forest-700"
+                placeholder={mic.listening ? t('Σε ακούω…', 'Listening…') : t('Ρώτα κάτι…', 'Ask something…')}
+                className="min-w-0 flex-1 rounded-control border border-line bg-surface px-3 py-2 text-body outline-none focus:border-forest-700"
                 aria-label={t('Ερώτηση', 'Question')}
               />
+              {mic.supported && !busy && (
+                <button
+                  type="button"
+                  onClick={() => (mic.listening ? mic.stop() : mic.start())}
+                  aria-pressed={mic.listening}
+                  aria-label={mic.listening ? t('Σταμάτα την ακρόαση', 'Stop listening') : t('Ρώτα με τη φωνή σου', 'Ask by voice')}
+                  title={mic.listening ? t('Σταμάτα την ακρόαση', 'Stop listening') : t('Ρώτα με τη φωνή σου', 'Ask by voice')}
+                  className={`rounded-control p-2.5 ${mic.listening ? 'bg-danger text-white' : 'bg-surface-2 text-ink hover:bg-line'}`}
+                >
+                  {mic.listening ? <Square size={16} fill="currentColor" /> : <Mic size={16} />}
+                </button>
+              )}
               {busy ? (
                 <button type="button" onClick={() => stop()} className="rounded-control bg-surface-2 px-3 py-2 text-[13px] font-semibold">
                   {t('Στοπ', 'Stop')}
