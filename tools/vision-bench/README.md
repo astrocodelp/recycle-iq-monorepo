@@ -18,7 +18,9 @@ Athens bin. Results: [REPORT.md](REPORT.md) (generated) and the summary in [docs
 ```bash
 python3 prepare.py <data_dir> <cache_dir>          # sample + resize to ≤512 px once; all models see the same file
 npm install                                         # onnxruntime-node, @huggingface/transformers, jpeg-js
-node siglip.mjs <cache_dir> <vision_model_quantized.onnx>
+node siglip.mjs <cache_dir> <vision_model_quantized.onnx>                       # the phone's model and preprocessing
+node siglip-cloud.mjs <cache_dir> onnx-community/siglip2-base-patch16-224-ONNX fp32 siglip2-base-cloud
+node siglip-cloud.mjs <cache_dir> onnx-community/siglip2-so400m-patch16-256-ONNX fp32 siglip2-so400m-cloud
 AI_GATEWAY_API_KEY=… node llm.mjs google/gemini-3.5-flash-lite <cache_dir>
 AI_GATEWAY_API_KEY=… node llm.mjs google/gemma-4-26b-a4b-it <cache_dir>
 AI_GATEWAY_API_KEY=… node llm.mjs google/gemini-decision-1 <cache_dir>   # Decisions API, one choice question
@@ -35,6 +37,9 @@ The runs cost about $3 in total (Gemini 3.5 Flash-Lite $1.36, Gemini Decision $0
   general → general waste.
 - **SigLIP 2:** the phone's model file (`vision_model_quantized.onnx`) and preprocessing, zero-shot against
   2–3 English prompts per class (`classes.json`), softmax over the 9 classes as confidence. Not tuned on these photos.
+- **SigLIP 2 in the cloud:** the same prompts, run as a server would (`siglip-cloud.mjs`): full precision, the
+  model's own preprocessing; base 224 px (the phone's model without quantization) and so400m 256 px (a larger one).
+  4 CPU cores, no GPU.
 - **Gemma / Gemini:** the same prompt and JSON schema, temperature 0, Gemini with minimal reasoning, through
   the Vercel AI Gateway. Answers are read leniently and identically for every model (first word of `material`).
 - **Severity** per item (Athens): right bin 0 · battery into any household bin 10 · wrong item into blue or

@@ -10,12 +10,14 @@ C = json.load(open("classes.json"))
 CLASSES, BIN = C["classes"], C["bin"]
 ITEMS = {i["id"]: i for i in json.load(open("manifest.json"))["items"]}
 MODELS = {
-    "siglip2-on-device": "SigLIP 2 · on device (quantized ONNX)",
+    "siglip2-on-device": "SigLIP 2 base · on device (quantized ONNX, 224 px)",
+    "siglip2-base-cloud": "SigLIP 2 base · cloud (full precision, 224 px)",
+    "siglip2-so400m-cloud": "SigLIP 2 so400m · cloud (full precision, 256 px)",
     "google__gemma-4-26b-a4b-it": "Gemma 4 26B-A4B · open weights, via gateway",
     "google__gemini-3.5-flash-lite": "Gemini 3.5 Flash-Lite · cloud (production)",
     "google__gemini-decision-1": "Gemini Decision 1 · decision model, cloud",
 }
-CLOUD = ["google__gemini-3.5-flash-lite", "google__gemini-decision-1", "google__gemma-4-26b-a4b-it"]
+CLOUD = ["google__gemini-3.5-flash-lite", "google__gemini-decision-1", "google__gemma-4-26b-a4b-it", "siglip2-so400m-cloud"]
 
 
 SYN = {"organic": "food", "biological": "food", "clothes": "textile", "clothing": "textile", "shoes": "textile", "fabric": "textile",
@@ -184,7 +186,7 @@ def main():
 def write_report(s, datasets):
     L = []
     w = L.append
-    w("# Vision benchmark: SigLIP 2 on device vs Gemma 4 vs Gemini 3.5 Flash-Lite vs Gemini Decision\n")
+    w("# Vision benchmark: SigLIP 2 (on device and cloud) vs Gemma 4 vs Gemini 3.5 Flash-Lite vs Gemini Decision\n")
     w(f"{s['n_common']} photos scored by every model. 95% intervals: Wilson for proportions, bootstrap for the severity score.\n")
     w("## Headline\n")
     w("| Model | Material accuracy | Macro (per-class mean) | Athens bin accuracy | Severity per 100 items | Severe errors (≥3) | Batteries missed | Latency p50 / p95 | Cost per 1,000 scans |")
@@ -196,7 +198,7 @@ def write_report(s, datasets):
             f"{pct(a['bin'][0])} ({pct(a['bin'][1])}–{pct(a['bin'][2])}) | {a['severity_per_100']:.1f} ({a['severity_ci'][0]:.1f}–{a['severity_ci'][1]:.1f}) | "
             f"{pct(a['severe_errors'][0])} | {a['battery_missed']} | {lc['p50_ms']:.0f} / {lc['p95_ms']:.0f} ms | ${lc['cost_per_1000_usd']:.3f} |"
         )
-    w("\nLatency: SigLIP is one CPU thread on a cloud server (a phone will be slower); Gemma and Gemini are full round trips from the benchmark machine through the Vercel AI Gateway.\n")
+    w("\nLatency: SigLIP on device is one CPU thread on a cloud server (a phone will be slower); SigLIP cloud runs on 4 CPU cores, no GPU; Gemma and Gemini are full round trips from the benchmark machine through the Vercel AI Gateway.\n")
     w("## By dataset (material accuracy)\n")
     w("| Model | " + " | ".join(datasets) + " |")
     w("|---|" + "---|" * len(datasets))
