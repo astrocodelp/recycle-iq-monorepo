@@ -209,7 +209,12 @@ export default function Settings() {
           <ExternalLink size={16} color={colors['forest-700']} />
         </PressableScale>
       </Card>
-      <T v="caption" color={colors.muted}>RecycleIQ 0.1.0 · Apps4Athens 2026</T>
+      <T v="caption" color={colors.muted}>
+        {t(
+          'RecycleIQ 0.1.0 · Ανεξάρτητη εφαρμογή ανοιχτού κώδικα από την ομάδα StellarFirm (Apps4Athens 2026). Δεν είναι εφαρμογή του Δήμου Αθηναίων ή άλλης δημόσιας αρχής. Οι οδηγίες είναι ενδεικτικές.',
+          'RecycleIQ 0.1.0 · An independent open-source app by team StellarFirm (Apps4Athens 2026). It is not an app of the City of Athens or any other public authority. Guidance is indicative.',
+        )}
+      </T>
     </Screen>
   );
 }

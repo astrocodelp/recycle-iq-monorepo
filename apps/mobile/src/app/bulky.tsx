@@ -82,6 +82,12 @@ export default function Bulky() {
       <T v="body" color={colors.muted}>
         {object ? t(`${object.name.el}: ο Δήμος το παραλαμβάνει από την πόρτα σου, κατόπιν αιτήματος.`, `${object.name.en}: the city collects it from your door, on request.`) : t('Ο Δήμος παραλαμβάνει τα ογκώδη από την πόρτα σου, κατόπιν αιτήματος.', 'The city collects bulky items from your door, on request.')}
       </T>
+      <T v="caption" color={colors.muted}>
+        {t(
+          'Το RecycleIQ είναι ανεξάρτητη εφαρμογή, όχι εφαρμογή του Δήμου. Το αίτημα καταχωρείται στο σύστημα αιτημάτων πολιτών του Δήμου Αθηναίων, και την παραλαβή την κάνει ο Δήμος.',
+          'RecycleIQ is an independent app, not a City of Athens app. Your request is filed in the City of Athens citizen request system, and the city carries out the pickup.',
+        )}
+      </T>
       <Card style={{ gap: 10 }}>
         <T v="eyebrow" color={colors.muted}>{t('Διεύθυνση παραλαβής', 'Pickup address')}</T>
         <TextInput

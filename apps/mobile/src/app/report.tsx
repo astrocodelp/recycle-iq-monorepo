@@ -117,7 +117,7 @@ export default function Report() {
               {step === 'done' ? t('Ο Δήμος ενημερώθηκε', 'The municipality has been notified') : t('Το έχεις ήδη αναφέρει', 'You already reported this bin')}
             </T>
             <T v="body" color={colors.muted} style={{ textAlign: 'center' }}>
-              {step === 'done' ? t('Ευχαριστούμε. Η αναφορά σου φαίνεται τώρα στο dashboard του Δήμου.', 'Thank you. Your report is now on the municipal dashboard.') : t('Μία αναφορά ανά κάδο κάθε 6 ώρες.', 'One report per bin every 6 hours.')}
+              {step === 'done' ? t('Ευχαριστούμε. Η αναφορά σου φαίνεται τώρα στο dashboard του RecycleIQ για τον Δήμο.', 'Thank you. Your report is now on the RecycleIQ dashboard for the city.') : t('Μία αναφορά ανά κάδο κάθε 6 ώρες.', 'One report per bin every 6 hours.')}
             </T>
             {step === 'done' && city && (
               <T v="caption" color={colors['forest-700']} style={{ textAlign: 'center' }}>
