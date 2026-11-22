@@ -64,7 +64,7 @@ export default async function Developers() {
             <dd className="num break-all">{SITE_URL}/api/mcp</dd>
             <dt className="text-muted">{t('Σύνδεση', 'Login')}</dt>
             <dd>
-              {t('OAuth. Δοκιμαστικός κωδικός:', 'OAuth. Demo login code:')} <code className="num rounded-pill bg-surface-2 px-2 py-0.5">test123</code>
+              {t('OAuth, με λογαριασμό υπαλλήλου. Τον κωδικό της δοκιμαστικής σύνδεσης τον δίνει η ομάδα του RecycleIQ.', 'OAuth, with an employee account. The team gives you the demo login code.')}
             </dd>
             <dt className="text-muted">Claude</dt>
             <dd>{t('Ρυθμίσεις → Connectors → Add custom connector → η διεύθυνση → Connect → κωδικός.', 'Settings → Connectors → Add custom connector → the URL → Connect → login code.')}</dd>

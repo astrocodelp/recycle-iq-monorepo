@@ -12,10 +12,10 @@ and the dashboard's actions are tools too.
 |---|---|
 | **URL** | `https://recycleiq.eu/api/mcp` |
 | **Transport** | Streamable HTTP (stateless, JSON responses) |
-| **Login** | OAuth 2.1 with PKCE and dynamic client registration. **Demo: login code `test123`** |
+| **Login** | OAuth 2.1 with PKCE and dynamic client registration. **Demo: one shared login code, given by the team** |
 | **Options** | `?lang=en` for English answers (default Greek) · `?bins=osm` for the real OpenStreetMap bins (default synthetic) |
 
-> **Demo login.** The login is a mock: one shared code (`test123`, env `MCP_LOGIN_CODE`) stands in for the
+> **Demo login.** The login is a mock: one shared code (env `MCP_LOGIN_CODE`, given by the team and not published) stands in for the
 > municipality's sign-in. Before real use, replace it with the municipality's identity provider (Entra ID,
 > Google Workspace, gov.gr) and set `MCP_TOKEN_SECRET`. Dashboard data is synthetic in this demo.
 
@@ -24,21 +24,21 @@ and the dashboard's actions are tools too.
 ### Claude (claude.ai, Desktop): custom connector
 1. **Settings → Connectors → Add custom connector.**
 2. Name `RecycleIQ`, URL `https://recycleiq.eu/api/mcp`. Leave the OAuth client fields empty.
-3. **Connect**. The RecycleIQ login page opens; enter `test123`.
+3. **Connect**. The RecycleIQ login page opens; enter the demo login code.
 4. In a chat, enable RecycleIQ under the tools menu and ask, e.g. *«Ποιες 5 γειτονιές είχαν τις περισσότερες σαρώσεις τον τελευταίο μήνα; Κάνε διάγραμμα.»*
 
 On Team and Enterprise plans an owner adds the connector once for the organisation.
 
 ### ChatGPT
 Settings → Apps & Connectors → (Developer mode) → **Create**: MCP server URL as above, authentication **OAuth**.
-Sign in with `test123`.
+Sign in with the demo login code.
 
 ### Claude Code
 ```bash
 claude mcp add --transport http recycleiq https://recycleiq.eu/api/mcp
 ```
-Then run `/mcp`, pick `recycleiq` and **Authenticate** (browser login, `test123`). Clients that only take a
-header can skip OAuth with `--header "Authorization: Bearer test123"`.
+Then run `/mcp`, pick `recycleiq` and **Authenticate** (browser login with the demo login code). Clients that only take a
+header can skip OAuth with `--header "Authorization: Bearer <login code>"`.
 
 ### MCP Inspector (testing)
 ```bash
@@ -85,7 +85,7 @@ on serverless. Redirect URIs must be https (or loopback for desktop clients).
 
 | Env | Default | |
 |---|---|---|
-| `MCP_LOGIN_CODE` | `test123` | The demo login code |
+| `MCP_LOGIN_CODE` | a built-in demo value | **Set a private code in production.** The demo value is in the source, which is open |
 | `MCP_TOKEN_SECRET` | demo value | **Set in production.** Changing it signs everyone out |
 
 ## Code

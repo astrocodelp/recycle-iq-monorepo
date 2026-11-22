@@ -27,7 +27,7 @@ Branch: **`claude/blissful-mayer-3h8ims`** (Vercel deploys it to production). No
 - Android APK and iPhone TestFlight: https://recycleiq.eu/download (links in `apps/web/lib/release.ts`)
 - Resident survey (Typeform-style): https://recycleiq.eu/feedback?src=linkedin
 - Survey results: https://recycleiq.eu/survey
-- MCP connector for municipal AIs: https://recycleiq.eu/api/mcp (demo login code `test123`, see `docs/MCP.md`)
+- MCP connector for municipal AIs: https://recycleiq.eu/api/mcp (demo login code: ask the team, env `MCP_LOGIN_CODE`; see `docs/MCP.md`)
 - Expo project: https://expo.dev/accounts/stellarfirm-ai/projects/recycleiq
 
 ## Run it locally
@@ -50,7 +50,7 @@ mismatch; use `tsc` for the mobile app.)
   `apps/web/app/api/v1/assistant`, `docs/ASSISTANT.md`.
 - **Voice questions** (mic button, always Greek `el-GR`, on-device/browser recognizer, no audio sent):
   web `apps/web/components/assistant/use-dictation.ts`, app `apps/mobile/src/lib/dictation.ts` (expo-speech-recognition).
-- **MCP server** with every assistant tool + demo OAuth (code `test123`): `apps/web/app/api/mcp`, `apps/web/lib/mcp/*`,
+- **MCP server** with every assistant tool + demo OAuth (shared code in env `MCP_LOGIN_CODE`): `apps/web/app/api/mcp`, `apps/web/lib/mcp/*`,
   `apps/web/app/api/oauth/*`, `apps/web/app/oauth/authorize`, `apps/web/app/.well-known/*`, `docs/MCP.md`.
 - **Fleet / sorting** (simulation, ported from delta-sort): `/fleet`, `/sorting`, `docs/OPS.md`.
 - **Full-bin reports and bulky pickups**, mirrored to the city's AthensGov sandbox: `docs/ATHENSGOV.md`.
