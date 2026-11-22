@@ -1,4 +1,5 @@
 import { BarChart3, Bell, BookOpen, Factory, Map, MapPin, MessageSquareText, Scale, Truck } from 'lucide-react';
+import Link from 'next/link';
 import type { ReactNode } from 'react';
 import { setBinSource, setLanguage } from '../actions';
 import { getBinSource } from '@/lib/bins';
@@ -13,7 +14,7 @@ export default async function DashboardLayout({ children }: { children: ReactNod
   const t = tr(lang);
   const openAlerts = await getOpenAlertCount().catch(() => 0);
   const nav = [
-    { href: '/', label: t('Επισκόπηση', 'Overview'), icon: BarChart3 },
+    { href: '/city', label: t('Επισκόπηση', 'Overview'), icon: BarChart3 },
     { href: '/map', label: t('Χάρτης Αθήνας', 'Athens map'), icon: Map },
     { href: '/alerts', label: t('Γεμάτοι κάδοι', 'Full bins'), icon: Bell, badge: openAlerts },
     { href: '/fleet', label: t('Στόλος', 'Fleet'), icon: Truck },
@@ -26,7 +27,9 @@ export default async function DashboardLayout({ children }: { children: ReactNod
   return (
     <div className="mx-auto flex min-h-dvh max-w-[1440px] flex-col lg:flex-row">
       <aside className="print:hidden flex shrink-0 flex-col gap-6 border-b border-line bg-surface px-5 py-5 lg:sticky lg:top-0 lg:h-dvh lg:w-60 lg:border-r lg:border-b-0">
-        <Logo subtitle="Municipal Intelligence" />
+        <Link href="/" aria-label={t('RecycleIQ: αρχική σελίδα', 'RecycleIQ: home page')} className="w-fit rounded-sm">
+          <Logo subtitle="Municipal Intelligence" />
+        </Link>
         <nav
           aria-label={t('Κύριο μενού', 'Main menu')}
           className="flex gap-1 overflow-x-auto lg:flex-col"
