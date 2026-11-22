@@ -75,8 +75,10 @@ export default function Assistant() {
     sendMessage({ text: q });
     setInput('');
   };
-  // Speak instead of typing: the transcript fills the box while you talk and is sent when you stop.
-  const mic = useDictation({ onText: setInput, onFinal: send });
+  // Speak instead of typing: the words fill the box while you talk; the mic closes after 3 s of silence and
+  // the person reviews, edits and sends the question themselves.
+  const inputRef = useRef<React.ComponentRef<typeof TextInput>>(null);
+  const mic = useDictation({ onText: setInput, onEnd: () => inputRef.current?.focus() });
 
   // What residents come for: one item, the nearest bin, their neighbourhood.
   const starters = [
@@ -160,18 +162,19 @@ export default function Assistant() {
       <View style={{ paddingHorizontal: 12, paddingTop: 10, paddingBottom: insets.bottom + 8, borderTopWidth: 1, borderTopColor: colors.line, backgroundColor: colors.surface, gap: 6 }}>
         <View style={{ flexDirection: 'row', alignItems: 'flex-end', gap: 6, borderWidth: 1, borderColor: input.length > 1000 ? colors.danger : colors.line, borderRadius: 22, backgroundColor: colors.paper, padding: 5, paddingLeft: 14 }}>
           <TextInput
+            ref={inputRef}
             value={input}
             onChangeText={setInput}
             multiline
             maxLength={1000}
-            placeholder={mic.listening ? t('Σε ακούω…', 'Listening…') : t('Ρώτα κάτι…', 'Ask something…')}
+            placeholder={mic.listening ? t('Σε ακούω… κλείνει μετά από 3″ σιωπής', 'Listening… closes after 3 s of silence') : t('Ρώτα κάτι…', 'Ask something…')}
             placeholderTextColor={colors.faint}
             accessibilityLabel={t('Ερώτηση', 'Question')}
             style={{ flex: 1, minHeight: 36, maxHeight: 120, paddingTop: 8, paddingBottom: 8, fontFamily: font.medium, fontSize: 16, color: colors.ink }}
           />
           {mic.supported && !busy && (
             <PressableScale
-              onPress={() => (mic.listening ? mic.stop() : mic.start())}
+              onPress={() => (mic.listening ? mic.stop() : mic.start(input))}
               accessibilityRole="button"
               accessibilityLabel={mic.listening ? t('Σταμάτα την ακρόαση', 'Stop listening') : t('Ρώτα με τη φωνή σου', 'Ask by voice')}
             >

@@ -205,8 +205,9 @@ export function AssistantPanel({ lang, binSource, mode = 'municipal' }: { lang: 
     },
     [busy, clearError, sendMessage],
   );
-  // Speak instead of typing: the transcript fills the box while you talk and is sent when you stop.
-  const mic = useDictation({ onText: setInput, onFinal: send });
+  // Speak instead of typing: the words fill the box while you talk; the mic closes after 3 s of silence and
+  // the person reviews, edits and sends the question themselves.
+  const mic = useDictation({ onText: setInput, onEnd: () => box.current?.focus() });
   const tooLong = input.length > 1000;
 
   return (
@@ -402,14 +403,14 @@ export function AssistantPanel({ lang, binSource, mode = 'municipal' }: { lang: 
                       if (!tooLong) send(input);
                     }
                   }}
-                  placeholder={mic.listening ? t('Σε ακούω…', 'Listening…') : t('Ρώτα κάτι…', 'Ask something…')}
+                  placeholder={mic.listening ? t('Σε ακούω… κλείνει μετά από 3″ σιωπής', 'Listening… closes after 3 s of silence') : t('Ρώτα κάτι…', 'Ask something…')}
                   className="max-h-[132px] min-h-[36px] flex-1 resize-none bg-transparent py-2 text-body leading-snug outline-none"
                   aria-label={t('Ερώτηση', 'Question')}
                 />
                 {mic.supported && !busy && (
                   <button
                     type="button"
-                    onClick={() => (mic.listening ? mic.stop() : mic.start())}
+                    onClick={() => (mic.listening ? mic.stop() : mic.start(input))}
                     aria-pressed={mic.listening}
                     aria-label={mic.listening ? t('Σταμάτα την ακρόαση', 'Stop listening') : t('Ρώτα με τη φωνή σου', 'Ask by voice')}
                     title={mic.listening ? t('Σταμάτα την ακρόαση', 'Stop listening') : t('Ρώτα με τη φωνή σου (ελληνικά)', 'Ask by voice (Greek)')}

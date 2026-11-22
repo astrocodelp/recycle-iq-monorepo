@@ -25,56 +25,82 @@ function recognitionCtor(): Ctor | null {
   return w.SpeechRecognition ?? w.webkitSpeechRecognition ?? null;
 }
 
+/** Close the mic after this much silence (no new words). */
+export const SILENCE_MS = 3000;
+
 /**
  * Voice input for the assistant with the browser's own speech recognition (Chrome's built-in voice input, Edge, Safari),
  * always in Greek. No external speech service is called by RecycleIQ.
- * `onText` gets the running transcript, `onFinal` the finished question when the person stops talking.
- * Hidden where the browser has no speech recognition (e.g. Firefox).
+ * The mic keeps listening through pauses and closes after 3 seconds of silence (or when the person taps stop).
+ * It never sends: the words land in the box, after anything already typed, so the person can fix them and send.
+ * `onText` gets the box's text while they talk, `onEnd` fires when the mic closes. Hidden where the browser has no
+ * speech recognition (e.g. Firefox).
  */
-export function useDictation({ onText, onFinal }: { onText: (text: string) => void; onFinal: (text: string) => void }) {
+export function useDictation({ onText, onEnd }: { onText: (text: string) => void; onEnd?: () => void }) {
   // False on the server and on first paint, then whether this browser has speech recognition.
   const supported = useSyncExternalStore(noop, () => recognitionCtor() !== null, () => false);
   const [listening, setListening] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const rec = useRef<SpeechRecognitionLike | null>(null);
-  const last = useRef('');
-  const cb = useRef({ onText, onFinal });
+  const silence = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const cb = useRef({ onText, onEnd });
   useEffect(() => {
-    cb.current = { onText, onFinal };
+    cb.current = { onText, onEnd };
   });
-  useEffect(() => () => rec.current?.abort(), []);
-
-  const start = useCallback(() => {
-    const C = recognitionCtor();
-    if (!C) return;
-    setError(null);
-    last.current = '';
-    const r = new C();
-    // Always Greek: the browser's own recognizer (Chrome, Edge, Safari) with Greek input.
-    r.lang = 'el-GR';
-    r.interimResults = true;
-    r.continuous = false;
-    r.onstart = () => setListening(true);
-    r.onresult = (e) => {
-      const text = Array.from(e.results)
-        .map((res) => res[0]?.transcript ?? '')
-        .join('');
-      last.current = text;
-      cb.current.onText(text);
-    };
-    r.onerror = (e) => {
-      if (e.error !== 'no-speech' && e.error !== 'aborted') setError(e.error);
-    };
-    r.onend = () => {
-      setListening(false);
-      rec.current = null;
-      const text = last.current.trim();
-      last.current = '';
-      if (text) cb.current.onFinal(text);
-    };
-    rec.current = r;
-    r.start();
+  const clearSilence = () => {
+    if (silence.current) clearTimeout(silence.current);
+    silence.current = null;
+  };
+  const armSilence = useCallback(() => {
+    clearSilence();
+    silence.current = setTimeout(() => rec.current?.stop(), SILENCE_MS);
   }, []);
+  useEffect(
+    () => () => {
+      clearSilence();
+      rec.current?.abort();
+    },
+    [],
+  );
+
+  /** `base` is what is already in the box; the spoken words are added after it. */
+  const start = useCallback(
+    (base = '') => {
+      const C = recognitionCtor();
+      if (!C) return;
+      setError(null);
+      const prefix = base.trim() ? `${base.trim()} ` : '';
+      const r = new C();
+      // Always Greek: the browser's own recognizer (Chrome, Edge, Safari) with Greek input.
+      r.lang = 'el-GR';
+      r.interimResults = true;
+      r.continuous = true;
+      r.onstart = () => {
+        setListening(true);
+        armSilence();
+      };
+      r.onresult = (e) => {
+        const text = Array.from(e.results)
+          .map((res) => res[0]?.transcript ?? '')
+          .join('')
+          .trim();
+        cb.current.onText(prefix + text);
+        armSilence();
+      };
+      r.onerror = (e) => {
+        if (e.error !== 'no-speech' && e.error !== 'aborted') setError(e.error);
+      };
+      r.onend = () => {
+        clearSilence();
+        setListening(false);
+        rec.current = null;
+        cb.current.onEnd?.();
+      };
+      rec.current = r;
+      r.start();
+    },
+    [armSilence],
+  );
   const stop = useCallback(() => rec.current?.stop(), []);
 
   return { supported, listening, error, start, stop };
