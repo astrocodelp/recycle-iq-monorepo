@@ -1,17 +1,22 @@
 # Vision benchmark: which model should recognise the item?
 
-3,170 photos, four models, the same prompt and scoring (Gemini Decision through the Decisions API, one choice question). Full tables: [tools/vision-bench/REPORT.md](../tools/vision-bench/REPORT.md);
+3,170 photos, the same prompt and scoring (see the table), the same prompt and scoring (Gemini Decision through the Decisions API, one choice question). Full tables: [tools/vision-bench/REPORT.md](../tools/vision-bench/REPORT.md);
 method and reproduction: [tools/vision-bench/README.md](../tools/vision-bench/README.md). Run on 21–22 Nov 2026; total model cost about $3.
 
 | Model | Runs | Material accuracy (95% CI) | Athens bin accuracy | Severity / 100 items | Batteries missed (of 210) | Latency p50 | Cost / 1,000 scans |
 |---|---|---|---|---|---|---|---|
-| SigLIP 2 (quantized, zero-shot) | on the phone | 75.9% (74.4–77.4) | 83.4% | 34.8 | 11 | ~0.1 s on a server CPU | $0 |
+| **The app as shipped** (4-bit SigLIP 2 on the phone, its own "sure" rule, Gemini 3.5 for the rest) | phone first, 37% to cloud | 90.2% | **94.8%** | | | | **$0.16** |
+| SigLIP 2 base, 4-bit (in the app) | on the phone | 83.7% (82.3–84.9) | 88.9% | | 1 | ~0.4 s on a server CPU | $0 |
+| SigLIP 2 base, 8-bit (the app until 22 Nov) | on the phone | 75.9% (74.4–77.4) | 83.4% | 34.8 | 11 | ~0.1 s on a server CPU | $0 |
+| SigLIP 2 base, full precision | server | 83.4% (82.1–84.7) | 88.4% | 23.5 | 0 | 0.15 s (4 CPU cores) | $0 |
+| SigLIP 2 so400m, full precision | server | 86.6% (85.3–87.7) | 89.9% | | 1 | 0.85 s (4 CPU cores) | $0 |
 | Gemma 4 26B-A4B (open weights) | cloud via AI Gateway | 92.4% (91.4–93.2) | 95.6% | 14.7 | 13 | 0.66 s | $0.05 |
 | Gemini Decision 1 (decision model) | cloud via AI Gateway | 90.1% (89.0–91.1) | 92.4% | 22.0 | **1** | 0.79 s | $0.12 |
-| **Gemini 3.5 Flash-Lite** (production) | cloud via AI Gateway | **94.3% (93.5–95.1)** | **96.3%** | **10.7** | **1** | 1.22 s | $0.43 |
-| SigLIP → Gemini 3.5 when confidence < 0.7 | phone first, 39% to cloud | 92.2% | 94.9% | 12.3 | | 0.12 s (p95 1.5 s) | $0.17 |
-| Decision → Gemini 3.5 when confidence < 0.9 | cloud, 30% to Flash-Lite | 94.3% | 96.2% | 10.8 | | | $0.25 |
-| SigLIP → Gemma when confidence < 0.8 | phone first, 49% to cloud | 92.0% | 95.1% | 13.9 | | 0.14 s (p95 0.95 s) | $0.03 |
+| **Gemini 3.5 Flash-Lite** (server recognition) | cloud via AI Gateway | **94.3% (93.5–95.1)** | **96.3%** | **10.7** | **1** | 1.22 s | $0.43 |
+
+The "app as shipped" row is `app-path-eval.mjs` (the app's exact on-device path: resize, 4-bit model, label scores, the
+"sure" rule) plus Gemini 3.5 Flash-Lite for the photos the phone is not sure about, scored with `app-cascade.py` on all
+3,170 photos: it answers 63.2% of photos on the phone, and when it answers the bin is right 94.9% of the time.
 
 ## What it says
 
@@ -46,6 +51,15 @@ labelled by two people with the municipality's rules (see the plan in the review
 
 ## Safe headline
 
-> On 3,170 public waste photos, the phone-first set-up (on-device recognition, cloud check when unsure) chose
-> the right Athens bin 95% of the time, at about €0.15 per 1,000 scans; the Athens pilot will measure it on
+> On 3,170 public waste photos, the app (on-device recognition, a cloud check when it is unsure) chose the right
+> Athens bin 95% of the time (94.8%), at about €0.14 per 1,000 scans ($0.16); the Athens pilot will measure it on
 > real local waste.
+
+## 22 Nov 2026: what changed
+
+- The phone's SigLIP 2 moved from the 8-bit to the 4-bit file (63 MB instead of 95 MB). The 8-bit file lost about
+  9 points of accuracy to quantization; the image preprocessing made no difference.
+- A confidence threshold in a benchmark is not the app's rule. With the 4-bit model, "escalate below 0.7" would
+  suggest $0.10 per 1,000 scans; the app's real rule sends more photos to the cloud (37%), so the measured cost is $0.16.
+- The server-side SigLIP 2 variants cost nothing in model fees but need a server we would run; the phone-first set-up
+  beats them on accuracy and on cost.
