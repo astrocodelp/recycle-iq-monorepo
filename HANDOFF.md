@@ -99,10 +99,20 @@ mismatch; use `tsc` for the mobile app.)
 builds. Names: `DATABASE_URL`, `AI_GATEWAY_API_KEY` (or Vercel OIDC), `ATHENS_API_KEY`, `MCP_LOGIN_CODE`,
 `MCP_TOKEN_SECRET`, `EXPO_TOKEN`. Never commit `.env` or `.claude/`.
 
-## Presentation and documents (claude.ai artifacts, private to the owner)
+## Presentations and business plan
 
-- Deck (10 slides, Greek): https://claude.ai/artifact/FFQmswcsW1pV6UTmEpyANd
-- 3-minute two-speaker pitch script: https://claude.ai/artifact/E8HJt4q7erpSBGbx919c3G
+claude.ai artifacts, private to the owner.
+
+- Business plan (Greek): https://claude.ai/artifact/AbJvtBPJydXeqfR6PbGHWg
+- Deck, Apps4Athens 2026 (10 slides, Greek): https://claude.ai/artifact/FFQmswcsW1pV6UTmEpyANd
+- 3-minute pitch script: https://claude.ai/artifact/CQWgC6ZAUb28vxvzfUNwKi
+- Investor presentation script: https://claude.ai/artifact/E8HJt4q7erpSBGbx919c3G
+
+RecycleIQ Delta Sort documents stay in their own repository (not copied here):
+
+- Business case (throughput, labour hours saved, payback; assumptions, not quotes): https://github.com/Mike17K/recycleiq-delta-sort/blob/main/BUSINESS_CASE.md
+- Ops MVP plan (Greek: live trucks, citizen full-bin reports, sorting-plant stats): https://github.com/Mike17K/recycleiq-delta-sort/blob/main/OPS_MVP_PLAN.md
+- Simulation and 3D factory view: https://github.com/Mike17K/recycleiq-delta-sort
 
 ## House rules
 

@@ -45,6 +45,21 @@ Checks: `pnpm typecheck`, `pnpm --filter @recycleiq/engine test`, `pnpm --filter
 Collection points are mock locations. Rules are indicative, not the official regulation. Dashboard
 activity is synthetic (rows marked `synthetic`), and the app and dashboard label all of this. Using the app is not verified recycling. Environmental gains are estimates of CO₂e avoided *if* items are recycled as advised, from the UK DESNZ 2025 GHG conversion factors (`packages/engine/src/environment.ts`), with typical item weights stated.
 
+## Presentations and business plan
+
+claude.ai artifacts, private to the owner.
+
+- Business plan (Greek): https://claude.ai/artifact/AbJvtBPJydXeqfR6PbGHWg
+- Deck, Apps4Athens 2026 (10 slides, Greek): https://claude.ai/artifact/FFQmswcsW1pV6UTmEpyANd
+- 3-minute pitch script: https://claude.ai/artifact/CQWgC6ZAUb28vxvzfUNwKi
+- Investor presentation script: https://claude.ai/artifact/E8HJt4q7erpSBGbx919c3G
+
+RecycleIQ Delta Sort documents stay in their own repository (not copied here):
+
+- Business case (throughput, labour hours saved, payback; assumptions, not quotes): https://github.com/Mike17K/recycleiq-delta-sort/blob/main/BUSINESS_CASE.md
+- Ops MVP plan (Greek: live trucks, citizen full-bin reports, sorting-plant stats): https://github.com/Mike17K/recycleiq-delta-sort/blob/main/OPS_MVP_PLAN.md
+- Simulation and 3D factory view: https://github.com/Mike17K/recycleiq-delta-sort
+
 ## Docs
 
 - [Deployment: Vercel + Neon, Expo / EAS](docs/DEPLOYMENT.md)
