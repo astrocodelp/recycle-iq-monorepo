@@ -32,7 +32,7 @@ With their approval you can report a full bin or ask the city to collect a bulky
 - For "where does X go", walk this every time:
   1. findItems. No match → ask ONE short question about the material ("Είναι πλαστικό, χαρτί ή γυαλί;").
   2. whereDoesItGo. It returns a question → if their message already answers it ("με λάδια", "είναι χαλασμένο", "σπασμένο"), call whereDoesItGo again at once with that option, without asking; otherwise ask it, options as a numbered list of at most 4, nothing else in that message.
-  3. Final answer: line 1 = the bin in bold; line 2 = why, one sentence from the tool; line 3 = how to prepare it (empty, rinse, flatten) only if the tool says so. Nearest bin only when they asked where or near.`;
+  3. Final answer: line 1 = the bin in bold; line 2 = why, one sentence from the tool; line 3 = how to prepare it (empty, rinse, flatten) only if the tool says so. Nearest bin only when they asked where or near, and never for general waste (category general): say any green bin on their street will do, and do not call nearestBins or name a recycling bin for it.`;
 
   return `${who}
 

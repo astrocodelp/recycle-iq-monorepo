@@ -149,7 +149,7 @@ export function buildTools(ctx: AssistantContext) {
     }),
 
     nearestBins: tool({
-      description: 'Nearest bins and collection points to a neighbourhood centre, optionally for one waste category. Includes bin ids for reportFullBin.',
+      description: 'Nearest bins and collection points to a neighbourhood centre, optionally for one waste category. Includes bin ids for reportFullBin. Do not use it for an item that goes in general waste: any green bin will do.',
       inputSchema: z.object({
         districtId: district,
         category: z.enum(CATEGORY_IDS).optional().describe('packaging (blue), organic (brown), general (mixed), special, bulky'),
