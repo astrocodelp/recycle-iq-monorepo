@@ -81,13 +81,15 @@ export function evaluate(input: DecideInput, ctx: DecideContext): Outcome {
     uncertain: !!r.uncertain,
     glassBell: !!r.glassBell,
     pickup: !r.uncertain && (r.category === 'bulky' || !!r.pickup),
-    // General waste has no dedicated point type, so suggest nearby recycling instead (as the prototype does).
-    pointQuery: r.uncertain
-      ? null
-      : {
-          category: r.category === 'general' ? 'packaging' : r.category,
-          ...(r.pointFilter ?? {}),
-        },
+    // No points for general waste: green bins are on every street, and listing nearby recycling bins
+    // next to "general waste" reads as "put it in the blue bin".
+    pointQuery:
+      r.uncertain || r.category === 'general'
+        ? null
+        : {
+            category: r.category,
+            ...(r.pointFilter ?? {}),
+          },
   };
 }
 

@@ -131,6 +131,10 @@ export function buildTools(ctx: AssistantContext) {
           co2eAvoidedGrams: impact.counts ? impact.grams : null,
           impact: impact.counts ? t(impact.headline) : undefined,
           chart,
+          nearestNote:
+            decision.category === 'general'
+              ? tx('Οποιοσδήποτε πράσινος κάδος· υπάρχουν σχεδόν σε κάθε δρόμο.', 'Any green (general waste) bin; they are on almost every street.')
+              : undefined,
           dataSource,
         };
       },

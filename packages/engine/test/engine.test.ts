@@ -175,8 +175,10 @@ describe('decisions', () => {
     expect(run('nonexistent')).toMatchObject({ objectId: 'unknown', uncertain: true, pointQuery: null, certainty: 'low' });
   });
 
-  it('general waste suggests nearby recycling points', () => {
-    expect(run('pizza-box', { greasy: 'yes' }).pointQuery).toEqual({ category: 'packaging' });
+  it('general waste suggests no points (a nearby blue bin would read as "put it there")', () => {
+    expect(run('pizza-box', { greasy: 'yes' }).category).toBe('general');
+    expect(run('pizza-box', { greasy: 'yes' }).pointQuery).toBeNull();
+    expect(run('plastic-bottle').pointQuery).toMatchObject({ category: 'packaging' });
   });
 });
 
