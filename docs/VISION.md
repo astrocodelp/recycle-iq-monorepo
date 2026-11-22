@@ -63,11 +63,19 @@ the ONNX export `onnx-community/siglip2-base-patch16-224-ONNX`.
 
 | Part | Where | File |
 | --- | --- | --- |
-| Vision encoder | Phone, downloaded once on the first scan (not in the app bundle) | `onnx/vision_model_quantized.onnx`, 94.5 MB |
-| Text side (one embedding per label) | Precomputed at build time, shipped in the app | `apps/mobile/assets/ml/siglip2-labels.json`, 90 KB |
+| Vision encoder | Phone, downloaded once on the first scan (not in the app bundle) | `onnx/vision_model_q4.onnx` (4-bit), 63.3 MB |
+| Text side (one embedding per label) | Precomputed at build time, shipped in the app | `apps/mobile/assets/ml/siglip2-labels.json`, 40 labels, ~260 KB |
 | Scoring | Phone | `apps/mobile/src/lib/vision.native.ts` |
 
-**Use `vision_model_quantized.onnx` (or the identical `vision_model_uint8.onnx`), not `vision_model_int8.onnx`.**
+**Why 4-bit (22 Nov 2026).** The 8-bit file the app used before (`vision_model_quantized.onnx`, 94.5 MB) loses about
+9 points of accuracy to quantization: on 500 benchmark photos the same model scored 73% at 8-bit, 80% at 4-bit and
+82% at fp16/fp32 (the image preprocessing made no difference). Through the app's own scoring path with the 40 labels,
+the 4-bit model answers 64.8% of photos on the phone (8-bit: 59.4%), picks the right bin for 92.9% of those
+(8-bit: 85.9%), and is a third smaller. It is slower per photo (≈0.43 s vs 0.17 s on a server CPU). The app
+downloads it under a new file name and deletes the old 8-bit file. If a phone's runtime cannot open it, the scan
+falls back to the cloud. Method: [tools/vision-bench](../tools/vision-bench/README.md).
+
+**Never use `vision_model_int8.onnx`.**
 The int8 file uses `ConvInteger` with int8 weights, which onnxruntime's CPU execution provider does not
 implement (`Could not find an implementation for ConvInteger(10)`), so it fails to load on servers and phones.
 The quantized file loads and runs in about 60 ms per image on a server CPU; phones are slower.

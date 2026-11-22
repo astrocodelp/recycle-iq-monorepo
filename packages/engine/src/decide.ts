@@ -80,6 +80,7 @@ export function evaluate(input: DecideInput, ctx: DecideContext): Outcome {
     rulesApplied: Array.from(new Set(r.rules)),
     uncertain: !!r.uncertain,
     glassBell: !!r.glassBell,
+    pickup: !r.uncertain && (r.category === 'bulky' || !!r.pickup),
     // General waste has no dedicated point type, so suggest nearby recycling instead (as the prototype does).
     pointQuery: r.uncertain
       ? null

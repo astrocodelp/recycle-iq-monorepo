@@ -1,7 +1,7 @@
 /**
  * On-device recognition with SigLIP 2 (google/siglip2-base-patch16-224, Apache-2.0). See docs/VISION.md.
  *
- * - Only the vision encoder runs on the phone (onnx/vision_model_quantized.onnx, ~95 MB). It is downloaded
+ * - Only the vision encoder runs on the phone (onnx/vision_model_q4.onnx, 4-bit, ~63 MB). It is downloaded
  *   once, on the first scan, into the app's document directory. It is not in the app bundle.
  * - The text side is precomputed: assets/ml/siglip2-labels.json holds one L2-normalised embedding per
  *   label (built by scripts/siglip-labels/bench.mjs) and the sigmoid calibration (scale, bias).
@@ -29,7 +29,9 @@ interface LabelFile {
 }
 const META = LABELS as LabelFile;
 const SIZE = 224;
-const MODEL_NAME = 'siglip2-vision-quantized.onnx';
+const MODEL_NAME = 'siglip2-vision-q4.onnx';
+/** The earlier 8-bit model (95 MB), removed once the 4-bit one is in place. */
+const LEGACY_MODEL = 'siglip2-vision-quantized.onnx';
 
 type Ort = typeof import('onnxruntime-react-native');
 let ort: Ort | null | undefined;
@@ -72,6 +74,10 @@ async function ensureModel(options: RecognizeOptions): Promise<File | null> {
     });
     if (target.exists) target.delete();
     await partial.move(target);
+    try {
+      const legacy = new File(Paths.document, LEGACY_MODEL);
+      if (legacy.exists) legacy.delete();
+    } catch {}
     return isModelDownloaded() ? target : null;
   } catch {
     try {
@@ -84,7 +90,7 @@ async function ensureModel(options: RecognizeOptions): Promise<File | null> {
 let prefetching = false;
 /**
  * Fetch the model quietly after a scan, only on Wi-Fi, so later scans can be answered on the phone
- * (and still work offline). Never on mobile data: it is 95 MB.
+ * (and still work offline). Never on mobile data: it is 63 MB.
  */
 export async function prefetchModelOnWifi(): Promise<void> {
   if (prefetching || isModelDownloaded() || !loadOrt()) return;

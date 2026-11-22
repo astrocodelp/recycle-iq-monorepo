@@ -552,6 +552,1175 @@
   ]
  },
  {
+  "id": "mobile-phone",
+  "name": {
+   "el": "Κινητό τηλέφωνο",
+   "en": "Mobile phone"
+  },
+  "aliases": [
+   "κινητο",
+   "κινητο τηλεφωνο",
+   "τηλεφωνο",
+   "smartphone",
+   "iphone",
+   "tablet",
+   "ταμπλετ",
+   "phone",
+   "mobile phone",
+   "cell phone"
+  ],
+  "material": {
+   "el": "Ηλεκτρική συσκευή",
+   "en": "Electrical appliance (WEEE)"
+  },
+  "icon": "Smartphone",
+  "thumbTone": "#FDEFE3",
+  "recognitionConfidence": 0.94,
+  "fact": {
+   "el": "Ένα κινητό έχει χρυσό, ασήμι και χαλκό· ανακτώνται μόνο αν παραδοθεί σε σημείο ανακύκλωσης.",
+   "en": "A phone holds gold, silver and copper, recovered only if it is handed in for recycling."
+  },
+  "questions": [
+   {
+    "id": "works",
+    "prompt": {
+     "el": "Λειτουργεί ακόμα;",
+     "en": "Does it still work?"
+    },
+    "helper": {
+     "el": "Αν δουλεύει, μπορεί να έχει δεύτερη ζωή σε κάποιον άλλον.",
+     "en": "If it works, it can have a second life with someone else."
+    },
+    "options": [
+     {
+      "id": "works",
+      "label": {
+       "el": "Ναι, λειτουργεί",
+       "en": "Yes, it works"
+      }
+     },
+     {
+      "id": "broken",
+      "label": {
+       "el": "Όχι, δεν λειτουργεί",
+       "en": "No, it does not work"
+      }
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "laptop",
+  "name": {
+   "el": "Laptop ή υπολογιστής",
+   "en": "Laptop or computer"
+  },
+  "aliases": [
+   "laptop",
+   "λαπτοπ",
+   "υπολογιστης",
+   "φορητος υπολογιστης",
+   "pc",
+   "computer",
+   "notebook",
+   "πληκτρολογιο",
+   "ποντικι",
+   "keyboard",
+   "mouse"
+  ],
+  "material": {
+   "el": "Ηλεκτρική συσκευή",
+   "en": "Electrical appliance (WEEE)"
+  },
+  "icon": "Laptop",
+  "thumbTone": "#FDEFE3",
+  "recognitionConfidence": 0.93,
+  "fact": {
+   "el": "Οι υπολογιστές που λειτουργούν ακόμα μπορούν να δοθούν σε σχολεία και οργανώσεις.",
+   "en": "Working computers can be given to schools and charities."
+  },
+  "questions": [
+   {
+    "id": "works",
+    "prompt": {
+     "el": "Λειτουργεί ακόμα;",
+     "en": "Does it still work?"
+    },
+    "helper": {
+     "el": "Αν δουλεύει, μπορεί να έχει δεύτερη ζωή σε κάποιον άλλον.",
+     "en": "If it works, it can have a second life with someone else."
+    },
+    "options": [
+     {
+      "id": "works",
+      "label": {
+       "el": "Ναι, λειτουργεί",
+       "en": "Yes, it works"
+      }
+     },
+     {
+      "id": "broken",
+      "label": {
+       "el": "Όχι, δεν λειτουργεί",
+       "en": "No, it does not work"
+      }
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "small-appliance",
+  "name": {
+   "el": "Μικρή συσκευή κουζίνας",
+   "en": "Small kitchen appliance"
+  },
+  "aliases": [
+   "βραστηρας",
+   "τοστιερα",
+   "φρυγανιερα",
+   "μπλεντερ",
+   "μιξερ",
+   "αποχυμωτης",
+   "σιδερο",
+   "kettle",
+   "toaster",
+   "blender",
+   "mixer",
+   "iron",
+   "juicer",
+   "sandwich maker"
+  ],
+  "material": {
+   "el": "Ηλεκτρική συσκευή",
+   "en": "Electrical appliance (WEEE)"
+  },
+  "icon": "CookingPot",
+  "thumbTone": "#FDEFE3",
+  "recognitionConfidence": 0.9,
+  "fact": {
+   "el": "Οι μικρές συσκευές είναι το πιο συχνό ηλεκτρικό απόβλητο που καταλήγει λάθος στον πράσινο κάδο.",
+   "en": "Small appliances are the electrical waste most often wrongly thrown in general waste."
+  },
+  "questions": [
+   {
+    "id": "works",
+    "prompt": {
+     "el": "Λειτουργεί ακόμα;",
+     "en": "Does it still work?"
+    },
+    "helper": {
+     "el": "Αν δουλεύει, μπορεί να έχει δεύτερη ζωή σε κάποιον άλλον.",
+     "en": "If it works, it can have a second life with someone else."
+    },
+    "options": [
+     {
+      "id": "works",
+      "label": {
+       "el": "Ναι, λειτουργεί",
+       "en": "Yes, it works"
+      }
+     },
+     {
+      "id": "broken",
+      "label": {
+       "el": "Όχι, δεν λειτουργεί",
+       "en": "No, it does not work"
+      }
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "hair-dryer",
+  "name": {
+   "el": "Πιστολάκι ή ξυριστική",
+   "en": "Hair dryer or shaver"
+  },
+  "aliases": [
+   "πιστολακι",
+   "πιστολακι μαλλιων",
+   "ισιωτικη",
+   "ξυριστικη μηχανη",
+   "ηλεκτρικη οδοντοβουρτσα",
+   "hair dryer",
+   "straightener",
+   "shaver",
+   "electric toothbrush"
+  ],
+  "material": {
+   "el": "Ηλεκτρική συσκευή",
+   "en": "Electrical appliance (WEEE)"
+  },
+  "icon": "Wind",
+  "thumbTone": "#FDEFE3",
+  "recognitionConfidence": 0.9,
+  "fact": {
+   "el": "Οι μικρές συσκευές προσωπικής φροντίδας έχουν συχνά ενσωματωμένη μπαταρία: παραδίδονται ολόκληρες.",
+   "en": "Personal-care devices often have a built-in battery: hand them in whole."
+  },
+  "questions": [
+   {
+    "id": "works",
+    "prompt": {
+     "el": "Λειτουργεί ακόμα;",
+     "en": "Does it still work?"
+    },
+    "helper": {
+     "el": "Αν δουλεύει, μπορεί να έχει δεύτερη ζωή σε κάποιον άλλον.",
+     "en": "If it works, it can have a second life with someone else."
+    },
+    "options": [
+     {
+      "id": "works",
+      "label": {
+       "el": "Ναι, λειτουργεί",
+       "en": "Yes, it works"
+      }
+     },
+     {
+      "id": "broken",
+      "label": {
+       "el": "Όχι, δεν λειτουργεί",
+       "en": "No, it does not work"
+      }
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "vacuum",
+  "name": {
+   "el": "Ηλεκτρική σκούπα",
+   "en": "Vacuum cleaner"
+  },
+  "aliases": [
+   "σκουπα",
+   "ηλεκτρικη σκουπα",
+   "σκουπα ρομποτ",
+   "ανεμιστηρας",
+   "vacuum",
+   "vacuum cleaner",
+   "hoover",
+   "robot vacuum",
+   "fan"
+  ],
+  "material": {
+   "el": "Ηλεκτρική συσκευή",
+   "en": "Electrical appliance (WEEE)"
+  },
+  "icon": "Fan",
+  "thumbTone": "#FDEFE3",
+  "recognitionConfidence": 0.9,
+  "fact": {
+   "el": "Από μια ηλεκτρική σκούπα ανακτώνται κυρίως πλαστικό, χαλκός από το μοτέρ και σίδηρος.",
+   "en": "A vacuum cleaner yields mainly plastic, copper from the motor, and steel."
+  },
+  "questions": [
+   {
+    "id": "works",
+    "prompt": {
+     "el": "Λειτουργεί ακόμα;",
+     "en": "Does it still work?"
+    },
+    "helper": {
+     "el": "Αν δουλεύει, μπορεί να έχει δεύτερη ζωή σε κάποιον άλλον.",
+     "en": "If it works, it can have a second life with someone else."
+    },
+    "options": [
+     {
+      "id": "works",
+      "label": {
+       "el": "Ναι, λειτουργεί",
+       "en": "Yes, it works"
+      }
+     },
+     {
+      "id": "broken",
+      "label": {
+       "el": "Όχι, δεν λειτουργεί",
+       "en": "No, it does not work"
+      }
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "microwave",
+  "name": {
+   "el": "Φούρνος μικροκυμάτων",
+   "en": "Microwave oven"
+  },
+  "aliases": [
+   "μικροκυματα",
+   "φουρνος μικροκυματων",
+   "φουρνακι",
+   "microwave",
+   "microwave oven",
+   "toaster oven"
+  ],
+  "material": {
+   "el": "Ηλεκτρική συσκευή",
+   "en": "Electrical appliance (WEEE)"
+  },
+  "icon": "Microwave",
+  "thumbTone": "#FDEFE3",
+  "recognitionConfidence": 0.92,
+  "fact": {
+   "el": "Ένας φούρνος μικροκυμάτων ζυγίζει 10–15 κιλά, κυρίως μέταλλο που ανακυκλώνεται.",
+   "en": "A microwave weighs 10–15 kg, mostly recyclable metal."
+  },
+  "questions": [
+   {
+    "id": "works",
+    "prompt": {
+     "el": "Λειτουργεί ακόμα;",
+     "en": "Does it still work?"
+    },
+    "helper": {
+     "el": "Αν δουλεύει, μπορεί να έχει δεύτερη ζωή σε κάποιον άλλον.",
+     "en": "If it works, it can have a second life with someone else."
+    },
+    "options": [
+     {
+      "id": "works",
+      "label": {
+       "el": "Ναι, λειτουργεί",
+       "en": "Yes, it works"
+      }
+     },
+     {
+      "id": "broken",
+      "label": {
+       "el": "Όχι, δεν λειτουργεί",
+       "en": "No, it does not work"
+      }
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "tv",
+  "name": {
+   "el": "Τηλεόραση ή οθόνη",
+   "en": "TV or monitor"
+  },
+  "aliases": [
+   "τηλεοραση",
+   "οθονη",
+   "μονιτορ",
+   "tv",
+   "television",
+   "monitor",
+   "screen",
+   "display"
+  ],
+  "material": {
+   "el": "Ηλεκτρική συσκευή",
+   "en": "Electrical appliance (WEEE)"
+  },
+  "icon": "Tv",
+  "thumbTone": "#FDEFE3",
+  "recognitionConfidence": 0.93,
+  "fact": {
+   "el": "Οι παλιές τηλεοράσεις με καθοδικό σωλήνα έχουν μόλυβδο και θέλουν ειδική επεξεργασία.",
+   "en": "Old tube TVs contain lead and need special treatment."
+  },
+  "questions": [
+   {
+    "id": "works",
+    "prompt": {
+     "el": "Λειτουργεί ακόμα;",
+     "en": "Does it still work?"
+    },
+    "helper": {
+     "el": "Αν δουλεύει, μπορεί να έχει δεύτερη ζωή σε κάποιον άλλον.",
+     "en": "If it works, it can have a second life with someone else."
+    },
+    "options": [
+     {
+      "id": "works",
+      "label": {
+       "el": "Ναι, λειτουργεί",
+       "en": "Yes, it works"
+      }
+     },
+     {
+      "id": "broken",
+      "label": {
+       "el": "Όχι, δεν λειτουργεί",
+       "en": "No, it does not work"
+      }
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "printer",
+  "name": {
+   "el": "Εκτυπωτής",
+   "en": "Printer"
+  },
+  "aliases": [
+   "εκτυπωτης",
+   "σαρωτης",
+   "φαξ",
+   "printer",
+   "scanner",
+   "fax"
+  ],
+  "material": {
+   "el": "Ηλεκτρική συσκευή",
+   "en": "Electrical appliance (WEEE)"
+  },
+  "icon": "Printer",
+  "thumbTone": "#FDEFE3",
+  "recognitionConfidence": 0.9,
+  "fact": {
+   "el": "Τα άδεια μελάνια και τόνερ συλλέγονται χωριστά, συχνά στα καταστήματα που τα πουλάνε.",
+   "en": "Empty ink and toner cartridges are collected separately, often by the shops that sell them."
+  },
+  "questions": [
+   {
+    "id": "works",
+    "prompt": {
+     "el": "Λειτουργεί ακόμα;",
+     "en": "Does it still work?"
+    },
+    "helper": {
+     "el": "Αν δουλεύει, μπορεί να έχει δεύτερη ζωή σε κάποιον άλλον.",
+     "en": "If it works, it can have a second life with someone else."
+    },
+    "options": [
+     {
+      "id": "works",
+      "label": {
+       "el": "Ναι, λειτουργεί",
+       "en": "Yes, it works"
+      }
+     },
+     {
+      "id": "broken",
+      "label": {
+       "el": "Όχι, δεν λειτουργεί",
+       "en": "No, it does not work"
+      }
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "cables",
+  "name": {
+   "el": "Καλώδια και φορτιστές",
+   "en": "Cables and chargers"
+  },
+  "aliases": [
+   "καλωδιο",
+   "καλωδια",
+   "φορτιστης",
+   "φορτιστες",
+   "ακουστικα",
+   "μπαλαντεζα",
+   "cable",
+   "cables",
+   "charger",
+   "chargers",
+   "headphones",
+   "earbuds",
+   "extension cord"
+  ],
+  "material": {
+   "el": "Ηλεκτρική συσκευή",
+   "en": "Electrical appliance (WEEE)"
+  },
+  "icon": "Cable",
+  "thumbTone": "#FDEFE3",
+  "recognitionConfidence": 0.9,
+  "fact": {
+   "el": "Τα καλώδια έχουν χαλκό που ανακυκλώνεται σχεδόν χωρίς απώλειες.",
+   "en": "Cables contain copper, which recycles with almost no loss."
+  },
+  "questions": []
+ },
+ {
+  "id": "light-bulb",
+  "name": {
+   "el": "Λάμπα",
+   "en": "Light bulb"
+  },
+  "aliases": [
+   "λαμπα",
+   "λαμπες",
+   "λαμπτηρας",
+   "led",
+   "λαμπα οικονομιας",
+   "φθορισμου",
+   "bulb",
+   "light bulb",
+   "lamp",
+   "fluorescent tube"
+  ],
+  "material": {
+   "el": "Γυαλί, μέταλλα, ηλεκτρονικά",
+   "en": "Glass, metals, electronics"
+  },
+  "icon": "Lightbulb",
+  "thumbTone": "#FFF6D9",
+  "recognitionConfidence": 0.9,
+  "fact": {
+   "el": "Οι λάμπες οικονομίας έχουν λίγο υδράργυρο: ποτέ στον κάδο.",
+   "en": "Energy-saving bulbs contain a little mercury: never put them in a bin."
+  },
+  "questions": [
+   {
+    "id": "type",
+    "prompt": {
+     "el": "Τι λάμπα είναι;",
+     "en": "What kind of bulb is it?"
+    },
+    "helper": {
+     "el": "Οι λάμπες LED και οικονομίας ανακυκλώνονται· οι παλιές λάμπες πυράκτωσης όχι.",
+     "en": "LED and energy-saving bulbs are recycled; old incandescent bulbs are not."
+    },
+    "options": [
+     {
+      "id": "led",
+      "label": {
+       "el": "LED ή οικονομίας",
+       "en": "LED or energy-saving"
+      }
+     },
+     {
+      "id": "incandescent",
+      "label": {
+       "el": "Παλιά πυράκτωσης ή αλογόνου",
+       "en": "Old incandescent or halogen"
+      }
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "fridge",
+  "name": {
+   "el": "Ψυγείο ή καταψύκτης",
+   "en": "Fridge or freezer"
+  },
+  "aliases": [
+   "ψυγειο",
+   "καταψυκτης",
+   "ψυγειοκαταψυκτης",
+   "fridge",
+   "refrigerator",
+   "freezer"
+  ],
+  "material": {
+   "el": "Μεγάλη ηλεκτρική συσκευή",
+   "en": "Large appliance (WEEE)"
+  },
+  "icon": "Refrigerator",
+  "thumbTone": "#FDEFE3",
+  "recognitionConfidence": 0.95,
+  "fact": {
+   "el": "Τα ψυκτικά αέρια ενός ψυγείου θερμαίνουν τον πλανήτη χιλιάδες φορές περισσότερο από το CO₂, αν διαρρεύσουν.",
+   "en": "A fridge's refrigerant gases warm the planet thousands of times more than CO₂ if they leak."
+  },
+  "questions": [
+   {
+    "id": "works",
+    "prompt": {
+     "el": "Λειτουργεί ακόμα;",
+     "en": "Does it still work?"
+    },
+    "helper": {
+     "el": "Αν δουλεύει, μπορεί να έχει δεύτερη ζωή σε κάποιον άλλον.",
+     "en": "If it works, it can have a second life with someone else."
+    },
+    "options": [
+     {
+      "id": "works",
+      "label": {
+       "el": "Ναι, λειτουργεί",
+       "en": "Yes, it works"
+      }
+     },
+     {
+      "id": "broken",
+      "label": {
+       "el": "Όχι, δεν λειτουργεί",
+       "en": "No, it does not work"
+      }
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "washing-machine",
+  "name": {
+   "el": "Πλυντήριο",
+   "en": "Washing machine"
+  },
+  "aliases": [
+   "πλυντηριο",
+   "πλυντηριο ρουχων",
+   "πλυντηριο πιατων",
+   "στεγνωτηριο",
+   "washing machine",
+   "washer",
+   "dishwasher",
+   "dryer",
+   "tumble dryer"
+  ],
+  "material": {
+   "el": "Μεγάλη ηλεκτρική συσκευή",
+   "en": "Large appliance (WEEE)"
+  },
+  "icon": "WashingMachine",
+  "thumbTone": "#FDEFE3",
+  "recognitionConfidence": 0.94,
+  "fact": {
+   "el": "Ένα πλυντήριο είναι πάνω από 50% μέταλλο που ξαναγίνεται χάλυβας.",
+   "en": "A washing machine is over 50% metal that becomes steel again."
+  },
+  "questions": [
+   {
+    "id": "works",
+    "prompt": {
+     "el": "Λειτουργεί ακόμα;",
+     "en": "Does it still work?"
+    },
+    "helper": {
+     "el": "Αν δουλεύει, μπορεί να έχει δεύτερη ζωή σε κάποιον άλλον.",
+     "en": "If it works, it can have a second life with someone else."
+    },
+    "options": [
+     {
+      "id": "works",
+      "label": {
+       "el": "Ναι, λειτουργεί",
+       "en": "Yes, it works"
+      }
+     },
+     {
+      "id": "broken",
+      "label": {
+       "el": "Όχι, δεν λειτουργεί",
+       "en": "No, it does not work"
+      }
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "oven",
+  "name": {
+   "el": "Κουζίνα ή φούρνος",
+   "en": "Cooker or oven"
+  },
+  "aliases": [
+   "κουζινα",
+   "ηλεκτρικη κουζινα",
+   "φουρνος",
+   "εστιες",
+   "cooker",
+   "oven",
+   "stove",
+   "hob",
+   "range"
+  ],
+  "material": {
+   "el": "Μεγάλη ηλεκτρική συσκευή",
+   "en": "Large appliance (WEEE)"
+  },
+  "icon": "Flame",
+  "thumbTone": "#FDEFE3",
+  "recognitionConfidence": 0.92,
+  "fact": {
+   "el": "Οι κουζίνες είναι κυρίως ατσάλι, από τα πιο εύκολα υλικά στην ανακύκλωση.",
+   "en": "Cookers are mostly steel, one of the easiest materials to recycle."
+  },
+  "questions": [
+   {
+    "id": "works",
+    "prompt": {
+     "el": "Λειτουργεί ακόμα;",
+     "en": "Does it still work?"
+    },
+    "helper": {
+     "el": "Αν δουλεύει, μπορεί να έχει δεύτερη ζωή σε κάποιον άλλον.",
+     "en": "If it works, it can have a second life with someone else."
+    },
+    "options": [
+     {
+      "id": "works",
+      "label": {
+       "el": "Ναι, λειτουργεί",
+       "en": "Yes, it works"
+      }
+     },
+     {
+      "id": "broken",
+      "label": {
+       "el": "Όχι, δεν λειτουργεί",
+       "en": "No, it does not work"
+      }
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "air-conditioner",
+  "name": {
+   "el": "Κλιματιστικό",
+   "en": "Air conditioner"
+  },
+  "aliases": [
+   "κλιματιστικο",
+   "air condition",
+   "ερκοντισιον",
+   "αφυγραντηρας",
+   "air conditioner",
+   "ac unit",
+   "dehumidifier",
+   "heat pump"
+  ],
+  "material": {
+   "el": "Μεγάλη ηλεκτρική συσκευή",
+   "en": "Large appliance (WEEE)"
+  },
+  "icon": "AirVent",
+  "thumbTone": "#FDEFE3",
+  "recognitionConfidence": 0.92,
+  "fact": {
+   "el": "Η αποξήλωση κλιματιστικού γίνεται από τεχνικό, για να μη διαρρεύσει το ψυκτικό αέριο.",
+   "en": "An air conditioner is removed by a technician so the refrigerant does not leak."
+  },
+  "questions": [
+   {
+    "id": "works",
+    "prompt": {
+     "el": "Λειτουργεί ακόμα;",
+     "en": "Does it still work?"
+    },
+    "helper": {
+     "el": "Αν δουλεύει, μπορεί να έχει δεύτερη ζωή σε κάποιον άλλον.",
+     "en": "If it works, it can have a second life with someone else."
+    },
+    "options": [
+     {
+      "id": "works",
+      "label": {
+       "el": "Ναι, λειτουργεί",
+       "en": "Yes, it works"
+      }
+     },
+     {
+      "id": "broken",
+      "label": {
+       "el": "Όχι, δεν λειτουργεί",
+       "en": "No, it does not work"
+      }
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "water-heater",
+  "name": {
+   "el": "Θερμοσίφωνας ή καλοριφέρ",
+   "en": "Water heater or radiator"
+  },
+  "aliases": [
+   "θερμοσιφωνας",
+   "καλοριφερ",
+   "θερμαστρα",
+   "ηλεκτρικο καλοριφερ",
+   "water heater",
+   "boiler",
+   "radiator",
+   "heater"
+  ],
+  "material": {
+   "el": "Μεγάλη ηλεκτρική συσκευή",
+   "en": "Large appliance (WEEE)"
+  },
+  "icon": "Heater",
+  "thumbTone": "#FDEFE3",
+  "recognitionConfidence": 0.9,
+  "fact": {
+   "el": "Ένας θερμοσίφωνας είναι σχεδόν όλος χάλυβας και χαλκός.",
+   "en": "A water heater is almost all steel and copper."
+  },
+  "questions": [
+   {
+    "id": "works",
+    "prompt": {
+     "el": "Λειτουργεί ακόμα;",
+     "en": "Does it still work?"
+    },
+    "helper": {
+     "el": "Αν δουλεύει, μπορεί να έχει δεύτερη ζωή σε κάποιον άλλον.",
+     "en": "If it works, it can have a second life with someone else."
+    },
+    "options": [
+     {
+      "id": "works",
+      "label": {
+       "el": "Ναι, λειτουργεί",
+       "en": "Yes, it works"
+      }
+     },
+     {
+      "id": "broken",
+      "label": {
+       "el": "Όχι, δεν λειτουργεί",
+       "en": "No, it does not work"
+      }
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "power-bank",
+  "name": {
+   "el": "Power bank",
+   "en": "Power bank"
+  },
+  "aliases": [
+   "power bank",
+   "powerbank",
+   "εξωτερικη μπαταρια",
+   "φορητος φορτιστης",
+   "μπαταρια λαπτοπ",
+   "μπαταρια κινητου",
+   "laptop battery",
+   "phone battery",
+   "portable charger"
+  ],
+  "material": {
+   "el": "Μπαταρία λιθίου",
+   "en": "Lithium battery"
+  },
+  "icon": "BatteryCharging",
+  "thumbTone": "#FDEFE3",
+  "recognitionConfidence": 0.93,
+  "fact": {
+   "el": "Οι μπαταρίες λιθίου στα σκουπίδια προκαλούν φωτιές σε απορριμματοφόρα και εργοστάσια διαλογής.",
+   "en": "Lithium batteries in rubbish start fires in collection trucks and sorting plants."
+  },
+  "questions": [
+   {
+    "id": "kind",
+    "prompt": {
+     "el": "Σε τι κατάσταση είναι;",
+     "en": "What state is it in?"
+    },
+    "helper": {
+     "el": "Μια φουσκωμένη ή χαλασμένη μπαταρία μπορεί να πάρει φωτιά και θέλει προσοχή.",
+     "en": "Swollen or damaged batteries carry a fire risk and need care."
+    },
+    "options": [
+     {
+      "id": "rechargeable",
+      "label": {
+       "el": "Κανονική",
+       "en": "Normal"
+      }
+     },
+     {
+      "id": "damaged",
+      "label": {
+       "el": "Φουσκωμένη ή χαλασμένη",
+       "en": "Swollen or damaged"
+      },
+      "hint": {
+       "el": "Διαρροή, φούσκωμα ή ζέστη",
+       "en": "Leaking, swelling or heat"
+      }
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "car-battery",
+  "name": {
+   "el": "Μπαταρία αυτοκινήτου",
+   "en": "Car battery"
+  },
+  "aliases": [
+   "μπαταρια αυτοκινητου",
+   "μπαταρια μηχανης",
+   "συσσωρευτης",
+   "car battery",
+   "motorbike battery",
+   "lead acid battery"
+  ],
+  "material": {
+   "el": "Μόλυβδος και οξύ",
+   "en": "Lead and acid"
+  },
+  "icon": "Car",
+  "thumbTone": "#FDEFE3",
+  "recognitionConfidence": 0.94,
+  "fact": {
+   "el": "Μια μπαταρία αυτοκινήτου ανακυκλώνεται σχεδόν όλη· ο μόλυβδος της ξαναγίνεται μπαταρία.",
+   "en": "Almost all of a car battery is recycled; its lead becomes a new battery."
+  },
+  "questions": []
+ },
+ {
+  "id": "shoes",
+  "name": {
+   "el": "Παπούτσια",
+   "en": "Shoes"
+  },
+  "aliases": [
+   "παπουτσια",
+   "αθλητικα",
+   "μποτες",
+   "σανδαλια",
+   "shoes",
+   "sneakers",
+   "boots",
+   "sandals"
+  ],
+  "material": {
+   "el": "Δέρμα, ύφασμα, λάστιχο",
+   "en": "Leather, fabric, rubber"
+  },
+  "icon": "Footprints",
+  "thumbTone": "#EFE7F6",
+  "recognitionConfidence": 0.94,
+  "fact": {
+   "el": "Τα παπούτσια σε καλή κατάσταση φοριούνται ξανά· τα υπόλοιπα γίνονται υλικό για δάπεδα.",
+   "en": "Shoes in good shape are worn again; the rest become material for flooring."
+  },
+  "questions": []
+ },
+ {
+  "id": "home-textiles",
+  "name": {
+   "el": "Σεντόνια και κουβέρτες",
+   "en": "Bedding and towels"
+  },
+  "aliases": [
+   "σεντονια",
+   "κουβερτες",
+   "πετσετες",
+   "κουρτινες",
+   "παπλωμα",
+   "τραπεζομαντηλο",
+   "υφασματα",
+   "sheets",
+   "blankets",
+   "towels",
+   "curtains",
+   "duvet",
+   "linen",
+   "bedding"
+  ],
+  "material": {
+   "el": "Ύφασμα",
+   "en": "Fabric"
+  },
+  "icon": "Layers",
+  "thumbTone": "#EFE7F6",
+  "recognitionConfidence": 0.92,
+  "fact": {
+   "el": "Τα παλιά σεντόνια και οι πετσέτες γίνονται πανιά και μονωτικά υλικά.",
+   "en": "Old sheets and towels become cleaning rags and insulation."
+  },
+  "questions": []
+ },
+ {
+  "id": "mattress",
+  "name": {
+   "el": "Στρώμα",
+   "en": "Mattress"
+  },
+  "aliases": [
+   "στρωμα",
+   "στρωματα",
+   "ανωστρωμα",
+   "mattress",
+   "mattresses"
+  ],
+  "material": {
+   "el": "Αφρώδες υλικό, ελατήρια, ύφασμα",
+   "en": "Foam, springs & fabric"
+  },
+  "icon": "BedDouble",
+  "thumbTone": "#EFECFB",
+  "recognitionConfidence": 0.95,
+  "fact": {
+   "el": "Από ένα στρώμα ανακτώνται τα ατσάλινα ελατήρια και το αφρώδες υλικό.",
+   "en": "A mattress yields its steel springs and its foam."
+  },
+  "questions": []
+ },
+ {
+  "id": "armchair",
+  "name": {
+   "el": "Πολυθρόνα ή καρέκλα",
+   "en": "Armchair or chair"
+  },
+  "aliases": [
+   "πολυθρονα",
+   "καρεκλα",
+   "καρεκλες",
+   "σκαμπο",
+   "πουφ",
+   "armchair",
+   "chair",
+   "chairs",
+   "stool",
+   "recliner"
+  ],
+  "material": {
+   "el": "Ξύλο, ύφασμα, μέταλλο",
+   "en": "Wood, fabric & metal"
+  },
+  "icon": "Armchair",
+  "thumbTone": "#EFECFB",
+  "recognitionConfidence": 0.93,
+  "fact": {
+   "el": "Τα έπιπλα σε καλή κατάσταση μπορούν να πάνε σε ομάδες ανταλλαγής της γειτονιάς.",
+   "en": "Furniture in good shape can go to neighbourhood swap groups."
+  },
+  "questions": []
+ },
+ {
+  "id": "wardrobe",
+  "name": {
+   "el": "Ντουλάπα ή έπιπλο",
+   "en": "Wardrobe or cabinet"
+  },
+  "aliases": [
+   "ντουλαπα",
+   "επιπλο",
+   "επιπλα",
+   "συρταριερα",
+   "βιβλιοθηκη",
+   "κομοδινο",
+   "wardrobe",
+   "cabinet",
+   "furniture",
+   "dresser",
+   "bookcase",
+   "shelf"
+  ],
+  "material": {
+   "el": "Ξύλο, μοριοσανίδα, μέταλλο",
+   "en": "Wood, chipboard & metal"
+  },
+  "icon": "DoorClosed",
+  "thumbTone": "#EFECFB",
+  "recognitionConfidence": 0.92,
+  "fact": {
+   "el": "Το ξύλο από τα έπιπλα γίνεται μοριοσανίδα για καινούργια έπιπλα.",
+   "en": "Wood from old furniture becomes chipboard for new furniture."
+  },
+  "questions": []
+ },
+ {
+  "id": "table",
+  "name": {
+   "el": "Τραπέζι",
+   "en": "Table"
+  },
+  "aliases": [
+   "τραπεζι",
+   "γραφειο",
+   "τραπεζακι",
+   "table",
+   "desk",
+   "coffee table"
+  ],
+  "material": {
+   "el": "Ξύλο, γυαλί, μέταλλο",
+   "en": "Wood, glass & metal"
+  },
+  "icon": "Table",
+  "thumbTone": "#EFECFB",
+  "recognitionConfidence": 0.92,
+  "fact": {
+   "el": "Ένα ξύλινο τραπέζι μπορεί να επισκευαστεί και να ζήσει άλλα 20 χρόνια.",
+   "en": "A wooden table can be repaired and last another 20 years."
+  },
+  "questions": []
+ },
+ {
+  "id": "bed",
+  "name": {
+   "el": "Κρεβάτι",
+   "en": "Bed frame"
+  },
+  "aliases": [
+   "κρεβατι",
+   "σομιες",
+   "κουνια",
+   "bed",
+   "bed frame",
+   "crib",
+   "cot"
+  ],
+  "material": {
+   "el": "Ξύλο, μέταλλο",
+   "en": "Wood & metal"
+  },
+  "icon": "Bed",
+  "thumbTone": "#EFECFB",
+  "recognitionConfidence": 0.92,
+  "fact": {
+   "el": "Τα μεταλλικά μέρη ενός κρεβατιού ξαναγίνονται χάλυβας.",
+   "en": "The metal parts of a bed become steel again."
+  },
+  "questions": []
+ },
+ {
+  "id": "carpet",
+  "name": {
+   "el": "Χαλί",
+   "en": "Carpet or rug"
+  },
+  "aliases": [
+   "χαλι",
+   "χαλια",
+   "μοκετα",
+   "διαδρομος",
+   "carpet",
+   "rug",
+   "rugs"
+  ],
+  "material": {
+   "el": "Ύφασμα, συνθετικές ίνες",
+   "en": "Fabric & synthetic fibres"
+  },
+  "icon": "Layers",
+  "thumbTone": "#EFECFB",
+  "recognitionConfidence": 0.9,
+  "fact": {
+   "el": "Τα συνθετικά χαλιά μπορούν να γίνουν νέες ίνες για νήματα και μονωτικά.",
+   "en": "Synthetic carpets can become new fibres for yarn and insulation."
+  },
+  "questions": []
+ },
+ {
   "id": "unknown",
   "name": {
    "el": "Άγνωστο αντικείμενο",

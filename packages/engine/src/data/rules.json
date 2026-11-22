@@ -153,6 +153,8 @@
   },
   "appliesTo": [
    "battery",
+   "power-bank",
+   "car-battery",
    "special"
   ],
   "source": {
@@ -175,7 +177,8 @@
    "en": "Swollen or damaged lithium-ion batteries have their terminals taped and are handed in only at a special collection point."
   },
   "appliesTo": [
-   "battery"
+   "battery",
+   "power-bank"
   ],
   "source": {
    "el": "Κανονισμός καθαριότητας — ενδεικτική ρύθμιση demo",
@@ -198,6 +201,21 @@
   },
   "appliesTo": [
    "coffee-maker",
+   "mobile-phone",
+   "laptop",
+   "small-appliance",
+   "hair-dryer",
+   "vacuum",
+   "microwave",
+   "tv",
+   "printer",
+   "cables",
+   "light-bulb",
+   "fridge",
+   "washing-machine",
+   "oven",
+   "air-conditioner",
+   "water-heater",
    "special"
   ],
   "source": {
@@ -220,7 +238,20 @@
    "en": "For working appliances, donation or repair (e.g. a repair café) is suggested before recycling."
   },
   "appliesTo": [
-   "coffee-maker"
+   "coffee-maker",
+   "mobile-phone",
+   "laptop",
+   "small-appliance",
+   "hair-dryer",
+   "vacuum",
+   "microwave",
+   "tv",
+   "printer",
+   "fridge",
+   "washing-machine",
+   "oven",
+   "air-conditioner",
+   "water-heater"
   ],
   "source": {
    "el": "Δημοτική απόφαση — ενδεικτική ρύθμιση demo",
@@ -243,6 +274,17 @@
   },
   "appliesTo": [
    "sofa",
+   "fridge",
+   "washing-machine",
+   "oven",
+   "air-conditioner",
+   "water-heater",
+   "mattress",
+   "armchair",
+   "wardrobe",
+   "table",
+   "bed",
+   "carpet",
    "bulky"
   ],
   "source": {

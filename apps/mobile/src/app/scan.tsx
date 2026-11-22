@@ -185,8 +185,8 @@ export default function Scan() {
               <T v="caption" color="rgba(255,255,255,0.9)" style={{ flex: 1 }}>
                 {phase.k === 'downloading'
                   ? t(
-                      `Κατεβάζουμε το μοντέλο αναγνώρισης (95 MB), μία φορά · ${Math.round(phase.progress * 100)}%`,
-                      `Downloading the recognition model (95 MB), once · ${Math.round(phase.progress * 100)}%`,
+                      `Κατεβάζουμε το μοντέλο αναγνώρισης (63 MB), μία φορά · ${Math.round(phase.progress * 100)}%`,
+                      `Downloading the recognition model (63 MB), once · ${Math.round(phase.progress * 100)}%`,
                     )
                   : t('Αναγνώριση…', 'Recognising…')}
               </T>

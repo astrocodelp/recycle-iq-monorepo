@@ -84,7 +84,7 @@ export default function Result() {
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.paper }}>
-      <ScrollView contentContainerStyle={{ paddingBottom: 180 }}>
+      <ScrollView contentContainerStyle={{ paddingBottom: decision.pickup && decision.category !== 'bulky' ? 240 : 180 }}>
         {/* Hero: the category colour carries the verdict, always with its name. */}
         <View style={{ backgroundColor: color, paddingTop: insets.top + 8, paddingHorizontal: 18, paddingBottom: 22, borderBottomLeftRadius: r.hero, borderBottomRightRadius: r.hero, gap: 14 }}>
           <BackButton tone="glass" />
@@ -269,7 +269,17 @@ export default function Result() {
             onPress={() => router.push({ pathname: '/bulky', params: { objectId: decision.objectId } })}
           />
         ) : (
-          <Button label={t('Βρες πού να το πετάξεις', 'Find where to drop it off')} icon={<MapPin size={18} color="#fff" />} onPress={() => router.push('/points')} />
+          <>
+            <Button label={t('Βρες πού να το πετάξεις', 'Find where to drop it off')} icon={<MapPin size={18} color="#fff" />} onPress={() => router.push('/points')} />
+            {decision.pickup && (
+              <Button
+                label={t('Ή ζήτα παραλαβή από τον Δήμο', 'Or ask the city to collect it')}
+                variant="secondary"
+                icon={<Truck size={18} color={colors['forest-700']} />}
+                onPress={() => router.push({ pathname: '/bulky', params: { objectId: decision.objectId } })}
+              />
+            )}
+          </>
         )}
         <Button label={t('Σάρωση νέου αντικειμένου', 'Scan a new item')} variant="ghost" icon={<ScanLine size={18} color={colors['forest-700']} />} onPress={() => router.replace('/scan')} />
       </View>

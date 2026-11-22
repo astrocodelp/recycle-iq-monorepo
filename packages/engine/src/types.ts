@@ -148,6 +148,8 @@ export interface Outcome {
   rulesApplied: RuleCode[];
   uncertain: boolean;
   glassBell: boolean;
+  /** The city collects it from the door, on request (bulky items and large appliances). */
+  pickup: boolean;
   /** null when the decision is uncertain and no point should be suggested. */
   pointQuery: PointQuery | null;
 }

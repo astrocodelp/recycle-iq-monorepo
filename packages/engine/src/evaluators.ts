@@ -37,6 +37,8 @@ export interface EvalResult {
   glassBell?: boolean;
   /** Narrows nearby points beyond the category (prototype `point` filter). */
   pointFilter?: Pick<PointQuery, 'glassBell' | 'accepts'>;
+  /** The city can collect it from the door, on request (AthensGov "bulky_waste"). Always true for bulky. */
+  pickup?: boolean;
 }
 
 export type Evaluator = (ctx: EvalContext) => EvalResult;
@@ -48,7 +50,11 @@ export const DEFAULT_ANSWERS: Record<string, Answers> = {
   battery: { kind: 'rechargeable' },
   'glass-bottle': { form: 'bottle' },
   'coffee-maker': { works: 'broken' },
+  'power-bank': { kind: 'rechargeable' },
+  'light-bulb': { type: 'led' },
 };
+for (const id of ['mobile-phone', 'laptop', 'small-appliance', 'hair-dryer', 'vacuum', 'microwave', 'tv', 'printer', 'fridge', 'washing-machine', 'oven', 'air-conditioner', 'water-heater'])
+  DEFAULT_ANSWERS[id] = { works: 'broken' };
 
 export const ruleDisabledNote = (code: RuleCode) =>
   te(
@@ -603,6 +609,203 @@ const coffeeMaker: Evaluator = ({ answers, on }) => {
   };
 };
 
+// ---- Generic evaluators for the wider catalogue (appliances, batteries, textiles, bulky items) ----
+
+interface Extra {
+  why?: L10n;
+  prep?: L10n[];
+  warnings?: L10n[];
+}
+
+const shopTakeBack = te(
+  'Ή δώσ’ το στο κατάστημα όταν αγοράζεις καινούργιο: τα καταστήματα ηλεκτρικών παίρνουν πίσω την παλιά συσκευή.',
+  'Or give it to the shop when you buy a new one: electrical shops take the old appliance back.',
+);
+const reuseFirst = te(
+  'Αφού λειτουργεί, σκέψου πρώτα να το δωρίσεις ή να το πας σε repair café της γειτονιάς: κάποιος άλλος μπορεί να το χρησιμοποιήσει.',
+  'Since it still works, consider donating it or taking it to a neighbourhood repair café first: someone else can use it.',
+);
+const worksCondition = (answers: Answers, fallback: L10n): L10n =>
+  answers.works === 'works'
+    ? te('Λειτουργεί — προτείνεται επαναχρησιμοποίηση', 'Working — reuse suggested')
+    : answers.works === 'broken'
+      ? te('Δεν λειτουργεί', 'Does not work')
+      : fallback;
+
+/** Small and medium electrical items: WEEE point or shop take-back, reuse first when they work. */
+const weee =
+  (extra: Extra & { pickup?: boolean } = {}): Evaluator =>
+  ({ answers, on }) => {
+    const reuse = answers.works === 'works' && on('ATH-WEE-02');
+    const ruleOn = on('ATH-WEE-01');
+    return {
+      category: 'special',
+      destination: D.weee,
+      confidence: 0.92,
+      rules: reuse ? ['ATH-WEE-01', 'ATH-WEE-02'] : ['ATH-WEE-01'],
+      certainty: ruleOn ? undefined : 'medium',
+      headline: te('Πήγαινέ το σε σημείο συλλογής ηλεκτρικών συσκευών', 'Take it to a WEEE collection point'),
+      why:
+        extra.why ??
+        te(
+          'Οι ηλεκτρικές και ηλεκτρονικές συσκευές έχουν πολύτιμα μέταλλα και ουσίες που δεν πρέπει να καταλήξουν σε κάδο.',
+          'Electrical and electronic items contain valuable metals and substances that must not end up in a bin.',
+        ),
+      prep: [...(extra.prep ?? []), shopTakeBack],
+      warnings: extra.warnings ?? [],
+      notes: ruleOn ? [] : [ruleDisabledNote('ATH-WEE-01')],
+      alternatives: reuse ? reuseFirst : undefined,
+      condition: worksCondition(answers, te('Ηλεκτρικό ή ηλεκτρονικό', 'Electrical or electronic')),
+      pointFilter: { accepts: 'weee' },
+      pickup: extra.pickup,
+    };
+  };
+
+/** Large appliances: the city collects them from the door, or the shop takes the old one back. */
+const largeAppliance =
+  (extra: Extra = {}): Evaluator =>
+  ({ answers, on }) => {
+    const reuse = answers.works === 'works' && on('ATH-WEE-02');
+    const ruleOn = on('ATH-BLK-01');
+    return {
+      category: 'bulky',
+      destination: te('Παραλαβή από τον Δήμο ή επιστροφή στο κατάστημα', 'City pickup or shop take-back'),
+      confidence: 0.93,
+      rules: reuse ? ['ATH-BLK-01', 'ATH-WEE-01', 'ATH-WEE-02'] : ['ATH-BLK-01', 'ATH-WEE-01'],
+      certainty: ruleOn ? undefined : 'medium',
+      headline: te('Ζήτα από τον Δήμο να το παραλάβει', 'Ask the city to collect it'),
+      why:
+        extra.why ??
+        te(
+          'Οι μεγάλες συσκευές δεν χωράνε σε κάδο και έχουν μέταλλα και ουσίες που θέλουν ειδική επεξεργασία. Ο Δήμος τις παραλαμβάνει από την πόρτα σου, κατόπιν αιτήματος.',
+          'Large appliances do not fit a bin and contain metals and substances that need special treatment. The city collects them from your door, on request.',
+        ),
+      prep: [
+        te('Κάνε αίτημα από την εφαρμογή ή κάλεσε το 1595.', 'Send a request from the app or call 1595.'),
+        ...(extra.prep ?? []),
+        te('Μην το βγάλεις στο πεζοδρόμιο πριν από την ημέρα παραλαβής.', 'Do not put it out on the pavement before pickup day.'),
+        te(
+          'Αν αγοράζεις καινούργιο, το κατάστημα παίρνει συνήθως το παλιό κατά την παράδοση.',
+          'If you are buying a new one, the shop usually takes the old one away on delivery.',
+        ),
+      ],
+      warnings: extra.warnings ?? [],
+      notes: ruleOn ? [] : [ruleDisabledNote('ATH-BLK-01')],
+      alternatives: reuse ? reuseFirst : undefined,
+      condition: worksCondition(answers, te('Μεγάλη συσκευή', 'Large appliance')),
+      pointFilter: { accepts: 'weee' },
+      pickup: true,
+    };
+  };
+
+/** Furniture and other bulky items: city pickup from the door, by request. */
+const bulkyItem =
+  (why: L10n, extra: Extra = {}): Evaluator =>
+  ({ on }) => {
+    const ruleOn = on('ATH-BLK-01');
+    return {
+      category: 'bulky',
+      destination: D.bulky,
+      confidence: 0.94,
+      rules: ['ATH-BLK-01'],
+      certainty: ruleOn ? undefined : 'medium',
+      headline: te('Ζήτα από τον Δήμο να το παραλάβει', 'Ask the city to collect it'),
+      why,
+      prep: [
+        te('Κάνε αίτημα από την εφαρμογή ή κάλεσε το 1595.', 'Send a request from the app or call 1595.'),
+        ...(extra.prep ?? []),
+        te('Μην το βγάλεις στο πεζοδρόμιο πριν από την ημέρα παραλαβής.', 'Do not put it out on the pavement before pickup day.'),
+      ],
+      warnings: extra.warnings ?? [],
+      notes: ruleOn ? [] : [ruleDisabledNote('ATH-BLK-01')],
+      alternatives: te(
+        'Αν είναι σε καλή κατάσταση, σκέψου να το δωρίσεις σε κάποια οργάνωση ή σε ομάδα ανταλλαγής της γειτονιάς.',
+        'If it is in good shape, consider donating it to a charity or a neighbourhood swap group.',
+      ),
+      condition: te('Μεγάλο μέγεθος — δεν χωράει σε κάδο', 'Large size — does not fit a bin'),
+      pickup: true,
+    };
+  };
+
+const dataWipe = te(
+  'Σβήσε τα δεδομένα σου (επαναφορά εργοστασίου) και βγάλε την κάρτα SIM και την κάρτα μνήμης.',
+  'Wipe your data (factory reset) and remove the SIM and memory cards.',
+);
+const swollen = te(
+  'Αν η μπαταρία έχει φουσκώσει, μην το πιέσεις και μην το φορτίσεις: κίνδυνος φωτιάς.',
+  'If the battery has swollen, do not press or charge it: fire risk.',
+);
+const refrigerant = te(
+  'Μην κόψεις και μην τρυπήσεις τους σωλήνες: έχουν ψυκτικό αέριο που βλάπτει το κλίμα.',
+  'Do not cut or pierce the pipes: they hold refrigerant gas that harms the climate.',
+);
+
+const lightBulb: Evaluator = ({ answers, on }) => {
+  if (answers.type === 'incandescent')
+    return {
+      category: 'general',
+      destination: D.general,
+      confidence: 0.9,
+      rules: [],
+      headline: te('Τύλιξέ τη και ρίξ’ τη στον πράσινο κάδο', 'Wrap it and put it in general waste'),
+      why: te(
+        'Οι παλιές λάμπες πυράκτωσης και αλογόνου δεν έχουν ηλεκτρονικά ούτε υδράργυρο και δεν ανακυκλώνονται.',
+        'Old incandescent and halogen bulbs have no electronics or mercury and are not recycled.',
+      ),
+      prep: [te('Τύλιξέ τη σε χαρτί, για να μην κοπεί κανείς αν σπάσει.', 'Wrap it in paper so no one is cut if it breaks.')],
+      warnings: [],
+      notes: [],
+      condition: te('Πυράκτωσης ή αλογόνου', 'Incandescent or halogen'),
+    };
+  const ruleOn = on('ATH-WEE-01');
+  return {
+    category: 'special',
+    destination: te('Κάδος ανακύκλωσης λαμπτήρων', 'Lamp recycling bin'),
+    confidence: 0.92,
+    rules: ['ATH-WEE-01'],
+    certainty: ruleOn ? undefined : 'medium',
+    headline: te('Ρίξ’ τη στον κάδο ανακύκλωσης λαμπτήρων', 'Put it in a lamp recycling bin'),
+    why: te(
+      'Οι λάμπες LED και οικονομίας έχουν ηλεκτρονικά και λίγο υδράργυρο. Οι κάδοι λαμπτήρων βρίσκονται σε σούπερ μάρκετ και καταστήματα ηλεκτρικών.',
+      'LED and energy-saving bulbs contain electronics and a little mercury. Lamp bins are in supermarkets and electrical shops.',
+    ),
+    prep: [te('Παράδωσέ τη ολόκληρη, χωρίς να τη σπάσεις.', 'Hand it in whole, unbroken.')],
+    warnings: [
+      te(
+        'Αν σπάσει λάμπα οικονομίας, άνοιξε το παράθυρο και μάζεψε τα κομμάτια με χαρτί, όχι με ηλεκτρική σκούπα.',
+        'If an energy-saving bulb breaks, open the window and pick up the pieces with paper, not a vacuum cleaner.',
+      ),
+    ],
+    notes: ruleOn ? [] : [ruleDisabledNote('ATH-WEE-01')],
+    condition: te('LED ή οικονομίας', 'LED or energy-saving'),
+    pointFilter: { accepts: 'weee' },
+  };
+};
+
+const carBattery: Evaluator = ({ on }) => {
+  const ruleOn = on('ATH-SPC-01');
+  return {
+    category: 'special',
+    destination: te('Συνεργείο, κατάστημα ανταλλακτικών ή Πράσινο Σημείο', 'Garage, parts shop or recycling centre'),
+    confidence: 0.95,
+    rules: ['ATH-SPC-01'],
+    certainty: ruleOn ? undefined : 'medium',
+    headline: te('Δώσ’ τη σε συνεργείο ή κατάστημα ανταλλακτικών', 'Give it to a garage or a parts shop'),
+    why: te(
+      'Οι μπαταρίες αυτοκινήτου έχουν μόλυβδο και οξύ. Τα συνεργεία και τα καταστήματα που τις πουλάνε τις παίρνουν πίσω για ανακύκλωση.',
+      'Car batteries contain lead and acid. Garages and the shops that sell them take them back for recycling.',
+    ),
+    prep: [
+      te('Μετέφερέ τη όρθια, για να μη χυθεί οξύ.', 'Carry it upright so no acid spills.'),
+      te('Φόρεσε γάντια αν έχει διαρροή.', 'Wear gloves if it is leaking.'),
+    ],
+    warnings: [te('Ποτέ σε κάδο και ποτέ στο έδαφος: το οξύ καίει και μολύνει.', 'Never in a bin or on the ground: the acid burns and pollutes.')],
+    notes: ruleOn ? [] : [ruleDisabledNote('ATH-SPC-01')],
+    condition: te('Μπαταρία μολύβδου', 'Lead-acid battery'),
+    pointFilter: { accepts: 'batteries' },
+  };
+};
+
 const unknown: Evaluator = () => ({
   category: 'general',
   destination: te('Δεν έχει καθοριστεί ακόμη', 'Not determined yet'),
@@ -636,6 +839,52 @@ export const EVALUATORS: Record<string, Evaluator> = {
   'glass-bottle': glassBottle,
   clothes,
   'coffee-maker': coffeeMaker,
+  'mobile-phone': weee({ prep: [dataWipe], warnings: [swollen] }),
+  laptop: weee({ prep: [dataWipe], warnings: [swollen] }),
+  'small-appliance': weee({ prep: [te('Βγάλ’ το από την πρίζα και άδειασέ το από νερό και υπολείμματα.', 'Unplug it and empty any water and residue.')] }),
+  'hair-dryer': weee(),
+  vacuum: weee({ prep: [te('Άδειασε τη σακούλα ή το δοχείο σκόνης στον πράσινο κάδο.', 'Empty the dust bag or bin into general waste.')], warnings: [swollen] }),
+  microwave: weee({ pickup: true, prep: [te('Καθάρισέ τον και βγάλε το γυάλινο πιάτο.', 'Clean it and take out the glass plate.')] }),
+  tv: weee({ pickup: true, prep: [te('Μετέφερέ τη προσεκτικά, χωρίς να σπάσει η οθόνη.', 'Carry it carefully so the screen does not break.')] }),
+  printer: weee({ prep: [te('Βγάλε τα μελάνια ή το τόνερ: τα παίρνουν πίσω τα καταστήματα που τα πουλάνε.', 'Take out the ink or toner: the shops that sell them take them back.')] }),
+  cables: weee({
+    why: te(
+      'Τα καλώδια, οι φορτιστές και τα ακουστικά είναι ηλεκτρικός εξοπλισμός: ο χαλκός τους ανακτάται μόνο σε σημείο συλλογής.',
+      'Cables, chargers and headphones are electrical equipment: their copper is recovered only at a collection point.',
+    ),
+    prep: [te('Μάζεψέ τα σε μια σακούλα και παράδωσέ τα μαζί.', 'Gather them in one bag and hand them in together.')],
+  }),
+  'light-bulb': lightBulb,
+  fridge: largeAppliance({ prep: [te('Άδειασέ το, ξεπάγωσέ το και άφησε την πόρτα ανοιχτή να στεγνώσει.', 'Empty and defrost it, and leave the door open to dry.')], warnings: [refrigerant] }),
+  'washing-machine': largeAppliance({ prep: [te('Άδειασε το νερό από το φίλτρο και αποσύνδεσε τα λάστιχα.', 'Drain the water from the filter and disconnect the hoses.')] }),
+  oven: largeAppliance({ prep: [te('Αν είναι συνδεδεμένη μόνιμα στο ρεύμα, την αποσυνδέει ηλεκτρολόγος.', 'If it is wired in, have an electrician disconnect it.')] }),
+  'air-conditioner': largeAppliance({ prep: [te('Την αποξήλωση την κάνει τεχνικός ψύξης.', 'Have a refrigeration technician remove it.')], warnings: [refrigerant] }),
+  'water-heater': largeAppliance({ prep: [te('Την αποσύνδεση την κάνει υδραυλικός· άδειασέ τον από το νερό.', 'Have a plumber disconnect it, and drain the water.')] }),
+  'power-bank': battery,
+  'car-battery': carBattery,
+  shoes: clothes,
+  'home-textiles': clothes,
+  mattress: bulkyItem(
+    te('Το στρώμα δεν χωράει σε κάδο: ο Δήμος το παραλαμβάνει ξεχωριστά, για να ανακτηθούν ελατήρια και αφρώδες υλικό.', 'A mattress does not fit a bin: the city collects it separately so its springs and foam can be recovered.'),
+    { prep: [te('Τύλιξέ το σε νάιλον αν βρέχει, για να μείνει στεγνό.', 'Wrap it in plastic if it rains, to keep it dry.')] },
+  ),
+  armchair: bulkyItem(te('Τα έπιπλα είναι ογκώδη: δεν μπαίνουν σε κάδο και παραλαμβάνονται ξεχωριστά, κατόπιν αιτήματος.', 'Furniture is bulky: it does not go in a bin and is collected separately, on request.')),
+  wardrobe: bulkyItem(
+    te('Τα έπιπλα είναι ογκώδη: δεν μπαίνουν σε κάδο και παραλαμβάνονται ξεχωριστά, κατόπιν αιτήματος.', 'Furniture is bulky: it does not go in a bin and is collected separately, on request.'),
+    { prep: [te('Αν μπορείς, λύσ’ το σε κομμάτια και βγάλε τζάμια και καθρέφτες.', 'If you can, take it apart and remove glass panels and mirrors.')] },
+  ),
+  table: bulkyItem(
+    te('Τα έπιπλα είναι ογκώδη: δεν μπαίνουν σε κάδο και παραλαμβάνονται ξεχωριστά, κατόπιν αιτήματος.', 'Furniture is bulky: it does not go in a bin and is collected separately, on request.'),
+    { prep: [te('Αν έχει γυάλινη επιφάνεια, τύλιξέ τη για να μη σπάσει.', 'If it has a glass top, wrap it so it does not break.')] },
+  ),
+  bed: bulkyItem(
+    te('Τα έπιπλα είναι ογκώδη: δεν μπαίνουν σε κάδο και παραλαμβάνονται ξεχωριστά, κατόπιν αιτήματος.', 'Furniture is bulky: it does not go in a bin and is collected separately, on request.'),
+    { prep: [te('Λύσ’ το σε κομμάτια, αν γίνεται.', 'Take it apart, if you can.')] },
+  ),
+  carpet: bulkyItem(
+    te('Τα χαλιά είναι ογκώδη και βαριά: δεν μπαίνουν σε κάδο και παραλαμβάνονται ξεχωριστά, κατόπιν αιτήματος.', 'Carpets are bulky and heavy: they do not go in a bin and are collected separately, on request.'),
+    { prep: [te('Τύλιξέ το σε ρολό και δέσ’ το.', 'Roll it up and tie it.')] },
+  ),
   unknown,
 };
 

@@ -1,8 +1,8 @@
 import { getObject } from '@recycleiq/engine';
 import { router, useLocalSearchParams } from 'expo-router';
-import { Check, ShieldCheck, Truck } from 'lucide-react-native';
+import { Check, Phone, ShieldCheck, Truck } from 'lucide-react-native';
 import { useState } from 'react';
-import { TextInput, View } from 'react-native';
+import { Linking, TextInput, View } from 'react-native';
 import Animated, { ZoomIn } from 'react-native-reanimated';
 import { BackButton } from '@/components/back-button';
 import { Screen } from '@/components/screen';
@@ -77,7 +77,7 @@ export default function Bulky() {
       <BackButton close />
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
         <Truck size={22} color={colors['forest-700']} />
-        <T v="h1">{t('Παραλαβή ογκώδους', 'Bulky item pickup')}</T>
+        <T v="h1">{t('Παραλαβή από τον Δήμο', 'City pickup')}</T>
       </View>
       <T v="body" color={colors.muted}>
         {object ? t(`${object.name.el}: ο Δήμος το παραλαμβάνει από την πόρτα σου, κατόπιν αιτήματος.`, `${object.name.en}: the city collects it from your door, on request.`) : t('Ο Δήμος παραλαμβάνει τα ογκώδη από την πόρτα σου, κατόπιν αιτήματος.', 'The city collects bulky items from your door, on request.')}
@@ -113,6 +113,12 @@ export default function Bulky() {
       {step === 'error' && <T v="body" color={colors.danger}>{t('Ο Δήμος δεν απάντησε. Δοκίμασε ξανά σε λίγο.', 'The city did not answer. Try again shortly.')}</T>}
       {step === 'off' && <T v="body" color={colors.danger}>{t('Η σύνδεση με τα αιτήματα του Δήμου δεν είναι ενεργή ακόμη.', 'The connection to city requests is not active yet.')}</T>}
       <Button label={t('Στείλε αίτημα στον Δήμο', 'Send the request to the city')} disabled={address.trim().length < 3} loading={step === 'sending'} onPress={send} />
+      <Button
+        label={t('Ή κάλεσε τον Δήμο στο 1595', 'Or call the city on 1595')}
+        variant="ghost"
+        icon={<Phone size={18} color={colors['forest-700']} />}
+        onPress={() => Linking.openURL('tel:1595')}
+      />
     </Screen>
   );
 }

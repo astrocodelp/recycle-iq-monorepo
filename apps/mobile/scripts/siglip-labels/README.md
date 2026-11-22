@@ -14,3 +14,11 @@ node check-app-scoring.mjs ./label-embeddings.json .
 ```
 
 Pin `onnxruntime-node` to the version `@huggingface/transformers` depends on, or the two native bindings clash.
+
+## Adding labels and checking the app path
+
+```bash
+node embed-labels.mjs labels.json ../../assets/ml/siglip2-labels.json   # keeps existing embeddings, appends new labels
+NODE_DIR=/tmp/siglip node app-path-eval.mjs ../../assets/ml/siglip2-labels.json models/vision_model_q4.onnx \
+  ../../../../tools/vision-bench/manifest.json <cache_dir> - app-q4.jsonl   # app scoring + "sure" rule on benchmark photos
+```

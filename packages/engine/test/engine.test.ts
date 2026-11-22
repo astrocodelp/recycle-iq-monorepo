@@ -49,9 +49,60 @@ describe('catalog and rules data', () => {
       'glass-bottle',
       'clothes',
       'coffee-maker',
+      'mobile-phone',
+      'laptop',
+      'small-appliance',
+      'hair-dryer',
+      'vacuum',
+      'microwave',
+      'tv',
+      'printer',
+      'cables',
+      'light-bulb',
+      'fridge',
+      'washing-machine',
+      'oven',
+      'air-conditioner',
+      'water-heater',
+      'power-bank',
+      'car-battery',
+      'shoes',
+      'home-textiles',
+      'mattress',
+      'armchair',
+      'wardrobe',
+      'table',
+      'bed',
+      'carpet',
       'unknown',
     ]);
     expect(DEFAULT_RULES.map((r) => r.code).sort()).toEqual([...RULE_CODES].sort());
+  });
+});
+
+describe('wider catalogue', () => {
+  it('every item has an evaluator', () => {
+    for (const o of CATALOG) expect(run(o.id).objectId).toBe(o.id);
+  });
+  it('bulky items and large appliances offer a city pickup', () => {
+    for (const id of ['sofa', 'mattress', 'wardrobe', 'carpet', 'fridge', 'washing-machine', 'air-conditioner'])
+      expect(run(id)).toMatchObject({ category: 'bulky', pickup: true });
+    expect(run('tv')).toMatchObject({ category: 'special', pickup: true });
+    expect(run('mobile-phone')).toMatchObject({ category: 'special', pickup: false });
+  });
+  it('small electronics go to WEEE points, reuse first when they work', () => {
+    expect(run('mobile-phone').pointQuery).toMatchObject({ accepts: 'weee' });
+    expect(run('laptop', { works: 'works' }).alternatives).toBeDefined();
+    expect(run('cables').alternatives).toBeUndefined();
+  });
+  it('batteries, bulbs and textiles go to their own streams', () => {
+    expect(run('power-bank').pointQuery).toMatchObject({ accepts: 'batteries' });
+    expect(run('power-bank', { kind: 'damaged' }).warnings.length).toBeGreaterThan(0);
+    expect(run('car-battery').pointQuery).toMatchObject({ accepts: 'batteries' });
+    expect(run('light-bulb').category).toBe('special');
+    expect(run('light-bulb', { type: 'incandescent' }).category).toBe('general');
+    expect(run('shoes').pointQuery).toMatchObject({ accepts: 'textiles' });
+    expect(run('home-textiles').pointQuery).toMatchObject({ accepts: 'textiles' });
   });
 });
 

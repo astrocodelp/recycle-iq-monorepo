@@ -15,12 +15,37 @@ import {
   Trash2,
   Wine,
   Zap,
+  AirVent,
+  Armchair,
+  BatteryCharging,
+  Bed,
+  BedDouble,
+  Cable,
+  Car,
+  CookingPot,
+  DoorClosed,
+  Fan,
+  Flame,
+  Footprints,
+  Heater,
+  Laptop,
+  Layers,
+  Lightbulb,
+  Microwave,
+  Printer,
+  Refrigerator,
+  Smartphone,
+  Table,
+  Tv,
+  WashingMachine,
+  Wind,
   type LucideIcon,
 } from 'lucide-react-native';
 import { View } from 'react-native';
 import { categoryColors, colors } from '@/lib/theme';
 
-const OBJECT_ICONS: Record<string, LucideIcon> = { Container, CupSoda, Newspaper, Package, Pizza, Shirt, Apple, Battery, Sofa, Wine, Coffee, HelpCircle: CircleHelp };
+const OBJECT_ICONS: Record<string, LucideIcon> = { Container, CupSoda, Newspaper, Package, Pizza, Shirt, Apple, Battery, Sofa, Wine, Coffee, HelpCircle: CircleHelp,
+  AirVent, Armchair, BatteryCharging, Bed, BedDouble, Cable, Car, CookingPot, DoorClosed, Fan, Flame, Footprints, Heater, Laptop, Layers, Lightbulb, Microwave, Printer, Refrigerator, Smartphone, Table, Tv, WashingMachine, Wind };
 const CATEGORY_ICONS: Record<CategoryId, LucideIcon> = { packaging: Container, organic: Leaf, general: Trash2, special: Zap, bulky: Sofa };
 
 export function ObjectIcon({ name, size = 20, color = colors.ink }: { name: string; size?: number; color?: string }) {

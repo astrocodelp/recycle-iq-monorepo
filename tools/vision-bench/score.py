@@ -3,7 +3,8 @@ confusion, calibration, latency, cost, and the on-device → cloud cascade.
 
 Usage: python3 score.py            (reads manifest.json, classes.json, results/*.jsonl; writes results/summary.json and REPORT.md)
 """
-import json, math, random, statistics
+import json
+import os, math, random, statistics
 from collections import Counter, defaultdict
 
 C = json.load(open("classes.json"))
@@ -18,6 +19,10 @@ MODELS = {
     "google__gemini-decision-1": "Gemini Decision 1 · decision model, cloud",
 }
 CLOUD = ["google__gemini-3.5-flash-lite", "google__gemini-decision-1", "google__gemma-4-26b-a4b-it", "siglip2-so400m-cloud"]
+# SKIP=name,name leaves out models (e.g. a run still in progress); models without a results file are left out too.
+_skip = set(filter(None, os.environ.get("SKIP", "").split(",")))
+MODELS = {k: v for k, v in MODELS.items() if k not in _skip and os.path.exists(f"results/{k}.jsonl")}
+CLOUD = [m for m in CLOUD if m in MODELS]
 
 
 SYN = {"organic": "food", "biological": "food", "clothes": "textile", "clothing": "textile", "shoes": "textile", "fabric": "textile",

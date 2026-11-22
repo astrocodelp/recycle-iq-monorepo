@@ -1,4 +1,4 @@
-# Vision benchmark: SigLIP 2 on device vs Gemma 4 vs Gemini 3.5 Flash-Lite vs Gemini Decision
+# Vision benchmark: SigLIP 2 (on device and cloud) vs Gemma 4 vs Gemini 3.5 Flash-Lite vs Gemini Decision
 
 3170 photos scored by every model. 95% intervals: Wilson for proportions, bootstrap for the severity score.
 
@@ -6,46 +6,50 @@
 
 | Model | Material accuracy | Macro (per-class mean) | Athens bin accuracy | Severity per 100 items | Severe errors (≥3) | Batteries missed | Latency p50 / p95 | Cost per 1,000 scans |
 |---|---|---|---|---|---|---|---|---|
-| SigLIP 2 · on device (quantized ONNX) | 75.9% (74.4%–77.4%) | 75.2% | 83.4% (82.0%–84.6%) | 34.8 (31.3–38.5) | 9.0% | 11 | 104 / 129 ms | $0.000 |
+| SigLIP 2 base · on device (quantized ONNX, 224 px) | 75.9% (74.4%–77.4%) | 75.2% | 83.4% (82.0%–84.6%) | 34.8 (31.3–38.5) | 9.0% | 11 | 104 / 129 ms | $0.000 |
+| SigLIP 2 base · cloud (full precision, 224 px) | 83.4% (82.1%–84.7%) | 81.8% | 88.4% (87.2%–89.5%) | 23.5 (20.9–26.0) | 6.2% | 0 | 153 / 247 ms | $0.000 |
 | Gemma 4 26B-A4B · open weights, via gateway | 92.4% (91.4%–93.2%) | 91.7% | 95.6% (94.8%–96.2%) | 14.7 (12.0–17.7) | 3.7% | 13 | 661 / 1107 ms | $0.053 |
 | Gemini 3.5 Flash-Lite · cloud (production) | 94.3% (93.5%–95.1%) | 94.1% | 96.3% (95.6%–96.9%) | 10.7 (8.7–12.5) | 3.4% | 1 | 1221 / 1562 ms | $0.431 |
 | Gemini Decision 1 · decision model, cloud | 90.1% (89.0%–91.1%) | 89.7% | 92.4% (91.4%–93.2%) | 22.0 (19.3–24.8) | 7.1% | 1 | 786 / 1094 ms | $0.122 |
 
-Latency: SigLIP is one CPU thread on a cloud server (a phone will be slower); Gemma and Gemini are full round trips from the benchmark machine through the Vercel AI Gateway.
+Latency: SigLIP on device is one CPU thread on a cloud server (a phone will be slower); SigLIP cloud runs on 4 CPU cores, no GPU; Gemma and Gemini are full round trips from the benchmark machine through the Vercel AI Gateway.
 
 ## By dataset (material accuracy)
 
 | Model | complex | garbage12 | trashnet |
 |---|---|---|---|
-| SigLIP 2 · on device (quantized ONNX) | 66.0% (n=50) | 79.2% (n=2400) | 65.4% (n=720) |
+| SigLIP 2 base · on device (quantized ONNX, 224 px) | 66.0% (n=50) | 79.2% (n=2400) | 65.4% (n=720) |
+| SigLIP 2 base · cloud (full precision, 224 px) | 70.0% (n=50) | 85.7% (n=2400) | 76.8% (n=720) |
 | Gemma 4 26B-A4B · open weights, via gateway | 94.0% (n=50) | 95.8% (n=2400) | 81.0% (n=720) |
 | Gemini 3.5 Flash-Lite · cloud (production) | 94.0% (n=50) | 97.9% (n=2400) | 82.4% (n=720) |
 | Gemini Decision 1 · decision model, cloud | 96.0% (n=50) | 92.5% (n=2400) | 81.8% (n=720) |
 
 ## Per class (material recall, 95% interval)
 
-| Class | n | SigLIP 2 | Gemma 4 26B-A4B | Gemini 3.5 Flash-Lite | Gemini Decision 1 |
-|---|---|---|---|---|---|
-| plastic | 320 | 73.8% (69–78) | 92.5% (89–95) | 95.3% (92–97) | 97.2% (95–99) |
-| paper | 330 | 72.7% (68–77) | 90.6% (87–93) | 93.3% (90–96) | 88.2% (84–91) |
-| cardboard | 320 | 94.4% (91–96) | 93.4% (90–96) | 97.8% (96–99) | 98.8% (97–100) |
-| metal | 320 | 83.8% (79–87) | 95.0% (92–97) | 98.8% (97–100) | 98.1% (96–99) |
-| glass | 730 | 79.7% (77–82) | 97.0% (95–98) | 97.5% (96–98) | 96.3% (95–97) |
-| food | 200 | 71.0% (64–77) | 97.0% (94–99) | 99.0% (96–100) | 99.5% (97–100) |
-| battery | 210 | 94.8% (91–97) | 93.8% (90–96) | 99.5% (97–100) | 99.5% (97–100) |
-| textile | 420 | 96.7% (94–98) | 99.3% (98–100) | 100.0% (99–100) | 98.8% (97–99) |
-| general | 320 | 9.7% (7–13) | 66.9% (62–72) | 65.3% (60–70) | 30.9% (26–36) |
+| Class | n | SigLIP 2 base | SigLIP 2 base | Gemma 4 26B-A4B | Gemini 3.5 Flash-Lite | Gemini Decision 1 |
+|---|---|---|---|---|---|---|
+| plastic | 320 | 73.8% (69–78) | 73.1% (68–78) | 92.5% (89–95) | 95.3% (92–97) | 97.2% (95–99) |
+| paper | 330 | 72.7% (68–77) | 74.2% (69–79) | 90.6% (87–93) | 93.3% (90–96) | 88.2% (84–91) |
+| cardboard | 320 | 94.4% (91–96) | 98.1% (96–99) | 93.4% (90–96) | 97.8% (96–99) | 98.8% (97–100) |
+| metal | 320 | 83.8% (79–87) | 95.0% (92–97) | 95.0% (92–97) | 98.8% (97–100) | 98.1% (96–99) |
+| glass | 730 | 79.7% (77–82) | 96.2% (95–97) | 97.0% (95–98) | 97.5% (96–98) | 96.3% (95–97) |
+| food | 200 | 71.0% (64–77) | 85.0% (79–89) | 97.0% (94–99) | 99.0% (96–100) | 99.5% (97–100) |
+| battery | 210 | 94.8% (91–97) | 100.0% (98–100) | 93.8% (90–96) | 99.5% (97–100) | 99.5% (97–100) |
+| textile | 420 | 96.7% (94–98) | 98.6% (97–99) | 99.3% (98–100) | 100.0% (99–100) | 98.8% (97–99) |
+| general | 320 | 9.7% (7–13) | 15.9% (12–20) | 66.9% (62–72) | 65.3% (60–70) | 30.9% (26–36) |
 
 ## Top five confusions (true → predicted, count)
 
-- **SigLIP 2 · on device (quantized ONNX)**: general → plastic (118); general → paper (75); glass → plastic (62); paper → cardboard (40); general → battery (36)
+- **SigLIP 2 base · on device (quantized ONNX, 224 px)**: general → plastic (118); general → paper (75); glass → plastic (62); paper → cardboard (40); general → battery (36)
+- **SigLIP 2 base · cloud (full precision, 224 px)**: general → textile (80); general → plastic (74); plastic → glass (35); paper → cardboard (33); general → glass (33)
 - **Gemma 4 26B-A4B · open weights, via gateway**: general → plastic (65); general → paper (27); plastic → glass (19); glass → plastic (18); paper → cardboard (16)
 - **Gemini 3.5 Flash-Lite · cloud (production)**: general → plastic (68); general → paper (32); paper → cardboard (17); glass → plastic (16); plastic → glass (9)
 - **Gemini Decision 1 · decision model, cloud**: general → plastic (178); general → paper (30); glass → plastic (25); paper → cardboard (22); paper → textile (9)
 
 ## Calibration (accuracy within each confidence band)
 
-- **SigLIP 2 · on device (quantized ONNX)**: 0.00–0.50: 36.4% of 698; 0.50–0.70: 61.2% of 541; 0.70–0.90: 88.1% of 773; 0.90–0.97: 97.3% of 525; 0.97–1.00: 99.4% of 633
+- **SigLIP 2 base · on device (quantized ONNX, 224 px)**: 0.00–0.50: 36.4% of 698; 0.50–0.70: 61.2% of 541; 0.70–0.90: 88.1% of 773; 0.90–0.97: 97.3% of 525; 0.97–1.00: 99.4% of 633
+- **SigLIP 2 base · cloud (full precision, 224 px)**: 0.00–0.50: 25.7% of 276; 0.50–0.70: 48.2% of 309; 0.70–0.90: 74.3% of 435; 0.90–0.97: 92.8% of 503; 0.97–1.00: 99.2% of 1647
 - **Gemma 4 26B-A4B · open weights, via gateway**: 0.50–0.70: 0.0% of 2; 0.70–0.90: 32.6% of 43; 0.90–0.97: 76.0% of 701; 0.97–1.00: 98.2% of 2424
 - **Gemini 3.5 Flash-Lite · cloud (production)**: 0.70–0.90: 33.3% of 15; 0.90–0.97: 75.2% of 505; 0.97–1.00: 98.3% of 2650
 - **Gemini Decision 1 · decision model, cloud**: 0.00–0.50: 49.4% of 154; 0.50–0.70: 58.8% of 240; 0.70–0.90: 80.8% of 551; 0.90–0.97: 98.1% of 885; 0.97–1.00: 99.0% of 1340
