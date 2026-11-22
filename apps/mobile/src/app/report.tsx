@@ -3,7 +3,7 @@ import { CameraView, useCameraPermissions } from 'expo-camera';
 import { router, useLocalSearchParams } from 'expo-router';
 import { Camera, Check, MapPin, ShieldCheck, TriangleAlert, Trash2, Wrench } from 'lucide-react-native';
 import { useEffect, useMemo, useState } from 'react';
-import { ActivityIndicator, Platform, View } from 'react-native';
+import { ActivityIndicator, Linking, Platform, View } from 'react-native';
 import Animated, { ZoomIn } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { BackButton } from '@/components/back-button';
@@ -32,6 +32,13 @@ export default function Report() {
   const [pointId, setPointId] = useState<string | null>(bin ?? null);
   const [kind, setKind] = useState<Kind>('full');
   const [city, setCity] = useState<CityRef | null>(null);
+
+  // Native: ask for the camera when the screen opens; if it was refused before, the link opens Settings.
+  useEffect(() => {
+    if (Platform.OS !== 'web' && permission && !permission.granted && permission.canAskAgain) void requestPermission();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [permission?.status]);
+  const allowCamera = () => (permission?.canAskAgain === false ? Linking.openSettings() : requestPermission());
 
   useEffect(() => {
     api.points({ near: district?.id ?? null, source: binSource, limit: 2000 }).then((res) => setPoints(res.points), () => setPoints([]));
@@ -83,8 +90,10 @@ export default function Report() {
           <View style={{ width: 240, height: 280, borderRadius: 24, borderWidth: 3, borderColor: colors.lime, borderStyle: 'dashed' }} />
           <T v="bodyLg" color="#fff" style={{ textAlign: 'center' }}>{t('Φωτογράφισε τον κάδο ολόκληρο.', 'Photograph the whole bin.')}</T>
           {!cameraOk && Platform.OS !== 'web' && (
-            <PressableScale onPress={requestPermission}>
-              <T v="caption" color={colors.lime}>{t('Επίτρεψε την κάμερα', 'Allow the camera')}</T>
+            <PressableScale onPress={allowCamera}>
+              <T v="caption" color={colors.lime}>
+                {permission?.canAskAgain === false ? t('Άνοιξε την κάμερα στις Ρυθμίσεις', 'Turn the camera on in Settings') : t('Επίτρεψε την κάμερα', 'Allow the camera')}
+              </T>
             </PressableScale>
           )}
         </View>

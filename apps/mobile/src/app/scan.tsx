@@ -3,7 +3,7 @@ import { CameraView, useCameraPermissions } from 'expo-camera';
 import { router } from 'expo-router';
 import { Camera, Info, Sparkles } from 'lucide-react-native';
 import { useEffect, useRef, useState } from 'react';
-import { ActivityIndicator, Image, Platform, ScrollView, View } from 'react-native';
+import { ActivityIndicator, Image, Linking, Platform, ScrollView, View } from 'react-native';
 import Animated, { Easing, useAnimatedStyle, useReducedMotion, useSharedValue, withRepeat, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { BackButton } from '@/components/back-button';
@@ -65,8 +65,22 @@ export default function Scan() {
   }, [reduce, sweep]);
   const lineStyle = useAnimatedStyle(() => ({ transform: [{ translateY: sweep.value * 240 }] }));
 
+  // Native: ask for the camera as soon as the screen opens (the system asks only once).
+  const asked = useRef(false);
+  useEffect(() => {
+    if (Platform.OS === 'web' || !permission || permission.granted || !permission.canAskAgain || asked.current) return;
+    asked.current = true;
+    void requestPermission();
+  }, [permission, requestPermission]);
+  /** Native, camera not allowed: ask again if the system still lets us, otherwise open the app's Settings. */
+  const allowCamera = async () => {
+    if (permission?.canAskAgain !== false) await requestPermission();
+    else await Linking.openSettings();
+  };
+
   const shoot = async () => {
     let uri: string | null = null;
+    if (Platform.OS !== 'web' && !permission?.granted) return allowCamera();
     if (Platform.OS === 'web') {
       // The browser's own picker: camera on phones, file chooser on a laptop.
       uri = await pickPhotoOnWeb();
@@ -167,11 +181,13 @@ export default function Scan() {
           {!captured && <Animated.View style={[{ position: 'absolute', left: 14, right: 14, top: 8, height: 2, backgroundColor: colors.lime, opacity: 0.85 }, lineStyle]} />}
         </View>
         {!cameraOk && !captured && (
-          <PressableScale onPress={Platform.OS === 'web' ? shoot : requestPermission} style={{ marginTop: 18 }}>
+          <PressableScale onPress={Platform.OS === 'web' ? shoot : allowCamera} style={{ marginTop: 18 }}>
             <T v="caption" color="rgba(255,255,255,0.75)" style={{ textAlign: 'center', paddingHorizontal: 40 }}>
               {Platform.OS === 'web'
                 ? t('Πάτα το κουμπί για να τραβήξεις ή να διαλέξεις φωτογραφία.', 'Press the button to take or choose a photo.')
-                : t('Πάτησε για να επιτρέψεις την κάμερα', 'Tap to allow the camera')}
+                : permission?.canAskAgain === false
+                  ? t('Η κάμερα είναι κλειστή για το RecycleIQ. Πάτα εδώ για να την ανοίξεις στις Ρυθμίσεις.', 'The camera is off for RecycleIQ. Tap here to turn it on in Settings.')
+                  : t('Πάτα για να επιτρέψεις την κάμερα.', 'Tap to allow the camera.')}
             </T>
           </PressableScale>
         )}
