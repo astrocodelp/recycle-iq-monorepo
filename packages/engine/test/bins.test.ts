@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { applyBins, DEFAULT_RULES, evaluate, mergeBins } from '../src';
+import { applyBins, DEFAULT_RULES, evaluate, explain, mergeBins } from '../src';
 import type { DistrictContext } from '../src';
 
-const district = { id: 'koukaki', organicService: 'full' } as DistrictContext;
+const district: DistrictContext = { id: 'koukaki', name: { el: 'Κουκάκι', en: 'Koukaki' }, organicService: 'full' };
 const rules = DEFAULT_RULES.map((r) => ({ code: r.code, enabled: true }));
-const decide = (objectId: string) => evaluate({ objectId, answers: {} }, { district, rules });
+const decide = (objectId: string) => explain(evaluate({ objectId, answers: {} }, { district, rules }));
 
 describe('configurable bins', () => {
   it('keeps the Athens defaults when nothing is configured', () => {

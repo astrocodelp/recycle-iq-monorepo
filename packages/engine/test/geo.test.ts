@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import districts from '../../db/seed/districts.json';
 import { locateDistrict, parsePath, projectLngLat, unprojectXY } from '../src';
 
-const shapes = (districts as { id: string; path: string; lnglat: [number, number] }[]).map((d) => ({
+const shapes = (districts as unknown as { id: string; path: string; lnglat: [number, number] }[]).map((d) => ({
   id: d.id,
   svgPath: d.path,
   lnglat: d.lnglat,
