@@ -1,6 +1,6 @@
 # Vision benchmark: which model should recognise the item?
 
-3,170 photos, the same prompt and scoring (see the table), the same prompt and scoring (Gemini Decision through the Decisions API, one choice question). Full tables: [tools/vision-bench/REPORT.md](../tools/vision-bench/REPORT.md);
+3,170 photos, the same prompt and scoring for every model (Gemini Decision through the Decisions API, one choice question). Full tables: [tools/vision-bench/REPORT.md](../tools/vision-bench/REPORT.md);
 method and reproduction: [tools/vision-bench/README.md](../tools/vision-bench/README.md). Run on 21–22 Nov 2026; total model cost about $3.
 
 | Model | Runs | Material accuracy (95% CI) | Athens bin accuracy | Severity / 100 items | Batteries missed (of 210) | Latency p50 | Cost / 1,000 scans |
