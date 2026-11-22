@@ -1,0 +1,163 @@
+/* Public landing page (/). Everything is scoped to .lp-* classes; motion only without reduced motion. */
+
+:root:has(.lp-root) {
+  scroll-padding-top: 72px;
+}
+@media (prefers-reduced-motion: no-preference) {
+  :root:has(.lp-root) {
+    scroll-behavior: smooth;
+  }
+}
+
+.lp-root {
+  --lp-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  overflow-x: clip;
+}
+
+/* Lime highlighter behind the key word of the headline. */
+.lp-marker {
+  background: linear-gradient(transparent 58%, var(--color-lime) 58%, var(--color-lime) 92%, transparent 92%);
+  padding-inline: 0.04em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.lp-hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(60% 55% at 85% 30%, rgb(199 243 107 / 0.28), transparent 70%),
+    radial-gradient(50% 60% at 10% 0%, var(--color-forest-50), transparent 70%);
+}
+.lp-hero-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgb(23 33 29 / 0.09) 1px, transparent 1px);
+  background-size: 22px 22px;
+  mask-image: radial-gradient(70% 60% at 70% 40%, #000, transparent 75%);
+}
+
+.lp-glow {
+  position: absolute;
+  inset: 12% -14% 6%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgb(199 243 107 / 0.7), rgb(199 243 107 / 0) 100%);
+  filter: blur(8px);
+}
+
+.lp-city-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(45% 50% at 100% 0%, rgb(42 151 87 / 0.35), transparent 70%),
+    radial-gradient(40% 40% at 0% 100%, rgb(199 243 107 / 0.1), transparent 70%);
+}
+
+.lp-survey-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 92% 12%, rgb(255 255 255 / 0.45) 0 70px, transparent 71px),
+    radial-gradient(circle at 80% 120%, rgb(143 193 43 / 0.45) 0 140px, transparent 141px);
+}
+
+/* Hero phone: three answers take turns (12 s loop). Without motion, only the first is shown. */
+.lp-screen {
+  opacity: 0;
+}
+.lp-screen-0 {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .lp-screen {
+    animation: lp-cycle 12s var(--lp-ease-out) infinite backwards;
+  }
+  .lp-screen-0 {
+    opacity: 0;
+  }
+  .lp-screen-1 {
+    animation-delay: 4s;
+  }
+  .lp-screen-2 {
+    animation-delay: 8s;
+  }
+
+  .lp-rise {
+    animation: lp-rise 0.7s var(--lp-ease-out) both;
+  }
+  .lp-rise-2 {
+    animation-delay: 0.12s;
+  }
+
+  .lp-press {
+    transition:
+      transform 0.16s var(--lp-ease-out),
+      background-color 0.16s ease,
+      box-shadow 0.16s ease;
+  }
+  .lp-press:active {
+    transform: scale(0.97);
+  }
+
+  .lp-nudge {
+    transition: transform 0.2s var(--lp-ease-out);
+  }
+  .group:hover .lp-nudge {
+    transform: translateX(3px);
+  }
+
+  /* Scroll reveal where the browser supports scroll-driven animations; elsewhere content is simply there. */
+  @supports (animation-timeline: view()) {
+    .lp-reveal {
+      animation: lp-reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 40%;
+    }
+  }
+}
+
+@keyframes lp-cycle {
+  0% {
+    opacity: 0;
+    transform: translateY(14px) scale(0.985);
+  }
+  4%,
+  30% {
+    opacity: 1;
+    transform: none;
+  }
+  34%,
+  100% {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.985);
+  }
+}
+
+@keyframes lp-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes lp-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Focus stays visible on the dark municipality section. */
+.lp-root #city :focus-visible {
+  outline-color: var(--color-lime);
+}
