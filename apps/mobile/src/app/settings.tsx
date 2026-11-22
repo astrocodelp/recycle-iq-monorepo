@@ -1,7 +1,7 @@
 import { router } from 'expo-router';
-import { Check, ChevronRight, Database, Globe, MapPin, ShieldCheck, Smartphone, Sparkles, Trophy } from 'lucide-react-native';
+import { Check, ChevronRight, Database, ExternalLink, Globe, MapPin, ShieldCheck, Smartphone, Sparkles, Trophy } from 'lucide-react-native';
 import { useEffect, useState } from 'react';
-import { TextInput, View } from 'react-native';
+import { Linking, TextInput, View } from 'react-native';
 import { BackButton } from '@/components/back-button';
 import { PressableScale } from '@/components/pressable-scale';
 import { Screen } from '@/components/screen';
@@ -9,6 +9,9 @@ import { Button, Card, T } from '@/components/ui';
 import { api } from '@/lib/api';
 import { deviceLang, useApp, type BinSource, type LangPref } from '@/lib/store';
 import { colors, font } from '@/lib/theme';
+
+/** The public privacy policy (also linked from the store listings). */
+const PRIVACY_URL = 'https://recycleiq.eu/privacy';
 
 export default function Settings() {
   const { t, lang, langPref, setLangPref, district, deviceId, binSource, setBinSource, assistantModel, setAssistantModel } = useApp();
@@ -187,7 +190,24 @@ export default function Settings() {
           <ShieldCheck size={18} color={colors['forest-700']} />
           <T v="h3">{t('Ιδιωτικότητα', 'Privacy')}</T>
         </View>
-        <T v="body">{t('Κρατάμε μόνο τη γειτονιά σου, ποτέ τη διεύθυνση. Οι φωτογραφίες μένουν στο κινητό. Δεν χρειάζεται λογαριασμός.', 'We keep only your neighbourhood, never your address. Photos stay on your phone. No account needed.')}</T>
+        <T v="body">
+          {t(
+            'Κρατάμε μόνο τη γειτονιά σου, ποτέ τις συντεταγμένες ή τη διεύθυνσή σου. Οι φωτογραφίες αναγνωρίζονται πρώτα στο κινητό· αν δεν είναι σίγουρο, μια μικρή εικόνα στέλνεται για αναγνώριση και δεν κρατιέται. Δεν χρειάζεται λογαριασμός.',
+            'We keep only your neighbourhood, never your coordinates or address. Photos are recognised on the phone first; if it is not sure, a small image is sent for recognition and not kept. No account needed.',
+          )}
+        </T>
+        <T v="caption" color={colors.muted} selectable>
+          {t('Αναγνωριστικό εγκατάστασης (για αιτήματα διαγραφής): ', 'Install ID (for deletion requests): ')}
+          {deviceId || '—'}
+        </T>
+        <PressableScale
+          onPress={() => Linking.openURL(PRIVACY_URL + (lang === 'en' ? '?lang=en' : ''))}
+          accessibilityRole="link"
+          style={{ flexDirection: 'row', alignItems: 'center', gap: 6, paddingVertical: 4 }}
+        >
+          <T v="body" color={colors['forest-700']} style={{ fontFamily: font.semibold }}>{t('Πολιτική απορρήτου', 'Privacy policy')}</T>
+          <ExternalLink size={16} color={colors['forest-700']} />
+        </PressableScale>
       </Card>
       <T v="caption" color={colors.muted}>RecycleIQ 0.1.0 · Apps4Athens 2026</T>
     </Screen>

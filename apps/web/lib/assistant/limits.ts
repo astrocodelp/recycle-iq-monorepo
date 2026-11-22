@@ -1,5 +1,10 @@
 import 'server-only';
+import { createHash } from 'node:crypto';
 import { assistantQuota, getDb, sql } from '@recycleiq/db';
+
+/** IP addresses are never stored: counters use a salted one-way hash (see /privacy). */
+const ipKey = (ip: string) =>
+  createHash('sha256').update(`${process.env.ASSISTANT_IP_SALT ?? 'recycleiq-quota'}:${ip}`).digest('hex').slice(0, 32);
 
 /**
  * Usage limits for the assistant, so the open models are never overused and the bill stays predictable.
@@ -36,15 +41,16 @@ export async function takeQuota(opts: { mode: 'citizen' | 'municipal'; deviceId:
   const secsToDay = 86400 - (now.getUTCHours() * 3600 + now.getUTCMinutes() * 60 + now.getUTCSeconds());
 
   type Rule = { key: string; window: string; limit: number; reason: QuotaResult['reason']; resets: number; user: boolean };
+  const ip = ipKey(opts.ip);
   const rules: Rule[] = [{ key: 'global', window: day, limit: num('ASSISTANT_LIMIT_GLOBAL_DAY', 3000), reason: 'global-day', resets: secsToDay, user: false }];
   if (opts.mode === 'municipal') {
-    rules.push({ key: `mun:${opts.ip}`, window: day, limit: num('ASSISTANT_LIMIT_MUNICIPAL_DAY', 200), reason: 'municipal-day', resets: secsToDay, user: true });
+    rules.push({ key: `mun:${ip}`, window: day, limit: num('ASSISTANT_LIMIT_MUNICIPAL_DAY', 200), reason: 'municipal-day', resets: secsToDay, user: true });
   } else {
-    const dev = opts.deviceId ? `dev:${opts.deviceId}` : `dev-ip:${opts.ip}`;
+    const dev = opts.deviceId ? `dev:${opts.deviceId}` : `dev-ip:${ip}`;
     rules.push(
       { key: dev, window: hour, limit: num('ASSISTANT_LIMIT_DEVICE_HOUR', 10), reason: 'device-hour', resets: secsToHour, user: true },
       { key: dev, window: day, limit: num('ASSISTANT_LIMIT_DEVICE_DAY', 30), reason: 'device-day', resets: secsToDay, user: true },
-      { key: `ip:${opts.ip}`, window: day, limit: num('ASSISTANT_LIMIT_IP_DAY', 100), reason: 'ip-day', resets: secsToDay, user: false },
+      { key: `ip:${ip}`, window: day, limit: num('ASSISTANT_LIMIT_IP_DAY', 100), reason: 'ip-day', resets: secsToDay, user: false },
     );
   }
 

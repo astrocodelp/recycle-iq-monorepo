@@ -57,6 +57,7 @@ export default async function Download() {
         </div>
       )}
       <Link href="/city" className="text-center text-caption font-semibold text-forest-700 hover:underline">{t('Το dashboard του Δήμου →', 'The municipal dashboard →')}</Link>
+      <Link href="/privacy" className="text-center text-caption text-muted hover:underline">{t('Πολιτική απορρήτου', 'Privacy policy')}</Link>
     </div>
   );
 }

@@ -22,8 +22,8 @@ export function Privacy({ t }: { t: T }) {
     },
     {
       Icon: History,
-      title: t('Το ιστορικό μένει σε σένα', 'Your history stays with you'),
-      body: t('Οι σαρώσεις σου αποθηκεύονται μόνο στο κινητό σου.', 'Your scans are stored only on your phone.'),
+      title: t('Το ιστορικό είναι δικό σου', 'Your history is yours'),
+      body: t('Το ιστορικό είναι στο κινητό σου. Στον server οι σαρώσεις κρατιούνται με έναν τυχαίο κωδικό, ποτέ με όνομα, και διαγράφονται αν το ζητήσεις.', 'Your history is on your phone. On the server, scans are kept under a random code, never a name, and deleted if you ask.'),
     },
   ];
   return (
@@ -83,6 +83,7 @@ export function Footer({ t }: { t: T }) {
     { href: '/city', label: t('Dashboard του Δήμου', 'City dashboard') },
     { href: '/feedback?src=landing', label: t('Έρευνα κατοίκων', 'Resident survey') },
     { href: '/developers', label: 'API' },
+    { href: '/privacy', label: t('Απόρρητο', 'Privacy') },
   ];
   return (
     <footer className="border-t border-line bg-surface">
