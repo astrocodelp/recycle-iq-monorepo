@@ -62,17 +62,14 @@ export function Residents({ t }: { t: T }) {
             <p className="mt-2 flex-1 text-[15px] leading-relaxed font-medium text-muted">
               {RELEASE.appStore
                 ? t('Από το App Store.', 'From the App Store.')
-                : t('Η εφαρμογή για iPhone έρχεται σύντομα στο TestFlight. Ως τότε, άνοιξέ τη στο Safari.', 'The iPhone app is coming to TestFlight soon. Until then, open it in Safari.')}
+                : t(
+                    'Πιλοτική έκδοση στο TestFlight της Apple. Αν δεν δέχεται ακόμη δοκιμαστές, άνοιξέ τη στο Safari.',
+                    'Pilot build on Apple’s TestFlight. If it isn’t accepting testers yet, open it in Safari.',
+                  )}
             </p>
-            {RELEASE.appStore ? (
-              <ButtonLink href={RELEASE.appStore} plain variant="secondary" className="mt-6">
-                App Store
-              </ButtonLink>
-            ) : (
-              <p className="mt-6 inline-flex min-h-12 items-center justify-center rounded-control bg-surface-2 px-5 text-[15px] font-semibold text-muted">
-                {t('Σύντομα', 'Coming soon')}
-              </p>
-            )}
+            <ButtonLink href={RELEASE.appStore ?? RELEASE.testFlight} plain variant="secondary" icon={Smartphone} className="mt-6">
+              {RELEASE.appStore ? 'App Store' : 'TestFlight'}
+            </ButtonLink>
           </article>
         </div>
         <ul className="mt-10 grid gap-x-8 gap-y-5 sm:grid-cols-2">
