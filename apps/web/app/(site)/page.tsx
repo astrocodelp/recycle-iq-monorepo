@@ -3,8 +3,10 @@ import type { Metadata, Viewport } from 'next';
 import { City, Residents } from '@/components/landing/audiences';
 import { Footer, Privacy, SurveyCta } from '@/components/landing/closing';
 import { Header, Hero } from '@/components/landing/hero';
+import { SurveyResults } from '@/components/landing/survey-results';
 import { HowItWorks, Problem } from '@/components/landing/story';
 import { getLang, tr } from '@/lib/lang';
+import { getSurveyHighlights } from '@/lib/survey-stats';
 import './landing.css';
 import { SITE_URL } from '@/lib/site';
 
@@ -49,6 +51,7 @@ export const viewport: Viewport = { themeColor: '#F8F9F6' };
 export default async function Landing({ searchParams }: Props) {
   const lang = await pageLang(searchParams);
   const t = tr(lang);
+  const survey = await getSurveyHighlights();
   return (
     <div lang={lang} className="lp-root">
       <a
@@ -65,6 +68,7 @@ export default async function Landing({ searchParams }: Props) {
         <Residents t={t} />
         <City t={t} />
         <Privacy t={t} />
+        {survey && <SurveyResults t={t} stats={survey} />}
         <SurveyCta t={t} />
       </main>
       <Footer t={t} />

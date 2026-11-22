@@ -1,6 +1,7 @@
 import { desc, getDb, surveyResponses, sql } from '@recycleiq/db';
 import { Card } from '@/components/ui';
 import { getLang, tr } from '@/lib/lang';
+import { SITE_URL } from '@/lib/site';
 import { ALL_QUESTIONS, GRID_COLUMNS, OTHER, SURVEY_VERSION, type Answers } from '@/lib/survey';
 
 export const dynamic = 'force-dynamic';
@@ -21,7 +22,7 @@ export default async function SurveyResults() {
   const pct = (x: number, of = n) => (of ? Math.round((x / of) * 100) : 0);
   const sources = new Map<string, number>();
   for (const r of rows) sources.set(r.source ?? t('απευθείας', 'direct'), (sources.get(r.source ?? t('απευθείας', 'direct')) ?? 0) + 1);
-  const url = 'https://recycle-iq-monorepo-web.vercel.app/feedback?src=linkedin';
+  const url = `${SITE_URL}/feedback?src=linkedin`;
 
   return (
     <div className="flex max-w-5xl flex-col gap-6">
