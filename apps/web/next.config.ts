@@ -25,6 +25,9 @@ const nextConfig: NextConfig = {
       { source: '/', has: [{ type: 'query', key: 'range' }], destination: '/city', permanent: false },
       { source: '/about', destination: '/', permanent: false },
       { source: '/dashboard', destination: '/city', permanent: false },
+      // One address per domain: www goes to the bare name (add both www names to the Vercel project).
+      { source: '/:path*', has: [{ type: 'host', value: 'www.recycleiq.eu' }], destination: 'https://recycleiq.eu/:path*', permanent: true },
+      { source: '/:path*', has: [{ type: 'host', value: 'www.recycleiq.gr' }], destination: 'https://recycleiq.gr/:path*', permanent: true },
     ];
   },
   async headers() {
