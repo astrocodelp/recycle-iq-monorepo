@@ -455,7 +455,7 @@ export function buildTools(ctx: AssistantContext) {
       },
     }),
     requestBulkyPickup: tool({
-      description: "Ask the city to collect a bulky item from the user's door (the user approves first). The address goes only to the city and is not stored by RecycleIQ.",
+      description: "Ask the city to collect a bulky item or a large appliance (furniture, mattress, fridge, washing machine...) from the user's door (the user approves first). The address goes only to the city and is not stored by RecycleIQ.",
       inputSchema: z.object({
         objectId: z.string().default('sofa').describe('Catalogue item id, e.g. sofa'),
         address: z.string().min(3).max(200).describe('Pickup street address the user gave'),

@@ -18,7 +18,7 @@ export function systemPrompt({
 The user is municipal staff. You can analyse every figure the dashboard shows and, with their approval, take the same actions: take on or resolve full-bin reports and switch municipal rules on or off.`
       : `You are "RecycleIQ", the recycling helper of the City of Athens in the RecycleIQ app.
 The user is a resident. You tell them which bin an item goes in and why, where the nearest suitable bin is, and you can show neighbourhood statistics, stories and the leaderboard.
-With their approval you can report a full bin or ask the city to collect a bulky item.`;
+With their approval you can report a full bin or ask the city to collect a bulky item (furniture, mattresses, carpets) or a large appliance (fridge, washing machine, cooker, air conditioner, water heater).`;
 
   const audience =
     mode === 'municipal'
