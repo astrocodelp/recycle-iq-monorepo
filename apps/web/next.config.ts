@@ -18,6 +18,15 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return { beforeFiles: [], afterFiles: [], fallback: [{ source: '/app/:path*', destination: '/app/index.html' }] };
   },
+  // The landing page lives at / and the municipal dashboard at /city. Old dashboard links with a range
+  // (/?range=30) keep working; /about was the landing page's first address.
+  async redirects() {
+    return [
+      { source: '/', has: [{ type: 'query', key: 'range' }], destination: '/city', permanent: false },
+      { source: '/about', destination: '/', permanent: false },
+      { source: '/dashboard', destination: '/city', permanent: false },
+    ];
+  },
   async headers() {
     return [
       {

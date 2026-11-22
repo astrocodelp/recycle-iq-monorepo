@@ -34,7 +34,7 @@ cp .env.example .env
 docker compose up -d          # local Postgres (or put a Neon branch URL in .env)
 pnpm db:migrate
 pnpm db:seed                  # 38 districts, 220 mock points, 13 rules + synthetic activity
-pnpm --filter @recycleiq/web dev        # http://localhost:3000
+pnpm --filter @recycleiq/web dev        # http://localhost:3000 (landing), /city (dashboard)
 pnpm --filter @recycleiq/mobile start   # Expo: press i / a, or scan the QR with Expo Go
 ```
 

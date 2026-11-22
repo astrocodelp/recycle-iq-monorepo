@@ -20,7 +20,7 @@ import { RANGES, parseRange } from '@/lib/range';
 
 export const dynamic = 'force-dynamic';
 
-export default async function Overview({ searchParams }: PageProps<'/'>) {
+export default async function Overview({ searchParams }: PageProps<'/city'>) {
   const range = parseRange((await searchParams).range);
   const lang = await getLang();
   const t = tr(lang);
@@ -51,7 +51,7 @@ export default async function Overview({ searchParams }: PageProps<'/'>) {
         <Segmented
           label={t('Χρονικό διάστημα', 'Date range')}
           value={String(range)}
-          options={RANGES.map((r) => ({ value: String(r), label: t(`${r} ημέρες`, `${r} days`), href: `/?range=${r}` }))}
+          options={RANGES.map((r) => ({ value: String(r), label: t(`${r} ημέρες`, `${r} days`), href: `/city?range=${r}` }))}
         />
       </header>
 

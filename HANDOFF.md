@@ -10,7 +10,8 @@ nearest one; the Municipality of Athens sees everything per neighbourhood on an 
 
 | Part | Where | State |
 |---|---|---|
-| Municipal dashboard (Next.js 16) | `apps/web` → https://recycle-iq-monorepo-web.vercel.app | Live on Vercel, Neon Postgres |
+| Public landing page | `apps/web/app/(site)` → https://recycle-iq-monorepo-web.vercel.app | Greek first, English with `?lang=en` |
+| Municipal dashboard (Next.js 16) | `apps/web` → https://recycle-iq-monorepo-web.vercel.app/city | Live on Vercel, Neon Postgres |
 | Citizen app (Expo SDK 58) | `apps/mobile` | Android APK at `/download`; iPhone via Safari at `/app`; iOS App Store build done, not yet in TestFlight |
 | Database (Drizzle) | `packages/db` | Migrations 0000–0006; Vercel build runs migrate + seed |
 | Decision engine | `packages/engine` | Shared by app, API, assistant |
@@ -20,7 +21,8 @@ Branch: **`claude/blissful-mayer-3h8ims`** (Vercel deploys it to production). No
 
 ## Live URLs
 
-- Dashboard: https://recycle-iq-monorepo-web.vercel.app (open, no login)
+- Landing page: https://recycle-iq-monorepo-web.vercel.app (English: `/?lang=en`)
+- Dashboard: https://recycle-iq-monorepo-web.vercel.app/city (open, no login; old `/?range=…` links redirect there)
 - Citizen app in Safari (iPhone): https://recycle-iq-monorepo-web.vercel.app/app
 - Android APK: https://recycle-iq-monorepo-web.vercel.app/download (link set in `apps/web/lib/release.ts`)
 - Resident survey (Typeform-style): https://recycle-iq-monorepo-web.vercel.app/feedback?src=linkedin
@@ -34,7 +36,7 @@ Branch: **`claude/blissful-mayer-3h8ims`** (Vercel deploys it to production). No
 pnpm install
 cp .env.example .env          # fill DATABASE_URL (Neon) or use docker compose Postgres
 pnpm --filter @recycleiq/db migrate && pnpm --filter @recycleiq/db seed
-pnpm --filter web dev         # http://localhost:3000
+pnpm --filter web dev         # http://localhost:3000 (landing), /city (dashboard)
 pnpm --filter mobile start    # Expo
 ```
 

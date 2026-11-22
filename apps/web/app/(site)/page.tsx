@@ -30,11 +30,11 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
     metadataBase: new URL(SITE),
     title: { absolute: title },
     description,
-    alternates: { canonical: '/about', languages: { el: '/about?lang=el', en: '/about?lang=en' } },
+    alternates: { canonical: '/', languages: { el: '/?lang=el', en: '/?lang=en' } },
     openGraph: {
       title,
       description,
-      url: '/about',
+      url: '/',
       siteName: 'RecycleIQ',
       type: 'website',
       locale: t('el_GR', 'en_GB'),
@@ -46,8 +46,8 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
 
 export const viewport: Viewport = { themeColor: '#F8F9F6' };
 
-/** Public landing page: what RecycleIQ is, for residents and for the municipality. Greek first, English via ?lang=en. */
-export default async function About({ searchParams }: Props) {
+/** Public landing page: what RecycleIQ is, for residents and for the municipality. Greek first, English via ?lang=en. Lives at the root; the dashboard is at /city. */
+export default async function Landing({ searchParams }: Props) {
   const lang = await pageLang(searchParams);
   const t = tr(lang);
   return (

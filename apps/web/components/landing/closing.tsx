@@ -80,7 +80,7 @@ export function Footer({ t }: { t: T }) {
   const links = [
     { href: '/app', label: t('Εφαρμογή', 'App'), plain: true },
     { href: '/download', label: 'Android' },
-    { href: '/', label: t('Dashboard του Δήμου', 'City dashboard') },
+    { href: '/city', label: t('Dashboard του Δήμου', 'City dashboard') },
     { href: '/feedback?src=landing', label: t('Έρευνα κατοίκων', 'Resident survey') },
     { href: '/developers', label: 'API' },
   ];

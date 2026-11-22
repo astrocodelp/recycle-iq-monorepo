@@ -1,4 +1,4 @@
-/* Public landing page (/about). Everything is scoped to .lp-* classes; motion only without reduced motion. */
+/* Public landing page (/). Everything is scoped to .lp-* classes; motion only without reduced motion. */
 
 :root:has(.lp-root) {
   scroll-padding-top: 72px;

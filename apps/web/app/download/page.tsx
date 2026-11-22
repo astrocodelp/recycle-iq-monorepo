@@ -42,7 +42,7 @@ export default async function Download() {
           </ol>
         </div>
       )}
-      <Link href="/" className="text-center text-caption font-semibold text-forest-700 hover:underline">{t('Το dashboard του Δήμου →', 'The municipal dashboard →')}</Link>
+      <Link href="/city" className="text-center text-caption font-semibold text-forest-700 hover:underline">{t('Το dashboard του Δήμου →', 'The municipal dashboard →')}</Link>
     </div>
   );
 }

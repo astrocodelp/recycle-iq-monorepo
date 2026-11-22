@@ -15,7 +15,7 @@ export function Header({ t, lang }: { t: T; lang: Lang }) {
   return (
     <header className="sticky top-0 z-20 border-b border-line/70 bg-paper/80 backdrop-blur-md supports-[backdrop-filter]:bg-paper/70">
       <Container className="flex h-16 items-center gap-6">
-        <Link href="/about" className="flex items-center gap-2.5 rounded-sm" aria-label="RecycleIQ">
+        <Link href="/" className="flex items-center gap-2.5 rounded-sm" aria-label="RecycleIQ">
           <LogoMark size={32} />
           <span className="text-[17px] font-extrabold tracking-[-0.03em] text-ink">
             Recycle<span className="text-forest-500">IQ</span>
@@ -37,7 +37,7 @@ export function Header({ t, lang }: { t: T; lang: Lang }) {
             {(['el', 'en'] as const).map((l) => (
               <Link
                 key={l}
-                href={`/about?lang=${l}`}
+                href={`/?lang=${l}`}
                 hrefLang={l}
                 lang={l}
                 aria-current={lang === l ? 'true' : undefined}
@@ -89,7 +89,7 @@ export function Hero({ t }: { t: T }) {
             <ButtonLink href="/download" variant="secondary" icon={Download}>
               {t('Android', 'Android')}
             </ButtonLink>
-            <ButtonLink href="/" variant="secondary" icon={LayoutDashboard}>
+            <ButtonLink href="/city" variant="secondary" icon={LayoutDashboard}>
               {t('Dashboard του Δήμου', 'City dashboard')}
             </ButtonLink>
           </div>

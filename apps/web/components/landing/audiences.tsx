@@ -164,7 +164,7 @@ export function City({ t }: { t: T }) {
               </p>
             </div>
             <div className="flex flex-col gap-3 lg:items-end">
-              <ButtonLink href="/" variant="lime" icon={LayoutDashboard}>
+              <ButtonLink href="/city" variant="lime" icon={LayoutDashboard}>
                 {t('Άνοιξε το dashboard', 'Open the dashboard')}
               </ButtonLink>
               <TextLink href="/developers" tone="dark">
