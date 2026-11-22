@@ -8,7 +8,7 @@
       "developmentClient": true,
       "distribution": "internal",
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://recycle-iq-monorepo-web.vercel.app"
+        "EXPO_PUBLIC_API_URL": "https://recycleiq.eu"
       }
     },
     "preview": {
@@ -17,7 +17,7 @@
         "buildType": "apk"
       },
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://recycle-iq-monorepo-web.vercel.app"
+        "EXPO_PUBLIC_API_URL": "https://recycleiq.eu"
       }
     },
     "simulator": {
@@ -29,7 +29,7 @@
     "production": {
       "autoIncrement": true,
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://recycle-iq-monorepo-web.vercel.app"
+        "EXPO_PUBLIC_API_URL": "https://recycleiq.eu"
       }
     }
   },

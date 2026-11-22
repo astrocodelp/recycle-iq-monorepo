@@ -1,5 +1,6 @@
 import { Card } from '@/components/ui';
 import { getLang, tr } from '@/lib/lang';
+import { SITE_URL } from '@/lib/site';
 
 export const metadata = { title: 'API' };
 
@@ -60,7 +61,7 @@ export default async function Developers() {
         <Card>
           <dl className="grid gap-3 text-body sm:grid-cols-[160px_1fr]">
             <dt className="text-muted">{t('Διεύθυνση', 'URL')}</dt>
-            <dd className="num break-all">https://recycle-iq-monorepo-web.vercel.app/api/mcp</dd>
+            <dd className="num break-all">{SITE_URL}/api/mcp</dd>
             <dt className="text-muted">{t('Σύνδεση', 'Login')}</dt>
             <dd>
               {t('OAuth. Δοκιμαστικός κωδικός:', 'OAuth. Demo login code:')} <code className="num rounded-pill bg-surface-2 px-2 py-0.5">test123</code>
@@ -68,7 +69,7 @@ export default async function Developers() {
             <dt className="text-muted">Claude</dt>
             <dd>{t('Ρυθμίσεις → Connectors → Add custom connector → η διεύθυνση → Connect → κωδικός.', 'Settings → Connectors → Add custom connector → the URL → Connect → login code.')}</dd>
             <dt className="text-muted">Claude Code</dt>
-            <dd className="num text-[13px] break-all">claude mcp add --transport http recycleiq https://recycle-iq-monorepo-web.vercel.app/api/mcp</dd>
+            <dd className="num text-[13px] break-all">claude mcp add --transport http recycleiq {SITE_URL}/api/mcp</dd>
             <dt className="text-muted">{t('Επιλογές', 'Options')}</dt>
             <dd>
               <code className="num">?lang=en</code> {t('αγγλικά', 'English')} · <code className="num">?bins=osm</code> {t('πραγματικοί κάδοι', 'real bins')}

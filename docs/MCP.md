@@ -10,7 +10,7 @@ and the dashboard's actions are tools too.
 
 | | |
 |---|---|
-| **URL** | `https://recycle-iq-monorepo-web.vercel.app/api/mcp` |
+| **URL** | `https://recycleiq.eu/api/mcp` |
 | **Transport** | Streamable HTTP (stateless, JSON responses) |
 | **Login** | OAuth 2.1 with PKCE and dynamic client registration. **Demo: login code `test123`** |
 | **Options** | `?lang=en` for English answers (default Greek) · `?bins=osm` for the real OpenStreetMap bins (default synthetic) |
@@ -23,7 +23,7 @@ and the dashboard's actions are tools too.
 
 ### Claude (claude.ai, Desktop): custom connector
 1. **Settings → Connectors → Add custom connector.**
-2. Name `RecycleIQ`, URL `https://recycle-iq-monorepo-web.vercel.app/api/mcp`. Leave the OAuth client fields empty.
+2. Name `RecycleIQ`, URL `https://recycleiq.eu/api/mcp`. Leave the OAuth client fields empty.
 3. **Connect**. The RecycleIQ login page opens; enter `test123`.
 4. In a chat, enable RecycleIQ under the tools menu and ask, e.g. *«Ποιες 5 γειτονιές είχαν τις περισσότερες σαρώσεις τον τελευταίο μήνα; Κάνε διάγραμμα.»*
 
@@ -35,7 +35,7 @@ Sign in with `test123`.
 
 ### Claude Code
 ```bash
-claude mcp add --transport http recycleiq https://recycle-iq-monorepo-web.vercel.app/api/mcp
+claude mcp add --transport http recycleiq https://recycleiq.eu/api/mcp
 ```
 Then run `/mcp`, pick `recycleiq` and **Authenticate** (browser login, `test123`). Clients that only take a
 header can skip OAuth with `--header "Authorization: Bearer test123"`.

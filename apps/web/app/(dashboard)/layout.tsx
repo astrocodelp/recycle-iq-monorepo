@@ -66,7 +66,12 @@ export default async function DashboardLayout({ children }: { children: ReactNod
               ))}
             </form>
             {bins === 'osm' && (
-              <p className="text-[11px] leading-snug text-muted">{t('Πηγή σήμερα: © OpenStreetMap (ODbL)', 'Source today: © OpenStreetMap (ODbL)')}</p>
+              <p className="text-[11px] leading-snug text-muted">
+                {t('Πηγή σήμερα: ', 'Source today: ')}
+                <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" className="underline underline-offset-2 hover:text-ink">
+                  © OpenStreetMap contributors, ODbL
+                </a>
+              </p>
             )}
           </div>
           <form action={setLanguage} className="inline-flex w-fit rounded-pill bg-surface-2 p-1">

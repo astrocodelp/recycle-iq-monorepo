@@ -6,6 +6,7 @@ import { Header, Hero } from '@/components/landing/hero';
 import { HowItWorks, Problem } from '@/components/landing/story';
 import { getLang, tr } from '@/lib/lang';
 import './landing.css';
+import { SITE_URL } from '@/lib/site';
 
 type Props = { searchParams: Promise<{ lang?: string }> };
 
@@ -15,9 +16,7 @@ async function pageLang(searchParams: Props['searchParams']): Promise<Lang> {
   return lang === 'en' || lang === 'el' ? lang : getLang();
 }
 
-const SITE = process.env.VERCEL_PROJECT_PRODUCTION_URL
-  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-  : 'https://recycle-iq-monorepo-web.vercel.app';
+const SITE = SITE_URL;
 
 export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
   const t = tr(await pageLang(searchParams));
