@@ -2,13 +2,13 @@
 // Same file the phone downloads (onnx/vision_model_quantized.onnx), same preprocessing as
 // apps/mobile/src/lib/vision.native.ts (bilinear resize to 224×224, (x/255 − 0.5)/0.5, CHW).
 // Text side: one averaged embedding per class from classes.json prompts, fixed before any test image was seen.
-// Usage: node siglip.mjs <cache_dir> <vision_model.onnx>
+// Usage: node siglip.mjs <cache_dir> <vision_model.onnx> [result_name]   (default siglip2-on-device; the app now uses vision_model_q4.onnx)
 import { appendFileSync, existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { AutoTokenizer, env, SiglipTextModel } from '@huggingface/transformers';
 import jpeg from 'jpeg-js';
 import * as ort from 'onnxruntime-node';
 
-const [cache, modelPath] = process.argv.slice(2);
+const [cache, modelPath, NAME = 'siglip2-on-device'] = process.argv.slice(2);
 env.cacheDir = process.env.HF_CACHE ?? './.hf-cache';
 const MODEL = 'onnx-community/siglip2-base-patch16-224-ONNX';
 const SCALE = 112.67; // calibrated against the full model (docs/VISION.md)
@@ -16,7 +16,7 @@ const BIAS = -16.77;
 
 const { classes, siglipPrompts } = JSON.parse(readFileSync('./classes.json', 'utf8'));
 const { items } = JSON.parse(readFileSync('./manifest.json', 'utf8'));
-const out = './results/siglip2-on-device.jsonl';
+const out = `./results/${NAME}.jsonl`;
 const done = new Set(existsSync(out) ? readFileSync(out, 'utf8').trim().split('\n').filter(Boolean).map((l) => JSON.parse(l).id) : []);
 
 const norm = (v) => {
@@ -63,7 +63,7 @@ for (const c of classes) {
   for (let i = 0; i < siglipPrompts[c].length; i++) norm(pooler_output.data.slice(i * dim, (i + 1) * dim)).forEach((v, k) => (acc[k] += v));
   classEmb.push(norm(acc));
 }
-writeFileSync('./results/siglip2-class-embeddings.json', JSON.stringify({ model: MODEL, classes, scale: SCALE, bias: BIAS, e: classEmb.map((e) => e.map((x) => +x.toFixed(5))) }));
+if (NAME === 'siglip2-on-device') writeFileSync('./results/siglip2-class-embeddings.json', JSON.stringify({ model: MODEL, classes, scale: SCALE, bias: BIAS, e: classEmb.map((e) => e.map((x) => +x.toFixed(5))) }));
 
 const vision = await ort.InferenceSession.create(modelPath, { intraOpNumThreads: 1 });
 let n = 0;
