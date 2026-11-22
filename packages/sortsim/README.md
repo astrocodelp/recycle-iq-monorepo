@@ -81,4 +81,4 @@ Energy, floor space, downtime, spare parts, financing and the value of the recov
 
 ## Licence
 
-The upstream repo has no licence file, so the terms for this copied code still need to be confirmed with its author. Each copied file names its source. The rest of the monorepo is under Apache 2.0 (`LICENSE`).
+Delta Sort is written by Mike17K, who is on the RecycleIQ team. The code in this package is part of the monorepo and is under the same Apache 2.0 licence (`LICENSE` at the repo root). Each copied file names its source.
