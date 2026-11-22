@@ -49,6 +49,22 @@ The "app as shipped" row is `app-path-eval.mjs` (the app's exact on-device path:
 The next benchmark should use 2,000–3,000 photos of real Athens waste taken with residents' phones,
 labelled by two people with the municipality's rules (see the plan in the review that started this work).
 
+## Next: fine-tune SigLIP 2 for Athens
+
+The phone's SigLIP 2 is the cheapest part of the app and the one that decides how many photos go to the cloud
+(37% today). A fine-tuned SigLIP 2 that is sure more often answers more photos on the phone, so fewer photos and
+fewer tokens go to Gemini and the cost per scan falls.
+
+- **Compute:** StellarFirm has an allocation of 5,000 GPU hours on the Leonardo supercomputer (EuroHPC). No model
+  has been trained there yet.
+- **Few trainable parameters:** LoRA adapters or only the last layer on the 4-bit-compatible base model, so the file the phone
+  downloads stays about the same size and fast. Full fine-tuning is not needed for nine classes.
+- **Data:** real Athens photos (the pilot, residents' scans with consent), labelled by two people with the
+  municipality's rules. The 3,170 public photos in this benchmark are for measuring, not for training.
+- **Measuring:** the same scoring (`score.py`, `app-cascade.py`), on photos the model never saw. Success is a
+  higher share answered on the phone at the same or better right-bin rate, and a lower cost per 1,000 scans.
+  No figures are promised before that measurement.
+
 ## Safe headline
 
 > On 3,170 public waste photos, the app (on-device recognition, a cloud check when it is unsure) chose the right
