@@ -11,7 +11,8 @@ C = json.load(open("classes.json"))
 CLASSES, BIN = C["classes"], C["bin"]
 ITEMS = {i["id"]: i for i in json.load(open("manifest.json"))["items"]}
 MODELS = {
-    "siglip2-on-device": "SigLIP 2 base · on device (quantized ONNX, 224 px)",
+    "siglip2-on-device": "SigLIP 2 base · on device, 8-bit (until 22 Nov 2026)",
+    "siglip2-on-device-q4": "SigLIP 2 base · on device, 4-bit (in the app)",
     "siglip2-base-cloud": "SigLIP 2 base · cloud (full precision, 224 px)",
     "siglip2-so400m-cloud": "SigLIP 2 so400m · cloud (full precision, 256 px)",
     "google__gemma-4-26b-a4b-it": "Gemma 4 26B-A4B · open weights, via gateway",
@@ -23,6 +24,7 @@ CLOUD = ["google__gemini-3.5-flash-lite", "google__gemini-decision-1", "google__
 _skip = set(filter(None, os.environ.get("SKIP", "").split(",")))
 MODELS = {k: v for k, v in MODELS.items() if k not in _skip and os.path.exists(f"results/{k}.jsonl")}
 CLOUD = [m for m in CLOUD if m in MODELS]
+PHONE = [m for m in ["siglip2-on-device", "siglip2-on-device-q4"] if m in MODELS]
 
 
 SYN = {"organic": "food", "biological": "food", "clothes": "textile", "clothing": "textile", "shoes": "textile", "fabric": "textile",
@@ -155,8 +157,8 @@ def main():
         summary["models"][m] = res
 
     # Cascade: SigLIP on the phone answers when its confidence ≥ τ, otherwise the cloud model answers.
-    sig = data["siglip2-on-device"]
-    for cloud in CLOUD:
+    for phone, cloud in [(ph, c) for ph in PHONE for c in CLOUD]:
+        sig = data[phone]
         rows = []
         for tau in [0, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.95, 0.99, 1.01]:
             preds, esc, cost, lat = {}, 0, 0.0, []
@@ -181,7 +183,7 @@ def main():
                 "p50_ms": lat[len(lat) // 2],
                 "p95_ms": lat[int(0.95 * len(lat))],
             })
-        summary["cascade"][cloud] = rows
+        summary["cascade"][f"{phone}>{cloud}"] = rows
 
     json.dump(summary, open("results/summary.json", "w"), indent=1, ensure_ascii=False)
     write_report(summary, datasets)
@@ -210,7 +212,7 @@ def write_report(s, datasets):
     for m, r in s["models"].items():
         w(f"| {r['label']} | " + " | ".join(f"{pct(r['by_dataset'][d]['material'][0])} (n={r['by_dataset'][d]['n']})" for d in datasets) + " |")
     w("\n## Per class (material recall, 95% interval)\n")
-    w("| Class | n | " + " | ".join(r["label"].split(" ·")[0] for r in s["models"].values()) + " |")
+    w("| Class | n | " + " | ".join(r["label"].split(" (")[0] for r in s["models"].values()) + " |")
     w("|---|---|" + "---|" * len(s["models"]))
     first = next(iter(s["models"].values()))
     for c, v in first["all"]["per_class"].items():
@@ -225,9 +227,11 @@ def write_report(s, datasets):
     w("\n## Calibration (accuracy within each confidence band)\n")
     for m, r in s["models"].items():
         w(f"- **{r['label']}**: " + "; ".join(f"{b['range']}: {pct(b['acc'])} of {b['n']}" for b in r["calibration"]))
-    for cloud, rows in s["cascade"].items():
+    for key, rows in s["cascade"].items():
+        phone, cloud = key.split(">")
         name = s["models"][cloud]["label"].split(" ·")[0]
-        w(f"\n## Cascade: SigLIP 2 on device, escalate to {name} when confidence < τ\n")
+        first = s["models"][phone]["label"].split(" · ", 1)[1].split(" (")[0]
+        w(f"\n## Cascade: SigLIP 2 {first}, escalate to {name} when confidence < τ\n")
         w("| τ | Escalated | Material accuracy | Bin accuracy | Severity / 100 | Cost / 1,000 | p50 / p95 latency |")
         w("|---|---|---|---|---|---|---|")
         for x in rows:

@@ -6,7 +6,7 @@
 
 | Model | Material accuracy | Macro (per-class mean) | Athens bin accuracy | Severity per 100 items | Severe errors (≥3) | Batteries missed | Latency p50 / p95 | Cost per 1,000 scans |
 |---|---|---|---|---|---|---|---|---|
-| SigLIP 2 base · on device (quantized ONNX, 224 px) | 75.9% (74.4%–77.4%) | 75.2% | 83.4% (82.0%–84.6%) | 34.8 (31.3–38.5) | 9.0% | 11 | 104 / 129 ms | $0.000 |
+| SigLIP 2 base · on device, 8-bit (until 22 Nov 2026) | 75.9% (74.4%–77.4%) | 75.2% | 83.4% (82.0%–84.6%) | 34.8 (31.3–38.5) | 9.0% | 11 | 104 / 129 ms | $0.000 |
 | SigLIP 2 base · cloud (full precision, 224 px) | 83.4% (82.1%–84.7%) | 81.8% | 88.4% (87.2%–89.5%) | 23.5 (20.9–26.0) | 6.2% | 0 | 153 / 247 ms | $0.000 |
 | Gemma 4 26B-A4B · open weights, via gateway | 92.4% (91.4%–93.2%) | 91.7% | 95.6% (94.8%–96.2%) | 14.7 (12.0–17.7) | 3.7% | 13 | 661 / 1107 ms | $0.053 |
 | Gemini 3.5 Flash-Lite · cloud (production) | 94.3% (93.5%–95.1%) | 94.1% | 96.3% (95.6%–96.9%) | 10.7 (8.7–12.5) | 3.4% | 1 | 1221 / 1562 ms | $0.431 |
@@ -18,7 +18,7 @@ Latency: SigLIP on device is one CPU thread on a cloud server (a phone will be s
 
 | Model | complex | garbage12 | trashnet |
 |---|---|---|---|
-| SigLIP 2 base · on device (quantized ONNX, 224 px) | 66.0% (n=50) | 79.2% (n=2400) | 65.4% (n=720) |
+| SigLIP 2 base · on device, 8-bit (until 22 Nov 2026) | 66.0% (n=50) | 79.2% (n=2400) | 65.4% (n=720) |
 | SigLIP 2 base · cloud (full precision, 224 px) | 70.0% (n=50) | 85.7% (n=2400) | 76.8% (n=720) |
 | Gemma 4 26B-A4B · open weights, via gateway | 94.0% (n=50) | 95.8% (n=2400) | 81.0% (n=720) |
 | Gemini 3.5 Flash-Lite · cloud (production) | 94.0% (n=50) | 97.9% (n=2400) | 82.4% (n=720) |
@@ -26,7 +26,7 @@ Latency: SigLIP on device is one CPU thread on a cloud server (a phone will be s
 
 ## Per class (material recall, 95% interval)
 
-| Class | n | SigLIP 2 base | SigLIP 2 base | Gemma 4 26B-A4B | Gemini 3.5 Flash-Lite | Gemini Decision 1 |
+| Class | n | SigLIP 2 base · on device, 8-bit | SigLIP 2 base · cloud | Gemma 4 26B-A4B · open weights, via gateway | Gemini 3.5 Flash-Lite · cloud | Gemini Decision 1 · decision model, cloud |
 |---|---|---|---|---|---|---|
 | plastic | 320 | 73.8% (69–78) | 73.1% (68–78) | 92.5% (89–95) | 95.3% (92–97) | 97.2% (95–99) |
 | paper | 330 | 72.7% (68–77) | 74.2% (69–79) | 90.6% (87–93) | 93.3% (90–96) | 88.2% (84–91) |
@@ -40,7 +40,7 @@ Latency: SigLIP on device is one CPU thread on a cloud server (a phone will be s
 
 ## Top five confusions (true → predicted, count)
 
-- **SigLIP 2 base · on device (quantized ONNX, 224 px)**: general → plastic (118); general → paper (75); glass → plastic (62); paper → cardboard (40); general → battery (36)
+- **SigLIP 2 base · on device, 8-bit (until 22 Nov 2026)**: general → plastic (118); general → paper (75); glass → plastic (62); paper → cardboard (40); general → battery (36)
 - **SigLIP 2 base · cloud (full precision, 224 px)**: general → textile (80); general → plastic (74); plastic → glass (35); paper → cardboard (33); general → glass (33)
 - **Gemma 4 26B-A4B · open weights, via gateway**: general → plastic (65); general → paper (27); plastic → glass (19); glass → plastic (18); paper → cardboard (16)
 - **Gemini 3.5 Flash-Lite · cloud (production)**: general → plastic (68); general → paper (32); paper → cardboard (17); glass → plastic (16); plastic → glass (9)
@@ -48,13 +48,13 @@ Latency: SigLIP on device is one CPU thread on a cloud server (a phone will be s
 
 ## Calibration (accuracy within each confidence band)
 
-- **SigLIP 2 base · on device (quantized ONNX, 224 px)**: 0.00–0.50: 36.4% of 698; 0.50–0.70: 61.2% of 541; 0.70–0.90: 88.1% of 773; 0.90–0.97: 97.3% of 525; 0.97–1.00: 99.4% of 633
+- **SigLIP 2 base · on device, 8-bit (until 22 Nov 2026)**: 0.00–0.50: 36.4% of 698; 0.50–0.70: 61.2% of 541; 0.70–0.90: 88.1% of 773; 0.90–0.97: 97.3% of 525; 0.97–1.00: 99.4% of 633
 - **SigLIP 2 base · cloud (full precision, 224 px)**: 0.00–0.50: 25.7% of 276; 0.50–0.70: 48.2% of 309; 0.70–0.90: 74.3% of 435; 0.90–0.97: 92.8% of 503; 0.97–1.00: 99.2% of 1647
 - **Gemma 4 26B-A4B · open weights, via gateway**: 0.50–0.70: 0.0% of 2; 0.70–0.90: 32.6% of 43; 0.90–0.97: 76.0% of 701; 0.97–1.00: 98.2% of 2424
 - **Gemini 3.5 Flash-Lite · cloud (production)**: 0.70–0.90: 33.3% of 15; 0.90–0.97: 75.2% of 505; 0.97–1.00: 98.3% of 2650
 - **Gemini Decision 1 · decision model, cloud**: 0.00–0.50: 49.4% of 154; 0.50–0.70: 58.8% of 240; 0.70–0.90: 80.8% of 551; 0.90–0.97: 98.1% of 885; 0.97–1.00: 99.0% of 1340
 
-## Cascade: SigLIP 2 on device, escalate to Gemini 3.5 Flash-Lite when confidence < τ
+## Cascade: SigLIP 2 on device, 8-bit, escalate to Gemini 3.5 Flash-Lite when confidence < τ
 
 | τ | Escalated | Material accuracy | Bin accuracy | Severity / 100 | Cost / 1,000 | p50 / p95 latency |
 |---|---|---|---|---|---|---|
@@ -70,7 +70,7 @@ Latency: SigLIP on device is one CPU thread on a cloud server (a phone will be s
 | 0.99 | 88.9% | 94.3% | 96.2% | 10.7 | $0.383 | 1306 / 1644 ms |
 | 1.01 | 100.0% | 94.3% | 96.3% | 10.7 | $0.431 | 1326 / 1670 ms |
 
-## Cascade: SigLIP 2 on device, escalate to Gemini Decision 1 when confidence < τ
+## Cascade: SigLIP 2 on device, 8-bit, escalate to Gemini Decision 1 when confidence < τ
 
 | τ | Escalated | Material accuracy | Bin accuracy | Severity / 100 | Cost / 1,000 | p50 / p95 latency |
 |---|---|---|---|---|---|---|
@@ -86,7 +86,7 @@ Latency: SigLIP on device is one CPU thread on a cloud server (a phone will be s
 | 0.99 | 88.9% | 90.1% | 92.3% | 22.0 | $0.109 | 872 / 1179 ms |
 | 1.01 | 100.0% | 90.1% | 92.4% | 22.0 | $0.122 | 891 / 1199 ms |
 
-## Cascade: SigLIP 2 on device, escalate to Gemma 4 26B-A4B when confidence < τ
+## Cascade: SigLIP 2 on device, 8-bit, escalate to Gemma 4 26B-A4B when confidence < τ
 
 | τ | Escalated | Material accuracy | Bin accuracy | Severity / 100 | Cost / 1,000 | p50 / p95 latency |
 |---|---|---|---|---|---|---|

@@ -2,7 +2,7 @@
  "n_common": 3170,
  "models": {
   "siglip2-on-device": {
-   "label": "SigLIP 2 base · on device (quantized ONNX, 224 px)",
+   "label": "SigLIP 2 base · on device, 8-bit (until 22 Nov 2026)",
    "all": {
     "n": 3170,
     "material": [
@@ -2985,7 +2985,7 @@
   }
  },
  "cascade": {
-  "google__gemini-3.5-flash-lite": [
+  "siglip2-on-device>google__gemini-3.5-flash-lite": [
    {
     "tau": 0,
     "escalated": 0.0,
@@ -3185,7 +3185,7 @@
     "p95_ms": 1670.4
    }
   ],
-  "google__gemini-decision-1": [
+  "siglip2-on-device>google__gemini-decision-1": [
    {
     "tau": 0,
     "escalated": 0.0,
@@ -3385,7 +3385,7 @@
     "p95_ms": 1198.7
    }
   ],
-  "google__gemma-4-26b-a4b-it": [
+  "siglip2-on-device>google__gemma-4-26b-a4b-it": [
    {
     "tau": 0,
     "escalated": 0.0,
