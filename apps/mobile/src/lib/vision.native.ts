@@ -14,6 +14,7 @@ import { File, Paths } from 'expo-file-system';
 import { ImageManipulator, SaveFormat } from 'expo-image-manipulator';
 import { getNetworkStateAsync, NetworkStateType } from 'expo-network';
 import jpeg from 'jpeg-js';
+import { NativeModules } from 'react-native';
 import LABELS from '../../assets/ml/siglip2-labels.json';
 import type { Recognition, RecognizeOptions } from './vision';
 
@@ -35,15 +36,25 @@ const LEGACY_MODEL = 'siglip2-vision-quantized.onnx';
 
 type Ort = typeof import('onnxruntime-react-native');
 let ort: Ort | null | undefined;
+/**
+ * The package throws while it is being loaded when its native JSI API is not installed (Expo Go, or the
+ * runtime did not install it), and React Native treats an error thrown while loading a module as fatal
+ * even inside try/catch. So load it only once the native API is there; until then the scan uses the
+ * server and the pick list.
+ */
 function loadOrt(): Ort | null {
-  if (ort !== undefined) return ort;
+  if (ort) return ort;
   try {
-    // Missing in Expo Go: the native module is only in development / preview / production builds.
+    const g = globalThis as { OrtApi?: unknown };
+    if (g.OrtApi === undefined) {
+      const native = (NativeModules as { Onnxruntime?: { install?: () => boolean } }).Onnxruntime;
+      if (!native?.install?.() || g.OrtApi === undefined) return null;
+    }
     ort = require('onnxruntime-react-native') as Ort;
   } catch {
     ort = null;
   }
-  return ort;
+  return ort ?? null;
 }
 
 export const visionSupported = true;
