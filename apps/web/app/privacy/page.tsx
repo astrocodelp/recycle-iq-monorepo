@@ -10,7 +10,7 @@ import { getLang } from '@/lib/lang';
  * described here is in apps/mobile/src/lib (api, cloud-vision, location, dictation) and apps/web/app/api/v1.
  */
 const UPDATED = { el: '22 Νοεμβρίου 2026', en: '22 November 2026' };
-const CONTACT = 'privacy@recycleiq.eu';
+const CONTACT = 'hey@astrocode.tech';
 
 export const metadata: Metadata = {
   title: 'Πολιτική απορρήτου · Privacy policy',
@@ -35,7 +35,7 @@ const EL: Section[] = [
   {
     h: 'Ποιοι είμαστε',
     p: [
-      `Το RecycleIQ είναι υπηρεσία ανοιχτού κώδικα που αναπτύσσει η ομάδα StellarFirm, ξεκινώντας από το Apps4Athens 3.0 Gov Hackathon. Είναι πιλοτική εφαρμογή και δεν είναι ακόμη επίσημη υπηρεσία του Δήμου Αθηναίων. Η πολιτική αυτή ισχύει για τις εφαρμογές RecycleIQ για iPhone και Android, την εφαρμογή στο recycleiq.eu/app και τον ιστότοπο recycleiq.eu (και recycleiq.gr). Επικοινωνία για θέματα απορρήτου: ${CONTACT}.`,
+      `Το RecycleIQ είναι υπηρεσία ανοιχτού κώδικα που αναπτύσσει η ομάδα StellarFirm, ξεκινώντας από το Apps4Athens 3.0 Gov Hackathon. Είναι πιλοτική εφαρμογή και δεν είναι ακόμη επίσημη υπηρεσία του Δήμου Αθηναίων. Η πολιτική αυτή ισχύει για τις εφαρμογές RecycleIQ για iPhone και Android, την εφαρμογή στο recycleiq.eu/app και τον ιστότοπο recycleiq.eu (και recycleiq.gr). Υπεύθυνος επεξεργασίας των δεδομένων είναι, προς το παρόν, η Astro Code L.P. (astrocode.tech). Επικοινωνία για θέματα απορρήτου: ${CONTACT}.`,
     ],
   },
   {
@@ -121,7 +121,7 @@ const EN: Section[] = [
   {
     h: 'Who we are',
     p: [
-      `RecycleIQ is an open-source service developed by the StellarFirm team, started at the Apps4Athens 3.0 Gov Hackathon. It is a pilot and not yet an official City of Athens service. This policy covers the RecycleIQ apps for iPhone and Android, the app at recycleiq.eu/app and the website recycleiq.eu (and recycleiq.gr). Privacy contact: ${CONTACT}.`,
+      `RecycleIQ is an open-source service developed by the StellarFirm team, started at the Apps4Athens 3.0 Gov Hackathon. It is a pilot and not yet an official City of Athens service. This policy covers the RecycleIQ apps for iPhone and Android, the app at recycleiq.eu/app and the website recycleiq.eu (and recycleiq.gr). For now, the data controller is Astro Code L.P. (astrocode.tech). Privacy contact: ${CONTACT}.`,
     ],
   },
   {
