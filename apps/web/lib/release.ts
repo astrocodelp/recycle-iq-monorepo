@@ -4,7 +4,7 @@
  */
 export const RELEASE = {
   /** Latest Android preview build (APK) from EAS. Override with ANDROID_APK_URL. */
-  androidApk: process.env.ANDROID_APK_URL || 'https://expo.dev/artifacts/eas/mp-lLULQBsmg1ylC_5-EU93LS4HEPk19bDjdqL_w64c.apk',
+  androidApk: process.env.ANDROID_APK_URL || 'https://expo.dev/artifacts/eas/Vz1ir1GMlr5JUPhonmSOfxR58ttu0_mld1HiOsncWMw.apk',
   /** iPhone pilot build on TestFlight (public link; open once Apple approves the beta). Override with TESTFLIGHT_URL. */
   testFlight: process.env.TESTFLIGHT_URL || 'https://testflight.apple.com/join/tqhXGdq6',
   /** App Store / Google Play listings, once published. */
