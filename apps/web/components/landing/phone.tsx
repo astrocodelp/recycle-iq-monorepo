@@ -1,4 +1,4 @@
-import { Container, Info, Leaf, MapPin, Milk, Sofa } from 'lucide-react';
+import { Container, Info, Leaf, MapPin, Milk, ScanLine, Sofa } from 'lucide-react';
 import type { ComponentType, CSSProperties } from 'react';
 import type { T } from './ui';
 
@@ -11,6 +11,7 @@ type Screen = {
   BinIcon: ComponentType<{ size?: number; className?: string; style?: CSSProperties }>;
   why: string;
   where: string;
+  cta: string;
 };
 
 /**
@@ -28,6 +29,7 @@ export function HeroPhone({ t }: { t: T }) {
       BinIcon: Container,
       why: t('Άδειες συσκευασίες πάνε στον μπλε κάδο. Χύμα, όχι σε δεμένη σακούλα.', 'Empty packaging goes in the blue bin. Loose, not in a tied bag.'),
       where: t('Μπλε κάδος · 3 λεπτά με τα πόδια', 'Blue bin · 3 min walk'),
+      cta: t('Βρες πού να το πετάξεις', 'Find where to drop it off'),
     },
     {
       color: 'var(--color-cat-organic)',
@@ -38,6 +40,7 @@ export function HeroPhone({ t }: { t: T }) {
       BinIcon: Leaf,
       why: t('Στις γειτονιές με καφέ κάδο, τα υπολείμματα τροφών γίνονται κομπόστ.', 'Where there is a brown bin, food scraps become compost.'),
       where: t('Καφέ κάδος · 5 λεπτά με τα πόδια', 'Brown bin · 5 min walk'),
+      cta: t('Βρες πού να το πετάξεις', 'Find where to drop it off'),
     },
     {
       color: 'var(--color-cat-bulky)',
@@ -47,7 +50,8 @@ export function HeroPhone({ t }: { t: T }) {
       ItemIcon: Sofa,
       BinIcon: Sofa,
       why: t('Τα έπιπλα τα παίρνει ο Δήμος με ραντεβού. Μην τα αφήνεις στο πεζοδρόμιο.', 'The city collects furniture by appointment. Don’t leave it on the pavement.'),
-      where: t('Ζήτα παραλαβή από τον Δήμο', 'Ask the city for a pickup'),
+      where: t('Παραλαβή με ραντεβού', 'Pickup by appointment'),
+      cta: t('Ζήτα παραλαβή από τον Δήμο', 'Ask the city to collect it'),
     },
   ];
 
@@ -91,6 +95,16 @@ export function HeroPhone({ t }: { t: T }) {
                 <div className="flex items-center gap-2.5 rounded-[14px] bg-forest-50 p-3 ring-1 ring-forest-100">
                   <MapPin size={16} className="shrink-0 text-forest-700" />
                   <p className="text-[12px] leading-snug font-semibold text-forest-800">{s.where}</p>
+                </div>
+              </div>
+              <div className="mt-auto flex flex-col gap-1.5 px-3.5 pb-6">
+                <div className="flex h-10 items-center justify-center gap-1.5 rounded-[12px] bg-forest-700 text-[12.5px] font-semibold text-white">
+                  <MapPin size={14} />
+                  {s.cta}
+                </div>
+                <div className="flex h-8 items-center justify-center gap-1.5 text-[12px] font-semibold text-forest-700">
+                  <ScanLine size={14} />
+                  {t('Σάρωση νέου αντικειμένου', 'Scan a new item')}
                 </div>
               </div>
             </div>

@@ -43,7 +43,7 @@ export default async function Image() {
             width: 720,
             height: 720,
             borderRadius: 9999,
-            background: 'radial-gradient(closest-side, rgba(199,243,107,0.75), rgba(199,243,107,0))',
+            background: 'radial-gradient(circle at center, #D4F58A 0%, #E6F7BE 22%, #F8F9F6 48%)',
           }}
         />
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '64px 72px', flex: 1 }}>

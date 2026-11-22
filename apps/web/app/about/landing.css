@@ -156,3 +156,8 @@
     transform: none;
   }
 }
+
+/* Focus stays visible on the dark municipality section. */
+.lp-root #city :focus-visible {
+  outline-color: var(--color-lime);
+}

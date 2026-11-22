@@ -156,9 +156,14 @@ export function City({ t }: { t: T }) {
               <p className="text-[15px] leading-relaxed font-medium text-white/70">{body}</p>
             </li>
           ))}
-          <li className="lp-reveal flex flex-col justify-between gap-6 bg-forest-800 p-6">
-            <Sparkles size={24} aria-hidden className="text-lime" />
+          <li className="lp-reveal flex flex-col justify-between gap-6 bg-forest-800 p-6 lg:col-span-2 lg:flex-row lg:items-end">
             <div className="flex flex-col gap-3">
+              <Sparkles size={24} aria-hidden className="text-lime" />
+              <p className="max-w-[340px] text-[20px] leading-snug font-extrabold tracking-[-0.02em]">
+                {t('Δες το ζωντανά, χωρίς σύνδεση.', 'See it live, no login.')}
+              </p>
+            </div>
+            <div className="flex flex-col gap-3 lg:items-end">
               <ButtonLink href="/" variant="lime" icon={LayoutDashboard}>
                 {t('Άνοιξε το dashboard', 'Open the dashboard')}
               </ButtonLink>
